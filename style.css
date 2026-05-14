@@ -626,6 +626,7 @@ body.menu-open {
     left: 20px;
     right: 20px;
     max-width: 100%;
+    margin-top: 0;
   }
 
   .hero-title {
@@ -637,10 +638,12 @@ body.menu-open {
   }
 
   .play-btn {
-    top: 62%;
+    top: 61px;
+    left: auto;
+    right: 80px;
     width: 50px;
     height: 50px;
-    left: 50%;
+    transform: translateY(-50%);
   }
 
   .play-btn svg {
@@ -654,11 +657,7 @@ body.menu-open {
   }
 
   .bottom-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 24px 20px;
-    width: 100%;
+    display: none;
   }
 
   .info-divider {
@@ -719,7 +718,7 @@ body.menu-open {
   .hero-content {
     left: 16px;
     right: 16px;
-    margin-top: 10px;
+    margin-top: 0;
   }
 
   .hero-title {
@@ -733,9 +732,12 @@ body.menu-open {
   }
 
   .play-btn {
-    top: 62%;
+    top: 40px;
+    left: auto;
+    right: 68px;
     width: 44px;
     height: 44px;
+    transform: translateY(-50%);
   }
 
   .play-btn svg {
@@ -754,8 +756,7 @@ body.menu-open {
   }
 
   .bottom-info {
-    padding: 18px 16px;
-    gap: 10px;
+    display: none;
   }
 
   .info-item {
@@ -782,15 +783,15 @@ body.menu-open {
 
 @media (max-width: 400px) {
   .hero-title {
-    font-size: clamp(54px, 8vw, 32px);
+    font-size: clamp(44px, 8vw, 32px);
   }
 
   .hero-subtitle {
-    font-size: clamp(18px, 3.5vw, 14px);
+    font-size: clamp(17px, 3.5vw, 14px);
   }
 
   .bottom-info {
-    padding: 14px 12px;
+    padding: 12px 12px;
   }
 
   .info-item {
