@@ -1573,22 +1573,18 @@ body.menu-open {
     overflow: hidden;
     align-items: flex-start;
     height: 100dvh;
-    max-height: 100dvh;
   }
 
   .nosotros-inner {
     grid-template-columns: 1fr;
-    padding: 48px 24px 48px;
-    gap: 20px;
-    height: 100dvh;
-    max-height: 100dvh;
+    padding: 56px 24px 60px;
+    gap: 28px;
+    height: 100%;
     overflow-y: auto;
-    overflow-x: hidden;
   }
 
   .nosotros-gallery {
-    height: 200px;
-    flex-shrink: 0;
+    height: 240px;
   }
 
   .nosotros-title {
@@ -1599,61 +1595,34 @@ body.menu-open {
     font-size: 28px;
   }
 
-  .nosotros-stats {
-    margin: 16px 0 20px;
-    padding: 16px 0;
-  }
-
   .dot-nav--nosotros {
     right: 12px;
   }
 }
 
 @media (max-width: 600px) {
-  .nosotros {
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
-  }
-
   .nosotros::before { display: none; }
 
   .nosotros-inner {
-    padding: 44px 16px 44px;
-    gap: 16px;
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow-y: auto;
+    padding: 56px 16px 60px;
+    gap: 24px;
+    height: 100%;
   }
 
   .nosotros-gallery {
-    height: 170px;
-    flex-shrink: 0;
+    height: 200px;
   }
 
   .nosotros-title {
-    font-size: 28px;
-    margin-bottom: 12px;
-  }
-
-  .nosotros-tag {
-    margin-bottom: 10px;
-  }
-
-  .nosotros-text {
-    font-size: 13.5px;
-    line-height: 1.6;
-    margin-bottom: 8px;
+    font-size: 30px;
   }
 
   .nosotros-stats {
     gap: 0;
-    margin: 12px 0 16px;
-    padding: 12px 0;
   }
 
   .stat-number {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .stat-label {
