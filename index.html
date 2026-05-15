@@ -1,3901 +1,568 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/images/favicon.jpg" type="image/jpeg">
-    <title>Martin Ferreira - Peluquería Unisex</title>
-    <style>
-        @font-face {
-            font-family: 'BetterChill';
-            src: url('assets/fonts/BetterChill.otf') format('opentype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        @font-face {
-            font-family: 'BodoniModa';
-            src: url('assets/fonts/BodoniModa-Italic-VariableFont_opsz,wght.ttf') format('truetype');
-            font-weight: normal;
-            font-style: italic;
-        }
-
-        @font-face {
-            font-family: 'LibreBodoni';
-            src: url('assets/fonts/LibreBodoni-Italic-VariableFont_wght.ttf') format('truetype');
-            font-weight: normal;
-            font-style: italic;
-        }
-
-        @font-face {
-            font-family: 'NotoSerifDisplay';
-            src: url('assets/fonts/NotoSerifDisplay-Italic-VariableFont_wdth,wght.ttf') format('truetype');
-            font-weight: 100 900;
-            font-stretch: 75% 125%;
-            font-style: italic;
-        }
-
-        @font-face {
-            font-family: 'Montserrat';
-            src: url('assets/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
-            font-weight: 100 900;
-            font-style: normal;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            color: #2c2c2c;
-            background-color: #faf9f7;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        .page-wrapper {
-            height: 100dvh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            padding-top: 90px;
-        }
-
-        /* Header */
-        header {
-            background: #fff;
-            padding: 20px 40px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-
-        header.header-hidden {
-            transform: translateY(-100%);
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            color: #2c2c2c;
-            text-decoration: none;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #2c2c2c;
-            font-size: 14px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #8b7355;
-        }
-
-        .header-icons {
-            display: flex;
-            gap: 20px;
-        }
-
-        .header-icons span {
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        /* Hamburger Menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-            padding: 5px;
-            position: fixed;
-            top: 15px;
-            right: 20px;
-            z-index: 1001;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 25px;
-            height: 2px;
-            background: #2c2c2c;
-            transition: all 0.3s;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
-
-        /* Mobile Nav Overlay */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100dvh;
-            background: rgba(0,0,0,0.95);
-            z-index: 999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .mobile-nav.active {
-            display: flex;
-        }
-
-        .mobile-nav ul {
-            list-style: none;
-            text-align: center;
-        }
-
-        .mobile-nav li {
-            margin: 20px 0;
-        }
-
-        .mobile-nav a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 20px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-
-        .mobile-nav a:hover {
-            color: #8b7355;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100dvh;
-            background-image: url('assets/images/gallery/fondo.png');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #fff;
-            padding: 0 20px;
-            scroll-snap-align: start;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .hero h1 {
-            font-family: 'BodoniModa', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 48px;
-            font-weight: 300;
-            margin-bottom: 20px;
-            line-height: 1.3;
-        }
-
-        .hero p {
-            font-size: 18px;
-            margin-bottom: 30px;
-            font-weight: 300;
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .btn {
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-            padding: 15px 40px;
-            border: 2px solid #fff;
-            background: transparent;
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: #fff;
-            color: #2c2c2c;
-        }
-
-        .btn-primary {
-            background: #fff;
-            color: #2c2c2c;
-        }
-
-        .btn-primary:hover {
-            background: #8b7355;
-            border-color: #8b7355;
-            color: #fff;
-        }
-
-        /* Hours Section */
-        .hours {
-            background: #f5f3f0;
-            padding: 80px 40px;
-            min-height: 100dvh;
-            scroll-snap-align: start;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hours-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
-
-        .about-gallery {
-            flex: 1;
-        }
-
-        .about-gallery-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .about-gallery-item {
-            overflow: hidden;
-            aspect-ratio: 1;
-        }
-
-        .about-gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .about-gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .hours-info {
-            flex: 0 0 400px;
-            text-align: left;
-            padding: 20px;
-        }
-
-        .hours h2 {
-            font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 32px;
-            font-weight: 300;
-            margin-bottom: 10px;
-            color: #2c2c2c;
-        }
-
-        .hours-subtitle {
-            font-family: 'BodoniModa', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 18px;
-            color: #8b7355;
-            margin-bottom: 20px;
-        }
-
-        .hours-description {
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.7;
-            color: #555;
-            margin-bottom: 30px;
-        }
-
-        .about-features {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 30px;
-        }
-
-        .about-feature {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 14px;
-            color: #2c2c2c;
-        }
-
-        .about-feature-icon {
-            width: 28px;
-            height: 28px;
-            background: #2c2c2c;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        .hours-cta-btn {
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-            padding: 12px 32px;
-            background: #2c2c2c;
-            color: #fff;
-            border: none;
-            border-radius: 0px;
-            font-size: 14px;
-            font-weight: 400;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-decoration: none;
-            text-transform: uppercase;
-            display: inline-block;
-        }
-
-        .hours-cta-btn:hover {
-            background: #8b7355;
-        }
-
-        /* Shop Section */
-        .shop {
-            padding: 80px 40px;
-            min-height: 100dvh;
-            scroll-snap-align: start;
-        }
-
-        .shop-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .shop-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .shop-header h2 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #2c2c2c;
-            letter-spacing: 1px;
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .shop-header a {
-            font-family: 'NotoSerifDisplay', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 14px;
-            color: #2c2c2c;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .shop-header a:hover {
-            color: #8b7355;
-        }
-
-        .shop-divider {
-            border: none;
-            border-top: 1px solid #e0e0e0;
-            margin-bottom: 40px;
-        }
-
-        .shop-description {
-            font-size: 39px;
-            font-weight: 300;
-            color: #2c2c2c;
-            line-height: 1.4;
-            margin-bottom: 50px;
-            max-width: 900px;
-        }
-
-        .shop-products-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .shop-row {
-            margin-bottom: 0;
-        }
-
-        .shop-nav-btn {
-            background: none;
-            border: none;
-            font-size: 16px;
-            color: #2c2c2c;
-            cursor: pointer;
-            padding: 10px 8px;
-            transition: color 0.3s;
-            z-index: 10;
-            flex-shrink: 0;
-            align-self: flex-end;
-        }
-
-        .shop-nav-btn:hover {
-            color: #8b7355;
-        }
-
-        .shop-nav-btn.prev {
-            margin-right: 10px;
-        }
-
-        .shop-nav-btn.next {
-            margin-left: 10px;
-        }
-
-        .shop-nav-buttons {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 10px;
-        }
-
-        .shop-products-wrapper {
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .shop-products-grid {
-            display: flex;
-            gap: 30px;
-            transition: transform 0.5s ease-in-out;
-            align-items: flex-start;
-        }
-
-        .shop-product-card {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            overflow: hidden;
-            flex: 0 0 calc((100% - 60px) / 3);
-            min-width: 0;
-            cursor: pointer;
-            transition: box-shadow 0.3s;
-        }
-
-        .shop-product-card:hover {
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .shop-product-image {
-            position: relative;
-            width: 100%;
-            padding-bottom: 100%;
-            background: #f5f5f5;
-            overflow: hidden;
-        }
-
-        .shop-product-image img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .shop-product-badge {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: #2c2c2c;
-            color: #fff;
-            padding: 6px 12px;
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .shop-product-info {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .shop-product-brand {
-            font-weight: 600;
-            font-size: 14px;
-            color: #2c2c2c;
-            margin-bottom: 8px;
-        }
-
-        .shop-product-name {
-            font-size: 16px;
-            color: #2c2c2c;
-            margin-bottom: 12px;
-            line-height: 1.3;
-            font-weight: 500;
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .shop-product-price {
-            font-family: 'Helvetica Neue', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 14px;
-            color: #2c2c2c;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .shop-product-description {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            flex: 1;
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .shop-product-add {
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 13px;
-            color: #fff;
-            background: #2c2c2c;
-            border: none;
-            padding: 12px 24px;
-            cursor: pointer;
-            transition: background 0.3s;
-            border-radius: 0px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 600;
-            align-self: flex-start;
-        }
-
-        .shop-product-add:hover {
-            background: #8b7355;
-        }
-
-        /* Product Modal */
-        .product-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2000;
-        }
-
-        .product-modal.active {
-            display: block;
-        }
-
-        .product-modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-        }
-
-        .product-modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            max-width: 900px;
-            width: 90%;
-            max-height: 90vh;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .product-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #2c2c2c;
-            cursor: pointer;
-            z-index: 10;
-            transition: color 0.3s;
-        }
-
-        .product-modal-close:hover {
-            color: #8b7355;
-        }
-
-        .product-modal-body {
-            display: flex;
-            gap: 40px;
-            padding: 40px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .product-modal-image {
-            flex: 1;
-            background: #f5f5f5;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 300px;
-        }
-
-        .product-modal-image img {
-            max-width: 100%;
-            max-height: 400px;
-            object-fit: contain;
-        }
-
-        .product-modal-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-modal-brand {
-            font-size: 16px;
-            font-weight: 600;
-            color: #2c2c2c;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .product-modal-name {
-            font-size: 28px;
-            font-weight: 300;
-            color: #2c2c2c;
-            margin-bottom: 10px;
-            line-height: 1.3;
-        }
-
-        .product-modal-price {
-            font-size: 24px;
-            font-weight: 600;
-            color: #8b7355;
-            margin-bottom: 20px;
-        }
-
-        .product-modal-description {
-            font-size: 16px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            flex: 1;
-        }
-
-        .product-modal-add-btn {
-            padding: 15px 40px;
-            background: #2c2c2c;
-            color: #fff;
-            border: none;
-            border-radius: 0px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            align-self: flex-start;
-        }
-
-        .product-modal-add-btn:hover {
-            background: #8b7355;
-        }
-
-        /* Product Catalog Section */
-        .product-catalog {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #fff;
-            z-index: 3000;
-            overflow-y: auto;
-        }
-
-        .product-catalog.active {
-            display: block;
-        }
-
-        .catalog-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .catalog-header h2 {
-            font-size: 32px;
-            font-weight: 300;
-            color: #2c2c2c;
-        }
-
-        .catalog-close {
-            padding: 12px 32px;
-            background: #2c2c2c;
-            color: #fff;
-            border: none;
-            border-radius: 0px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .catalog-close:hover {
-            background: #8b7355;
-        }
-
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            padding: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .catalog-product-card {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: box-shadow 0.3s;
-        }
-
-        .catalog-product-card:hover {
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .catalog-product-image {
-            width: 100%;
-            padding-bottom: 100%;
-            background: #f5f5f5;
-            position: relative;
-        }
-
-        .catalog-product-image img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .catalog-product-info {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .catalog-product-brand {
-            font-weight: 600;
-            font-size: 14px;
-            color: #2c2c2c;
-            margin-bottom: 8px;
-        }
-
-        .catalog-product-name {
-            font-size: 16px;
-            color: #2c2c2c;
-            margin-bottom: 12px;
-            line-height: 1.3;
-            font-weight: 500;
-        }
-
-        .catalog-product-description {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            flex: 1;
-        }
-
-        .catalog-product-add {
-            padding: 12px 24px;
-            background: #2c2c2c;
-            color: #fff;
-            border: none;
-            border-radius: 0px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            align-self: flex-start;
-        }
-
-        .catalog-product-add:hover {
-            background: #8b7355;
-        }
-
-        /* Shopping Cart */
-        .cart-icon {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: #2c2c2c;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 3500;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s;
-        }
-
-        .cart-icon:hover {
-            background: #8b7355;
-            transform: scale(1.1);
-        }
-
-        .cart-icon svg {
-            width: 28px;
-            height: 28px;
-            fill: #fff;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #8b7355;
-            color: #fff;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .cart-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 3600;
-        }
-
-        .cart-modal.active {
-            display: block;
-        }
-
-        .cart-modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-        }
-
-        .cart-modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            max-width: 600px;
-            width: 90%;
-            max-height: 90vh;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .cart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 30px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .cart-header h2 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #2c2c2c;
-            margin: 0;
-        }
-
-        .cart-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: #2c2c2c;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .cart-close:hover {
-            color: #8b7355;
-        }
-
-        .cart-body {
-            padding: 20px 30px;
-            max-height: 50vh;
-            overflow-y: auto;
-        }
-
-        .cart-empty {
-            text-align: center;
-            padding: 40px 20px;
-            color: #999;
-        }
-
-        .cart-empty svg {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 20px;
-            fill: #ccc;
-        }
-
-        .cart-item {
-            display: flex;
-            gap: 15px;
-            padding: 15px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .cart-item-image {
-            width: 80px;
-            height: 80px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .cart-item-image img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-brand {
-            font-size: 12px;
-            font-weight: 600;
-            color: #8b7355;
-            margin-bottom: 5px;
-        }
-
-        .cart-item-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #2c2c2c;
-            margin-bottom: 10px;
-            line-height: 1.3;
-        }
-
-        .cart-item-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-item-quantity {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cart-quantity-btn {
-            width: 30px;
-            height: 30px;
-            background: #f5f5f5;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .cart-quantity-btn:hover {
-            background: #e0e0e0;
-        }
-
-        .cart-quantity-value {
-            font-size: 14px;
-            font-weight: 600;
-            min-width: 30px;
-            text-align: center;
-        }
-
-        .cart-item-price {
-            font-size: 16px;
-            font-weight: 600;
-            color: #2c2c2c;
-        }
-
-        .cart-item-remove {
-            background: none;
-            border: none;
-            color: #999;
-            cursor: pointer;
-            font-size: 18px;
-            transition: color 0.3s;
-        }
-
-        .cart-item-remove:hover {
-            color: #e74c3c;
-        }
-
-        .cart-footer {
-            padding: 20px 30px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .cart-total-label {
-            color: #2c2c2c;
-        }
-
-        .cart-total-value {
-            color: #8b7355;
-        }
-
-        .cart-checkout-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .cart-form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .cart-form-group label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #2c2c2c;
-        }
-
-        .cart-form-group input {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .cart-form-group input:focus {
-            outline: none;
-            border-color: #8b7355;
-        }
-
-        .cart-form-group input.error {
-            border-color: #e74c3c;
-        }
-
-        .cart-form-error {
-            font-size: 12px;
-            color: #e74c3c;
-            margin-top: 5px;
-        }
-
-        .cart-checkout-btn {
-            padding: 15px 30px;
-            background: #2c2c2c;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .cart-checkout-btn:hover {
-            background: #8b7355;
-        }
-
-        .cart-checkout-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .cart-dlocal-btn {
-            padding: 15px 30px;
-            background: #1a73e8;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 2px;
-        }
-
-        .cart-dlocal-btn:hover {
-            background: #1557b0;
-        }
-
-        .cart-dlocal-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .cart-payment-divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 4px 0;
-            color: #999;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .cart-payment-divider::before,
-        .cart-payment-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .cart-success-message {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .cart-success-message svg {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 20px;
-            fill: #27ae60;
-        }
-
-        .cart-success-message h3 {
-            font-size: 24px;
-            color: #27ae60;
-            margin-bottom: 10px;
-        }
-
-        .cart-success-message p {
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .cart-success-message button {
-            padding: 12px 30px;
-            background: #2c2c2c;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .cart-success-message button:hover {
-            background: #8b7355;
-        }
-
-        /* Course Section */
-        .course {
-            height: 100dvh;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #fff;
-            padding: 0 20px;
-            position: relative;
-            transition: background-image 1s ease-in-out;
-            scroll-snap-align: start;
-        }
-
-        .course::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 1;
-        }
-
-        .course-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-        }
-
-        .course h2 {
-            font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 48px;
-            font-weight: 300;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-
-        .course-subtitle {
-            font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 24px;
-            font-weight: 300;
-            margin-bottom: 15px;
-            line-height: 1.4;
-        }
-
-        .course-duration {
-            font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 20px;
-            font-weight: 400;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .course-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .course-btn {
-            padding: 15px 40px;
-            background: #fff;
-            color: #2c2c2c;
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-            border: none;
-            border-radius: 0px;
-            font-size: 14px;
-            font-weight: 400;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            text-transform: uppercase;
-            display: inline-block;
-        }
-
-        .course-btn:hover {
-            background: #8b7355;
-            color: #fff;
-        }
-
-        .course-btn.primary {
-            background: #fff;
-            color: #2c2c2c;
-        }
-
-        .course-btn.primary:hover {
-            background: #8b7355;
-            color: #fff;
-        }
-
-        .course-btn.secondary {
-            background: transparent;
-            color: #fff;
-            border: 2px solid #fff;
-        }
-
-        .course-btn.secondary:hover {
-            background: #fff;
-            color: #2c2c2c;
-        }
-
-        /* Masajes Info Section */
-        .masajes-info {
-            padding: 100px 40px;
-            background: #554736;
-            position: relative;
-            overflow: hidden;
-            min-height: 100dvh;
-            scroll-snap-align: start;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .masajes-info::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 20px,
-                rgba(0,0,0,0.03) 20px,
-                rgba(0,0,0,0.03) 21px
-            );
-            pointer-events: none;
-        }
-
-        .masajes-info::after {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
-            top: -150px;
-            right: -100px;
-            pointer-events: none;
-        }
-
-        .masajes-info .circle-decor {
-            position: absolute;
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.04);
-            bottom: -80px;
-            left: -80px;
-            pointer-events: none;
-        }
-
-        .masajes-info-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .masajes-info-text {
-            padding-right: 40px;
-            display: contents;
-        }
-
-        .masajes-info-text h2,
-        .masajes-info-text .masajes-info-subtitle,
-        .masajes-info-text .masajes-info-description,
-        .masajes-info-text .masajes-info-features,
-        .masajes-info-text .masajes-info-btn {
-            grid-column: 1;
-        }
-
-        .masajes-info-text .masajes-info-video {
-            grid-column: 2;
-            grid-row: 1 / -1;
-            display: flex;
-            align-items: center;
-        }
-
-        .masajes-info h2 {
-            font-family: 'BetterChill', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 60px;
-            font-weight: 300;
-            margin-bottom: 20px;
-            color: #fff;
-            letter-spacing: 1px;
-        }
-
-        .masajes-info-subtitle {
-            font-family: 'BodoniModa', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: #f5f0eb;
-            line-height: 1.2;
-        }
-
-        .masajes-info-description {
-            font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.8;
-            color: #f0e8de;
-            margin-bottom: 40px;
-        }
-
-        .masajes-info-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .masajes-feature {
-            font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-            display: grid;
-            grid-template-columns: 24px 1fr;
-            gap: 6px;
-            align-items: center;
-            font-size: 15px;
-            color: #fff;
-        }
-
-        .masajes-feature-icon {
-            width: 24px;
-            height: 24px;
-            background: #fff;
-            color: #8b7355;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-
-        .masajes-info-btn {
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-            display: inline-block;
-            padding: 15px 40px;
-            background: #fff;
-            color: #2c2c2c;
-            border: none;
-            border-radius: 0;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .masajes-info-btn:hover {
-            background: #2c2c2c;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .masajes-info-video {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .masajes-video {
-            width: 100%;
-            height: 500px;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* Clients Section */
-        .clients {
-            padding: 100px 40px;
-            background: #faf9f7;
-            scroll-snap-align: start;
-        }
-
-        .clients-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .clients-header h2 {
-            font-family: 'BetterChill', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 48px;
-            font-weight: 400;
-            color: #2c2c2c;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-        }
-
-        .clients-header-subtitle {
-            font-family: 'BodoniModa', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 20px;
-            color: #8b7355;
-            font-style: italic;
-        }
-
-        .clients-category {
-            max-width: 1200px;
-            margin: 0 auto 60px;
-        }
-
-        .clients-category:last-child {
-            margin-bottom: 0;
-        }
-
-        .clients-category-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .clients-category-header h3 {
-            font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 28px;
-            font-weight: 300;
-            color: #2c2c2c;
-            white-space: nowrap;
-            letter-spacing: 1px;
-        }
-
-        .clients-category-line {
-            flex: 1;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .clients-expand-btn {
-            display: none;
-        }
-
-        .clients-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .client-card {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            aspect-ratio: 3 / 4;
-            border: 1px solid #e0e0e0;
-            cursor: pointer;
-        }
-
-        .client-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .client-card:hover img {
-            transform: scale(1.08);
-        }
-
-        .client-card-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            display: flex;
-            align-items: flex-end;
-            padding: 20px;
-        }
-
-        .client-card:hover .client-card-overlay {
-            opacity: 1;
-        }
-
-        .client-card-tag {
-            font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
-            font-size: 12px;
-            font-weight: 500;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: #8b7355;
-            padding: 6px 14px;
-        }
-
-        /* Journal Section */
-        .journal {
-            padding: 100px 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .journal h2 {
-            font-size: 32px;
-            font-weight: 300;
-            margin-bottom: 40px;
-            text-align: center;
-            color: #2c2c2c;
-        }
-
-        .journal-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .journal-card {
-            background: #fff;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .journal-image {
-            height: 200px;
-            background: #e8e6e3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #999;
-        }
-
-        .journal-content {
-            padding: 20px;
-        }
-
-        .journal-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #2c2c2c;
-            line-height: 1.4;
-        }
-
-        /* Featured In */
-        .featured {
-            padding: 80px 40px;
-            background: #f5f3f0;
-            text-align: center;
-        }
-
-        .featured h2 {
-            font-size: 24px;
-            font-weight: 300;
-            margin-bottom: 40px;
-            color: #2c2c2c;
-            letter-spacing: 2px;
-        }
-
-        .featured-logos {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .featured-logo {
-            font-size: 18px;
-            font-weight: 600;
-            color: #999;
-            letter-spacing: 2px;
-        }
-
-        /* Newsletter */
-        .newsletter {
-            padding: 100px 40px;
-            text-align: center;
-            background: #fff;
-        }
-
-        .newsletter h2 {
-            font-size: 28px;
-            font-weight: 300;
-            margin-bottom: 20px;
-            color: #2c2c2c;
-        }
-
-        .newsletter p {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .newsletter-form {
-            max-width: 500px;
-            margin: 0 auto;
-            display: flex;
-            gap: 10px;
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            padding: 15px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-        }
-
-        .newsletter-form button {
-            padding: 15px 30px;
-            background: #2c2c2c;
-            color: #fff;
-            border: none;
-            font-size: 14px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .newsletter-form button:hover {
-            background: #8b7355;
-        }
-
-        /* Footer */
-        footer {
-            background: #2c2c2c;
-            color: #fff;
-            padding: 50px 40px 30px;
-            min-height: 100dvh;
-            scroll-snap-align: start;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-        }
-
-        .footer-section h3 {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section li {
-            margin-bottom: 8px;
-        }
-
-        .footer-section a {
-            color: #ccc;
-            text-decoration: none;
-            font-size: 13px;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #fff;
-        }
-
-        .footer-contact {
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .footer-contact .hours-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 2px 12px;
-            margin-top: 8px;
-        }
-
-        .footer-contact .hours-grid p {
-            margin: 0;
-        }
-
-        .footer-contact .hours-grid .day {
-            font-weight: 500;
-        }
-
-        .footer-map {
-            margin-top: 10px;
-        }
-
-        .footer-map iframe {
-            width: 100%;
-            height: 140px;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 30px auto 0;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-bottom p {
-            font-size: 13px;
-            color: #999;
-        }
-
-        .payment-methods {
-            display: flex;
-            gap: 8px;
-            font-size: 12px;
-            color: #999;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            header {
-                padding: 15px 20px;
-            }
-
-            .hours {
-                padding: 40px 20px;
-                min-height: 100dvh;
-            }
-
-            nav {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .hero h1 {
-                font-family: 'BodoniModa', 'Helvetica Neue', Arial, sans-serif;
-                font-size: 32px;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .hours-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            .about-gallery {
-                width: 100%;
-            }
-
-            .about-gallery-grid {
-                gap: 6px;
-            }
-
-            .hours-info {
-                text-align: center;
-                padding: 0 1px;
-                flex: 1;
-            }
-
-            .hours h2 {
-                font-size: 28px;
-            }
-
-            .hours-subtitle {
-                font-size: 16px;
-            }
-
-            .hours-description {
-                font-size: 13px;
-                text-align: center;
-            }
-
-            .about-features {
-                display: none;
-            }
-
-            .course h2 {
-                font-size: 32px;
-            }
-
-            .course-subtitle {
-                font-size: 18px;
-            }
-
-            .course-duration {
-                font-size: 16px;
-            }
-
-            .course-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .course-btn {
-                padding: 12px 30px;
-                font-size: 13px;
-            }
-
-            .masajes-info {
-                padding: 40px 20px;
-                justify-content: flex-start;
-                min-height: auto;
-            }
-
-            .masajes-info-content {
-                display: block;
-                max-width: 100%;
-            }
-
-            .masajes-info-text {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 16px;
-            }
-
-            .masajes-info-text h2 {
-                width: 100%;
-            }
-
-            .masajes-info-text .masajes-info-subtitle {
-                width: 100%;
-            }
-
-            .masajes-info-text .masajes-info-description {
-                width: 100%;
-            }
-
-            .masajes-info-text .masajes-info-features {
-                width: calc(50% - 8px);
-            }
-
-            .masajes-info-text .masajes-info-video {
-                width: calc(50% - 8px);
-            }
-
-            .masajes-info-text .masajes-info-btn {
-                width: 100%;
-            }
-
-            .masajes-info h2 {
-                font-family: 'BetterChill', 'Helvetica Neue', Arial, sans-serif;
-                font-size: 40px;
-                text-align: center;
-            }
-
-            .masajes-info-subtitle {
-                font-family: 'BodoniModa', 'Helvetica Neue', Arial, sans-serif;
-                font-size: 20px;
-                text-align: center;
-            }
-
-            .masajes-info-description {
-                font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-                font-size: 15px;
-                text-align: center;
-            }
-
-            .masajes-info-features {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-
-            .masajes-feature {
-                justify-content: center;
-                font-size: 13px;
-            }
-
-            .masajes-info-btn {
-                text-align: center;
-                display: block;
-                margin: 0 auto;
-            }
-
-            .masajes-video {
-                height: 300px;
-            }
-
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .footer-map iframe {
-                height: 120px;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-
-            .clients {
-                padding: 60px 20px;
-            }
-
-            .clients-header {
-                margin-bottom: 40px;
-            }
-
-            .clients-header h2 {
-                font-size: 28px;
-            }
-
-            .clients-header-subtitle {
-                font-size: 16px;
-            }
-
-            .clients-category {
-                margin-bottom: 40px;
-            }
-
-            .clients-category-header h3 {
-                font-size: 22px;
-            }
-
-            .clients-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-
-            .client-card {
-                aspect-ratio: 1;
-            }
-
-            .client-card:nth-child(n+3) {
-                display: none;
-            }
-
-            .clients-category.expanded .client-card:nth-child(n+3) {
-                display: block;
-            }
-
-            .clients-expand-btn::before {
-                content: '→';
-            }
-
-            .clients-expand-btn.expanded::before {
-                content: '↓';
-            }
-
-            .clients-expand-btn {
-                display: inline-flex;
-                background: none;
-                border: none;
-                font-size: 18px;
-                color: #8b7355;
-                cursor: pointer;
-                padding: 0 8px;
-                flex-shrink: 0;
-                align-items: center;
-            }
-
-            .client-card-overlay {
-                padding: 12px;
-            }
-
-            .client-card-tag {
-                font-size: 10px;
-                padding: 4px 10px;
-            }
-
-            .shop {
-                padding: 20px 20px;
-                min-height: auto;
-            }
-    
-        .shop-row {
-                margin-bottom: 0;
-            }
-    
-            .shop-row:first-of-type {
-                margin-bottom: 5px;
-            }
-    
-            .shop-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-                margin-bottom: 10px;
-            }
-
-            .shop-header h2 {
-                font-size: 18px;
-            }
-
-            .shop-divider {
-                margin-bottom: 15px;
-            }
-    
-            .shop-description {
-                font-size: 20px;
-                margin-bottom: 15px;
-            }
-
-            .shop-products-wrapper {
-                overflow: hidden;
-            }
-
-            .shop-products-grid {
-                display: flex;
-                gap: 12px;
-                transition: transform 0.5s ease-in-out;
-                align-items: stretch;
-            }
-
-        .shop-product-card {
-                flex: 0 0 calc((50% - 6px));
-                flex-shrink: 0;
-            }
-    
-            .shop-nav-btn {
-                display: block;
-                font-size: 12px;
-                padding: 5px 3px;
-            }
-
-            .shop-nav-buttons {
-                display: flex;
-                margin-bottom: 4px;
-            }
-
-        .shop-product-card {
-                border-radius: 6px;
-            }
-    
-            .shop-product-info {
-                padding: 8px;
-            }
-    
-            .shop-product-price {
-                font-size: 11px;
-                margin-bottom: 4px;
-            }
-    
-            .shop-product-image {
-                padding-bottom: 55%;
-            }
-    
-            .shop-product-brand {
-                font-size: 10px;
-                margin-bottom: 3px;
-            }
-    
-            .shop-product-name {
-                font-size: 11px;
-                font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-                margin-bottom: 4px;
-                line-height: 1.2;
-            }
-    
-            .shop-product-description {
-                font-size: 10px;
-                line-height: 1.3;
-                margin-bottom: 6px;
-                overflow: hidden;
-            }
-    
-            .shop-product-add {
-                font-size: 10px;
-                padding: 6px 12px;
-                width: 100%;
-                text-align: center;
-                align-self: stretch;
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .shop-product-card {
-                flex: 0 0 calc((100% - 30px) / 2);
-                min-width: 0;
-            }
-
-            .footer-map iframe {
-                height: 180px;
-            }
-
-            .masajes-info-content {
-                gap: 40px;
-            }
-
-            .masajes-info h2 {
-                font-family: 'BetterChill', 'Helvetica Neue', Arial, sans-serif;
-                font-size: 40px;
-            }
-
-            .masajes-info-subtitle {
-                font-family: 'BodoniModa', 'Helvetica Neue', Arial, sans-serif;
-                font-size: 30px;
-            }
-
-            .masajes-video {
-                height: 300px;
-            }
-
-            .product-modal-body {
-                flex-direction: column;
-                gap: 20px;
-                padding: 30px;
-            }
-
-            .product-modal-image {
-                min-height: 250px;
-            }
-
-            .product-modal-name {
-                font-size: 24px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .product-modal-content {
-                width: 95%;
-                max-height: 95dvh;
-            }
-
-            .product-modal-body {
-                flex-direction: column;
-                gap: 20px;
-                padding: 25px;
-            }
-
-            .product-modal-image {
-                min-height: 200px;
-            }
-
-            .product-modal-name {
-                font-size: 22px;
-                font-family: 'BodoniModa', 'Helvetica Neue', Arial, sans-serif;
-            }
-
-            .product-modal-description {
-                font-size: 14px;
-            }
-
-            .product-modal-add-btn {
-                width: 100%;
-                text-align: center;
-            }
-
-            .product-catalog {
-                padding: 20px;
-            }
-
-            .catalog-header {
-                padding: 20px;
-            }
-
-            .catalog-header h2 {
-                font-size: 24px;
-            }
-
-            .catalog-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-                padding: 20px;
-            }
-
-            .catalog-product-name {
-                font-size: 12px;
-                font-family: 'LibreBodoni', 'Helvetica Neue', Arial, sans-serif;
-            }
-
-            .catalog-product-description {
-                font-size: 11px;
-                line-height: 1.3;
-                margin-bottom: 10px;
-            }
-
-            .catalog-product-info {
-                padding: 12px;
-            }
-
-            .catalog-product-brand {
-                font-size: 11px;
-                margin-bottom: 5px;
-                font-family: 'BodoniModa', 'Helvetica Neue', Arial, sans-serif;
-            }
-
-            .catalog-product-add {
-                width: 100%;
-                text-align: center;
-                padding: 8px 16px;
-                font-size: 11px;
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .catalog-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Camilo Rey — Belleza, cosmética y cuidado personal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="assets/images/logo.jpg"/>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-content">
-            <a href="#" class="logo">MARTIN FERREIRA</a>
-            <nav>
-                <ul>
-                    <li><a href="calendario.html">Reservas</a></li>
-                    <li><a href="#shop">Tienda</a></li>
-                    <li><a href="#masajes-info">Masajes</a></li>
-                    <li><a href="#course">Curso</a></li>
-                    <li><a href="#contact">Contacto</a></li>
-                </ul>
-            </nav>
+
+<div class="page-wrapper">
+
+  <!-- HERO SECTION -->
+  <section class="hero" data-section="0">
+
+    <!-- NAV -->
+    <nav class="navbar">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <img src="assets/images/logo.jpg" alt="Camilo Rey"/>
         </div>
-    </header>
-    <div class="hamburger" id="hamburger">
+        <div class="logo-text">
+          <span class="logo-main">CAMILO</span>
+          <span class="logo-sub">REY</span>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#">INICIO</a></li>
+        <li><a href="#">SERVICIOS</a></li>
+        <li><a href="calendario.html">RESERVAS</a></li>
+        <li><a href="#">TIENDA</a></li>
+        <li><a href="#">GALERÍA</a></li>
+        <li><a href="#">CONTACTO</a></li>
+      </ul>
+      <div class="nav-social">
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.56v14.91A4.54 4.54 0 0 1 19.46 24H4.54A4.54 4.54 0 0 1 0 19.47V4.54A4.54 4.54 0 0 1 4.54 0h14.92A4.54 4.54 0 0 1 24 4.54v.02zM9 20H6V9h3v11zm-1.5-12.27a1.73 1.73 0 1 1 0-3.46 1.73 1.73 0 0 1 0 3.46zM20 20h-3v-5.6c0-3.37-4-3.12-4 0V20h-3V9h3v1.77C14.4 7.9 20 7.7 20 13.6V20z"/></svg>
+        </a>
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.95 4.57a10 10 0 0 1-2.82.77 4.96 4.96 0 0 0 2.16-2.72c-.95.55-2 .95-3.12 1.19a4.92 4.92 0 0 0-8.38 4.49A13.96 13.96 0 0 1 1.64 3.16a4.92 4.92 0 0 0 1.52 6.57 4.9 4.9 0 0 1-2.23-.61v.06a4.92 4.92 0 0 0 3.95 4.83 4.94 4.94 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.87 9.87 0 0 1 0 19.54a13.94 13.94 0 0 0 7.55 2.21c9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.02-.63A10 10 0 0 0 24 4.59l-.05-.02z"/></svg>
+        </a>
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.12C19.51 3.5 12 3.5 12 3.5s-7.51 0-9.38.57A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.12C4.49 20.5 12 20.5 12 20.5s7.51 0 9.38-.57a3.02 3.02 0 0 0 2.12-2.12C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>
+        </a>
+        <a href="#" class="cart-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
         <span></span>
         <span></span>
         <span></span>
+      </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <ul class="mobile-nav-links">
+        <li><a href="#">INICIO</a></li>
+        <li><a href="#">SERVICIOS</a></li>
+        <li><a href="calendario.html">RESERVAS</a></li>
+        <li><a href="#">TIENDA</a></li>
+        <li><a href="#">GALERÍA</a></li>
+        <li><a href="#">CONTACTO</a></li>
+      </ul>
+      <div class="mobile-nav-social">
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.56v14.91A4.54 4.54 0 0 1 19.46 24H4.54A4.54 4.54 0 0 1 0 19.47V4.54A4.54 4.54 0 0 1 4.54 0h14.92A4.54 4.54 0 0 1 24 4.54v.02zM9 20H6V9h3v11zm-1.5-12.27a1.73 1.73 0 1 1 0-3.46 1.73 1.73 0 0 1 0 3.46zM20 20h-3v-5.6c0-3.37-4-3.12-4 0V20h-3V9h3v1.77C14.4 7.9 20 7.7 20 13.6V20z"/></svg>
+        </a>
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.95 4.57a10 10 0 0 1-2.82.77 4.96 4.96 0 0 0 2.16-2.72c-.95.55-2 .95-3.12 1.19a4.92 4.92 0 0 0-8.38 4.49A13.96 13.96 0 0 1 1.64 3.16a4.92 4.92 0 0 0 1.52 6.57 4.9 4.9 0 0 1-2.23-.61v.06a4.92 4.92 0 0 0 3.95 4.83 4.94 4.94 0 0 1-2.22.08 4.93 4.93 0 0 0 4.6 3.42A9.87 9.87 0 0 1 0 19.54a13.94 13.94 0 0 0 7.55 2.21c9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.02-.63A10 10 0 0 0 24 4.59l-.05-.02z"/></svg>
+        </a>
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="#" class="social-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.12C19.51 3.5 12 3.5 12 3.5s-7.51 0-9.38.57A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.12C4.49 20.5 12 20.5 12 20.5s7.51 0 9.38-.57a3.02 3.02 0 0 0 2.12-2.12C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.52V8.48L15.5 12l-5.75 3.52z"/></svg>
+        </a>
+        <a href="#" class="cart-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
+      </div>
     </div>
 
-    <!-- Mobile Nav -->
-    <div class="mobile-nav" id="mobileNav">
-        <ul>
-            <li><a href="calendario.html">Reservas</a></li>
-            <li><a href="#shop">Tienda</a></li>
-            <li><a href="#masajes-info">Masajes</a></li>
-            <li><a href="#course">Curso</a></li>
-            <li><a href="#contact">Contacto</a></li>
-        </ul>
+    <!-- HERO BG IMAGE (grayscale overlay effect) -->
+    <div class="hero-bg">
+      <video class="hero-video" id="hero-video" autoplay muted loop playsinline poster="assets/images/hero/hero1.jpg">
+        <source src="assets/images/hero/video.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
     </div>
 
-    <div class="page-wrapper">
+    <!-- HERO CONTENT -->
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span>INNOVACIÓN Y</span>
+        <span>TRADICIÓN</span>
+      </h1>
+      <p class="hero-subtitle">Los mejores estilos a un solo clic</p>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Peluquería Unisex</h1>
-            <p><a href="https://www.google.com/maps?sca_esv=abb15deeeb12d849&output=search&q=martin+ferreira+peluqueria&source=lnms&fbs=ADc_l-bpk8W4E-qsVlOvbGJcDwpnI1DeJY3rv82Mj8cb1NlB8O5Ja7ltU6TUD1-FQudO6Zc5Jd5hz-THstxz4cVI8Ngg8p7bq43B8eFLwxkNLRawLVxyiBvX_1AkafErXzMcDKPyT_-JlPiHGriIu3HzYVt80HrpAjNKTq1w-9dHKtZC-nDNjPA0TujjHu6JvDFP0zkZ7iXBkXAP6C09I055O_COFUvuDQ&entry=mc&ved=1t:200715&ictx=111" target="_blank" style="color: #fff; text-decoration: underline;">Constituyente 1787, 11200 Montevideo, Departamento de Montevideo</a></p>
-            <p>Teléfono: <a href="https://wa.me/59895780167" target="_blank" style="color: #fff; text-decoration: underline;">095780167</a></p>
-            <div class="hero-buttons">
-                <a href="calendario.html" class="btn btn-primary">Reservar ahora</a>
-                <a href="#" id="heroShopBtn" class="btn">Tienda</a>
-            </div>
+    <!-- Play Button -->
+    <div class="play-btn" id="play-btn">
+      <svg viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+    </div>
+
+    <!-- Dots nav -->
+    <div class="dot-nav">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="bottom-bar">
+      <div class="bottom-info">
+        <div class="info-item">
+          <span class="info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#c8853a" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.88 12 19.79 19.79 0 0 1 1.88 3.4 2 2 0 0 1 3.88 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9a16 16 0 0 0 6.91 6.91l1.16-1.16a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          <span>098 555 912</span>
         </div>
-    </section>
-
-    <!-- Hours Section -->
-    <section class="hours" id="hours">
-        <div class="hours-container">
-            <div class="about-gallery">
-                <div class="about-gallery-grid">
-                    <div class="about-gallery-item">
-                        <img src="assets/images/gallery/gallery1.webp" alt="Peluquería Martin Ferreira">
-                    </div>
-                    <div class="about-gallery-item">
-                        <img src="assets/images/gallery/gallery2.webp" alt="Peluquería Martin Ferreira">
-                    </div>
-                    <div class="about-gallery-item">
-                        <img src="assets/images/gallery/gallery3.webp" alt="Peluquería Martin Ferreira">
-                    </div>
-                    <div class="about-gallery-item">
-                        <img src="assets/images/gallery/gallery4.webp" alt="Peluquería Martin Ferreira">
-                    </div>
-                </div>
-            </div>
-            <div class="hours-info">
-                <h2>Nuestro Local</h2>
-                <p class="hours-subtitle">En el Centro de Montevideo</p>
-                <p class="hours-description">
-                    En Martin Ferreira ofrecemos servicios de peluquería unisex con productos profesionales y atención personalizada. Más de 10 años de experiencia nos avalan, brindando calidad y confianza a cada cliente que nos visita.
-                </p>
-                <div class="about-features">
-                    <div class="about-feature">
-                        <span class="about-feature-icon">✓</span>
-                        <span>Atención personalizada</span>
-                    </div>
-                    <div class="about-feature">
-                        <span class="about-feature-icon">✓</span>
-                        <span>Productos profesionales</span>
-                    </div>
-                    <div class="about-feature">
-                        <span class="about-feature-icon">✓</span>
-                        <span>Ambiente moderno y acogedor</span>
-                    </div>
-                    <div class="about-feature">
-                        <span class="about-feature-icon">✓</span>
-                        <span>Resultados garantizados</span>
-                    </div>
-                </div>
-                <a href="calendario.html" class="hours-cta-btn">Reservar Cita</a>
-            </div>
+        <div class="info-divider"></div>
+        <div class="info-item">
+          <span class="info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#c8853a" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          </span>
+          <span>10:00 – 19:30|Martes a Sábado </span>
         </div>
-    </section>
+      </div>  
+      <a href="calendario.html" class="agendar-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c8853a" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="16" y1="14" x2="16" y2="14"/></svg>
+        <span>AGENDAR</span>
+      </a>
+      <div class="scroll-down" id="hero-scroll-down">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+      </div>
+    </div>
 
-    <!-- Shop Section -->
-    <section class="shop" id="shop">
-        <div class="shop-inner">
-        <div class="shop-header">
-            <h2>Tienda</h2>
-            <a href="#" id="viewAllProductsBtn">Ver todos los productos ></a>
+  </section>
+
+  <!-- ========================
+       NOSOTROS SECTION
+       ======================== -->
+  <section class="nosotros" data-section="1">
+
+    <div class="scroll-down--section --up" data-target="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+    </div>
+
+    <div class="dot-nav dot-nav--nosotros">
+      <span class="dot" data-target="0"></span>
+      <span class="dot active" data-target="1"></span>
+      <span class="dot" data-target="2"></span>
+    </div>
+
+    <div class="nosotros-inner">
+
+      <!-- Columna izquierda: galería -->
+      <div class="nosotros-gallery">
+        <div class="gallery-main">
+          <div class="gallery-main-placeholder">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="80" height="80" rx="2" fill="#1a1a1a"/>
+              <path d="M20 55 L32 38 L40 48 L50 34 L60 55 Z" fill="#2a2a2a"/>
+              <circle cx="28" cy="30" r="6" fill="#2a2a2a"/>
+            </svg>
+          </div>
+          <div class="gallery-main-img" style="background-image: url('assets/images/nosotros/local1.jpg')"></div>
+          <div class="gallery-main-label">NUESTRO ESPACIO</div>
         </div>
-        <hr class="shop-divider">
-
-        <div class="shop-products-container">
-            <div class="shop-row">
-                <div class="shop-nav-buttons">
-                    <button class="shop-nav-btn prev">❮</button>
-                    <button class="shop-nav-btn next">❯</button>
-                </div>
-                <div class="shop-products-wrapper">
-                    <div class="shop-products-grid">
-                        <div class="shop-product-card" data-product-id="1">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/keratin.jpeg" alt="Fidelité Smooth & Repair Keratin">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Fidelité</div>
-                                <div class="shop-product-name">Smooth & Repair Keratin (Shampoo y Acondicionador)</div>
-                                <div class="shop-product-description">Tratamiento reestructurante con keratina diseñado para reparar el cabello dañado, eliminar el frizz y aportar suavidad de nivel profesional.</div>
-                                <div class="shop-product-price">$690 c/u</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                        <div class="shop-product-card" data-product-id="2">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/blondesse.jpeg" alt="Inebrya Blondesse No-Yellow">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Inebrya</div>
-                                <div class="shop-product-name">Blondesse No-Yellow (Shampoo y Máscara)</div>
-                                <div class="shop-product-description">Tratamiento matizador profesional que neutraliza reflejos amarillos en cabellos rubios, decolorados o grises, devolviéndoles un tono frío y luminoso.</div>
-                                <div class="shop-product-price">$1900</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                        <div class="shop-product-card" data-product-id="3">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/colormaster.jpeg" alt="Fidelité Colormaster Color Care System">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Fidelité</div>
-                                <div class="shop-product-name">Colormaster Color Care System (Shampoo Extra Ácido y Acondicionador Cremoso)</div>
-                                <div class="shop-product-description">Productos de pH ácido diseñados para cerrar la cutícula capilar, sellar el color tras la tintura y aportar brillo intenso.</div>
-                                <div class="shop-product-price">$690 c/u</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                        <div class="shop-product-card" data-product-id="4">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/styling.jpeg" alt="Fidelité Styling Gel Natural Fix">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Fidelité</div>
-                                <div class="shop-product-name">Styling Gel Natural Fix (Efecto Húmedo)</div>
-                                <div class="shop-product-description">Gel modelador de fijación natural que permite peinar y dar forma al cabello manteniendo un aspecto brillante y húmedo.</div>
-                                <div class="shop-product-price">$590</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                        <div class="shop-product-card" data-product-id="5">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/bigbarber.jpeg" alt="Big Barber Pó Modelador y Cera Matte Creme">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Big Barber</div>
-                                <div class="shop-product-name">Pó Modelador y Cera Matte Creme</div>
-                                <div class="shop-product-description">Productos de estilismo masculino para dar textura, volumen y fijación fuerte con un acabado natural mate sin dejar residuos.</div>
-                                <div class="shop-product-price">$650 c/u</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="shop-row">
-                <div class="shop-nav-buttons">
-                    <button class="shop-nav-btn prev">❮</button>
-                    <button class="shop-nav-btn next">❯</button>
-                </div>
-                <div class="shop-products-wrapper">
-                    <div class="shop-products-grid">
-                        <div class="shop-product-card" data-product-id="6">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/revlon.jpeg" alt="Revlon Professional 45 Days Total Color Care">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Revlon Professional</div>
-                                <div class="shop-product-name">45 Days Total Color Care</div>
-                                <div class="shop-product-description">Shampoo y acondicionador 2 en 1 sin sulfatos que protege y mantiene la intensidad del color según el tono.</div>
-                                <div class="shop-product-price">$900 c/u</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                        <div class="shop-product-card" data-product-id="7">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/uniqone.jpeg" alt="Revlon Professional UniqOne Duo Pack">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Revlon Professional</div>
-                                <div class="shop-product-name">UniqOne Duo Pack</div>
-                                <div class="shop-product-description">Tratamiento multibeneficio sin aclarado que ofrece 10 efectos reales: repara, aporta brillo, protege del calor y facilita el peinado.</div>
-                                <div class="shop-product-price">$1200</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                        <div class="shop-product-card" data-product-id="8">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/moisturizer.jpeg" alt="Revlon Professional Pro You The Moisturizer">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Revlon Professional</div>
-                                <div class="shop-product-name">Pro You The Moisturizer (Hydrating Mask)</div>
-                                <div class="shop-product-description">Mascarilla de hidratación profunda para todo tipo de cabello que aporta suavidad, manejabilidad y brillo intenso de forma inmediata.</div>
-                                <div class="shop-product-price">$1150</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                        <div class="shop-product-card" data-product-id="9">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/proyou.jpeg" alt="Revlon Professional Pro You The Keeper">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Revlon Professional</div>
-                                <div class="shop-product-name">Pro You The Keeper (Color Care Mask)</div>
-                                <div class="shop-product-description">Mascarilla protectora para cabellos teñidos que sella el color, previene el desvanecimiento y realza el brillo de forma duradera.</div>
-                                <div class="shop-product-price">$1150</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                        <div class="shop-product-card" data-product-id="10">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/argan.jpeg" alt="Fidelité Argan Mythical Elixir Oil">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Fidelité</div>
-                                <div class="shop-product-name">Argan Mythical Elixir Oil</div>
-                                <div class="shop-product-description">Aceite de argán multifunción que nutre profundamente, aporta brillo sedoso y protege el cabello sin dejar sensación grasosa.</div>
-                                <div class="shop-product-price">$890</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                        <div class="shop-product-card" data-product-id="11">
-                            <div class="shop-product-image">
-                                <img src="assets/images/productos/konect.jpeg" alt="Konect Cosmetics BR Progressive">
-                            </div>
-                            <div class="shop-product-info">
-                                <div class="shop-product-brand">Konect Cosmetics</div>
-                                <div class="shop-product-name">BR Progressive (Shampoo & Conditioner Anti Frizz)</div>
-                                <div class="shop-product-description">Línea profesional de cuidado capilar diseñada para ayudar a reducir el frizz, aportar suavidad y mejorar la apariencia del cabello.</div>
-                                <div class="shop-product-price">$650 c/u</div>
-                                <button class="shop-product-add">Añadir al carrito</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="gallery-side">
+          <div class="gallery-thumb">
+            <div class="gallery-thumb-img" style="background-image: url('assets/images/nosotros/local2.webp')"></div>
+          </div>
+          <div class="gallery-thumb">
+            <div class="gallery-thumb-img" style="background-image: url('assets/images/nosotros/local3.jpg')"></div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Course Section -->
-    <!-- Masajes Info Section -->
-    <section class="masajes-info" id="masajes-info">
-        <div class="circle-decor"></div>
-        <div class="masajes-info-content">
-            <div class="masajes-info-text">
-                <h2>Masajes Descontracturantes</h2>
-                <p class="masajes-info-subtitle">Descubre el arte del bienestar con nuestros tratamientos especializados</p>
-                <p class="masajes-info-description">
-                    Ofrecemos una experiencia única de relajación y rejuvenecimiento. Nuestros masajes relajantes están diseñados para aliviar el estrés, mejorar la circulación y promover el equilibrio mente-cuerpo.
-                </p>
-                <div class="masajes-info-features">
-                    <div class="masajes-feature">
-                        <span class="masajes-feature-icon">✓</span>
-                        <span>Terapeutas certificados</span>
-                    </div>
-                    <div class="masajes-feature">
-                        <span class="masajes-feature-icon">✓</span>
-                        <span>Ambiente relajante</span>
-                    </div>
-                    <div class="masajes-feature">
-                        <span class="masajes-feature-icon">✓</span>
-                        <span>Productos naturales</span>
-                    </div>
-                    <div class="masajes-feature">
-                        <span class="masajes-feature-icon">✓</span>
-                        <span>Atención personalizada</span>
-                    </div>
-                </div>
-                <div class="masajes-info-video">
-                    <video autoplay muted loop playsinline class="masajes-video">
-                        <source src="assets/images/masaje.mp4" type="video/mp4">
-                        Tu navegador no soporta videos.
-                    </video>
-                </div>
-                <a href="calendario.html" class="masajes-info-btn">Reservar Cita</a>
-            </div>
-        </div>
-    </section>
+      <!-- Columna derecha: texto -->
+      <div class="nosotros-content">
+        <div class="nosotros-tag">— QUIÉNES SOMOS</div>
+        <h2 class="nosotros-title">
+          Más que una<br/>
+          <em>peluquería.</em>
+        </h2>
+        <p class="nosotros-text">
+          Somos un espacio donde el estilo se encuentra con la tradición. Desde nuestros inicios, hemos combinado técnicas clásicas con las últimas tendencias para ofrecerte una experiencia única en cada visita.
+        </p>
+        <p class="nosotros-text">
+          Nuestro equipo de profesionales está comprometido con la excelencia, utilizando productos de primera calidad para garantizar resultados que superen tus expectativas.
+        </p>
 
-    <!-- Course Section -->
-    <section class="course" id="course">
-        <div class="course-content">
-            <h2>Curso de Masajes</h2>
-            <p class="course-subtitle">¿Quieres empezar a generar ingresos desde tu casa o local?</p>
-            <p class="course-duration">3 clases intensivas</p>
-            <div class="course-buttons">
-                <a href="https://wa.me/59895780167?text=Hola,%20me%20gustaría%20inscribirme%20al%20curso%20de%20masajes" target="_blank" class="course-btn primary">Inscribirse</a>
-                <a href="https://wa.me/59895780167?text=Hola,%20me%20gustaría%20recibir%20más%20información%20sobre%20el%20curso%20de%20masajes" target="_blank" class="course-btn secondary">Más información</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Clients Section -->
-    <section class="clients" id="clients">
-        <div class="clients-header">
-            <h2>Nuestros Clientes</h2>
-            <p class="clients-header-subtitle">El mejor respaldo es la confianza de quienes confían en nosotros</p>
+        <div class="nosotros-stats">
+          <div class="stat">
+            <span class="stat-number">+10</span>
+            <span class="stat-label">Años de<br/>experiencia</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-number">+500</span>
+            <span class="stat-label">Clientes<br/>satisfechos</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Profesionales<br/>certificados</span>
+          </div>
         </div>
 
-        <div class="clients-category">
-            <div class="clients-category-header">
-                <h3>Peluquería</h3>
-                <button class="clients-expand-btn" aria-label="Ver más"></button>
-                <div class="clients-category-line"></div>
-            </div>
-            <div class="clients-grid">
-                <div class="client-card">
-                    <img src="assets/images/clientes/pelo/pelo1.jpg" alt="Peluquería 1">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Corte &amp; Estilo</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/pelo/pelo2.jpg" alt="Peluquería 2">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Coloración</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/pelo/pelo3.jpg" alt="Peluquería 3">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Peinado</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/pelo/pelo6.jpeg" alt="Peluquería 4">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Tratamiento</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/pelo/pelo7.webp" alt="Peluquería 5">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Corte Moderno</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/pelo/pelo8.jpeg" alt="Peluquería 6">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Mechas</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/pelo/pelo9.jpeg" alt="Peluquería 7">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Alisado</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/pelo/pelo10.jpeg" alt="Peluquería 8">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Baño de Crema</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/pelo/pelo11.jpeg" alt="Peluquería 9">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Corte Dama</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="clients-category">
-            <div class="clients-category-header">
-                <h3>Uñas</h3>
-                <button class="clients-expand-btn" aria-label="Ver más"></button>
-                <div class="clients-category-line"></div>
-            </div>
-            <div class="clients-grid">
-                <div class="client-card">
-                    <img src="assets/images/clientes/uñas/uñas1.png" alt="Uñas 1">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Esmaltado</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/uñas/uñas2.png" alt="Uñas 2">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Semipermanente</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/uñas/uñas3.png" alt="Uñas 3">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Esculpidas</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/uñas/uñas4.png" alt="Uñas 4">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Nail Art</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/uñas/uñas5.png" alt="Uñas 5">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Capping</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/uñas/uñas6.png" alt="Uñas 6">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Kapping Gel</span>
-                    </div>
-                </div>
-                <div class="client-card">
-                    <img src="assets/images/clientes/uñas/uñas7.png" alt="Uñas 7">
-                    <div class="client-card-overlay">
-                        <span class="client-card-tag">Diseño</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Curso</h3>
-                <ul>
-                    <li><a href="#course">Curso de Masajes</a></li>
-                    <li><a href="#contact">Inscribirse</a></li>
-                    <li><a href="#contact">Más Información</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Información</h3>
-                <ul>
-                    <li><a href="#">Contacto</a></li>
-                    <li><a href="calendario.html">Reserva</a></li>
-                    <li><a href="#masajes-info">Masajes</a></li>
-                    <li><a href="#hours">Nuestro Local</a></li>
-                    <li><a href="https://www.google.com/maps/place/Martin+Ferreira+-+Peluquer%C3%ADa+unisex/@-34.9064248,-56.1803131,17z/data=!4m16!1m9!3m8!1s0x959f81b6b15d26af:0xd63f14a8b1743fc1!2sMartin+Ferreira+-+Peluquer%C3%ADa+unisex!8m2!3d-34.9064248!4d-56.1777382!9m1!1b1!16s%2Fg%2F11f3fxghvv!3m5!1s0x959f81b6b15d26af:0xd63f14a8b1743fc1!8m2!3d-34.9064248!4d-56.1777382!16s%2Fg%2F11f3fxghvv?entry=ttu&g_ep=EgoyMDI6MDQyOS4wIKXMDSoASAFQAw%3D%3D" target="_blank">Ubicación</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Ubicación</h3>
-                <div class="footer-map">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3271.789123456789!2d-56.1803131!3d-34.9064248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f81b6b15d26af%3A0xd63f14a8b1743fc1!2sMartin%20Ferreira%20-%20Peluquer%C3%ADa%20unisex!5e0!3m2!1ses!2suy!4v1700000000000!5m2!1ses!2suy"
-                        width="100%"
-                        height="200"
-                        style="border:0; border-radius: 8px;"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3>Contacto</h3>
-                <div class="footer-contact">
-                    <p>Constituyente 1787, Montevideo</p>
-                    <p>Tel: <a href="https://wa.me/59895780167" target="_blank" style="color: #25D366; text-decoration: none; font-weight: 600;">095780167</a></p>
-                    <p style="margin-top: 8px;"><a href="#hours" style="color: #fff; text-decoration: none;"><strong>Nuestro Local</strong></a></p>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 Martin Ferreira. Todos los derechos reservados.</p>
-            <div class="payment-methods">
-                <span>Débito/Crédito</span>
-                <span>Efectivo</span>
-            </div>
-        </div>
-    </footer>
+        <a href="#" class="nosotros-cta">VER SERVICIOS</a>
+      </div>
 
     </div>
 
-    <!-- Product Catalog Section -->
-    <section class="product-catalog" id="productCatalog">
-        <div class="catalog-header">
-            <h2>Catálogo de Productos</h2>
-            <button class="catalog-close" id="catalogClose">Volver</button>
-        </div>
-        <div class="catalog-grid">
-            <!-- Product 1 -->
-            <div class="catalog-product-card" data-product-id="1">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/keratin.jpeg" alt="Fidelité Smooth & Repair Keratin">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Fidelité</div>
-                    <div class="catalog-product-name">Smooth & Repair Keratin (Shampoo y Acondicionador)</div>
-                    <div class="catalog-product-description">Tratamiento reestructurante con keratina diseñado para reparar el cabello dañado, eliminar el frizz y aportar suavidad de nivel profesional.</div>
-                    <div class="catalog-product-price">$690 c/u</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
+    <div class="scroll-down scroll-down--section" data-target="2" style="background: transparent">
+      <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+    </div>
+  </section>
 
-            <!-- Product 2 -->
-            <div class="catalog-product-card" data-product-id="2">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/blondesse.jpeg" alt="Inebrya Blondesse No-Yellow">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Inebrya</div>
-                    <div class="catalog-product-name">Blondesse No-Yellow (Shampoo y Máscara)</div>
-                    <div class="catalog-product-description">Tratamiento matizador profesional que neutraliza reflejos amarillos en cabellos rubios, decolorados o grises, devolviéndoles un tono frío y luminoso.</div>
-                    <div class="catalog-product-price">$1900</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
+  <!-- ========================
+       NUESTROS CLIENTES
+       ======================== -->
+  <section class="clientes" data-section="2">
 
-            <!-- Product 3 -->
-            <div class="catalog-product-card" data-product-id="3">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/colormaster.jpeg" alt="Fidelité Colormaster Color Care System">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Fidelité</div>
-                    <div class="catalog-product-name">Colormaster Color Care System (Shampoo Extra Ácido y Acondicionador Cremoso)</div>
-                    <div class="catalog-product-description">Productos de pH ácido diseñados para cerrar la cutícula capilar, sellar el color tras la tintura y aportar brillo intenso.</div>
-                    <div class="catalog-product-price">$690 c/u</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
-
-            <!-- Product 4 -->
-            <div class="catalog-product-card" data-product-id="4">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/styling.jpeg" alt="Fidelité Styling Gel Natural Fix">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Fidelité</div>
-                    <div class="catalog-product-name">Styling Gel Natural Fix (Efecto Húmedo)</div>
-                    <div class="catalog-product-description">Gel modelador de fijación natural que permite peinar y dar forma al cabello manteniendo un aspecto brillante y húmedo.</div>
-                    <div class="catalog-product-price">$590</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
-
-            <!-- Product 5 -->
-            <div class="catalog-product-card" data-product-id="5">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/bigbarber.jpeg" alt="Big Barber Pó Modelador y Cera Matte Creme">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Big Barber</div>
-                    <div class="catalog-product-name">Pó Modelador y Cera Matte Creme</div>
-                    <div class="catalog-product-description">Productos de estilismo masculino para dar textura, volumen y fijación fuerte con un acabado natural mate sin dejar residuos.</div>
-                    <div class="catalog-product-price">$650 c/u</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
-
-            <!-- Product 6 -->
-            <div class="catalog-product-card" data-product-id="6">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/revlon.jpeg" alt="Revlon Professional 45 Days Total Color Care">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Revlon Professional</div>
-                    <div class="catalog-product-name">45 Days Total Color Care</div>
-                    <div class="catalog-product-description">Shampoo y acondicionador 2 en 1 sin sulfatos que protege y mantiene la intensidad del color según el tono.</div>
-                    <div class="catalog-product-price">$900 c/u</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
-
-            <!-- Product 7 -->
-            <div class="catalog-product-card" data-product-id="7">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/uniqone.jpeg" alt="Revlon Professional UniqOne Duo Pack">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Revlon Professional</div>
-                    <div class="catalog-product-name">UniqOne Duo Pack</div>
-                    <div class="catalog-product-description">Tratamiento multibeneficio sin aclarado que ofrece 10 efectos reales: repara, aporta brillo, protege del calor y facilita el peinado.</div>
-                    <div class="catalog-product-price">$1200</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
-
-            <!-- Product 8 -->
-            <div class="catalog-product-card" data-product-id="8">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/moisturizer.jpeg" alt="Revlon Professional Pro You The Moisturizer">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Revlon Professional</div>
-                    <div class="catalog-product-name">Pro You The Moisturizer (Hydrating Mask)</div>
-                    <div class="catalog-product-description">Mascarilla de hidratación profunda para todo tipo de cabello que aporta suavidad, manejabilidad y brillo intenso de forma inmediata.</div>
-                    <div class="catalog-product-price">$1150</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
-
-            <!-- Product 9 -->
-            <div class="catalog-product-card" data-product-id="9">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/proyou.jpeg" alt="Revlon Professional Pro You The Keeper">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Revlon Professional</div>
-                    <div class="catalog-product-name">Pro You The Keeper (Color Care Mask)</div>
-                    <div class="catalog-product-description">Mascarilla protectora para cabellos teñidos que sella el color, previene el desvanecimiento y realza el brillo de forma duradera.</div>
-                    <div class="catalog-product-price">$1150</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
-
-            <!-- Product 10 -->
-            <div class="catalog-product-card" data-product-id="10">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/argan.jpeg" alt="Fidelité Argan Mythical Elixir Oil">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Fidelité</div>
-                    <div class="catalog-product-name">Argan Mythical Elixir Oil</div>
-                    <div class="catalog-product-description">Aceite de argán multifunción que nutre profundamente, aporta brillo sedoso y protege el cabello sin dejar sensación grasosa.</div>
-                    <div class="catalog-product-price">$890</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
-
-            <!-- Product 11 -->
-            <div class="catalog-product-card" data-product-id="11">
-                <div class="catalog-product-image">
-                    <img src="assets/images/productos/konect.jpeg" alt="Konect Cosmetics BR Progressive">
-                </div>
-                <div class="catalog-product-info">
-                    <div class="catalog-product-brand">Konect Cosmetics</div>
-                    <div class="catalog-product-name">BR Progressive (Shampoo & Conditioner Anti Frizz)</div>
-                    <div class="catalog-product-description">Línea profesional de cuidado capilar diseñada para ayudar a reducir el frizz, aportar suavidad y mejorar la apariencia del cabello.</div>
-                    <div class="catalog-product-price">$650 c/u</div>
-                    <button class="catalog-product-add">Añadir al carrito</button>
-                </div>
-            </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product Modal -->
-    <div class="product-modal" id="productModal">
-        <div class="product-modal-overlay" id="productModalOverlay"></div>
-        <div class="product-modal-content">
-            <button class="product-modal-close" id="productModalClose">✕</button>
-            <div class="product-modal-body">
-                <div class="product-modal-image">
-                    <img src="" alt="" id="modalProductImage">
-                </div>
-                <div class="product-modal-info">
-                    <h3 class="product-modal-brand" id="modalProductBrand"></h3>
-                    <h2 class="product-modal-name" id="modalProductName"></h2>
-                    <p class="product-modal-price" id="modalProductPrice"></p>
-                    <p class="product-modal-description" id="modalProductDescription"></p>
-                    <button class="product-modal-add-btn" id="modalProductAddBtn">Añadir al carrito</button>
-                </div>
-            </div>
-        </div>
+    <div class="scroll-down--section --up" data-target="1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
     </div>
 
-    <!-- Shopping Cart Modal -->
-    <div class="cart-modal" id="cartModal">
-        <div class="cart-modal-overlay" id="cartModalOverlay"></div>
-        <div class="cart-modal-content">
-            <div class="cart-header">
-                <h2>Tu Carrito</h2>
-                <button class="cart-close" id="cartClose">✕</button>
-            </div>
-            <div class="cart-body" id="cartBody">
-                <!-- Cart items will be rendered here -->
-            </div>
-            <div class="cart-footer" id="cartFooter">
-                <!-- Cart footer will be rendered here -->
-            </div>
+    <div class="dot-nav dot-nav--clientes">
+      <span class="dot" data-target="0"></span>
+      <span class="dot" data-target="1"></span>
+      <span class="dot active" data-target="2"></span>
+    </div>
+
+    <div class="clientes-inner">
+
+      <!-- Encabezado -->
+      <div class="clientes-header">
+        <p class="clientes-tag">— NUESTRA COMUNIDAD</p>
+        <h2 class="clientes-title">Nuestros <em>Clientes</em></h2>
+        <p class="clientes-subtitle">Cada corte cuenta una historia. Estas son las personas que confían en nosotros.</p>
+      </div>
+
+      <!-- Grid de fotos -->
+      <div class="clientes-grid">
+
+        <div class="cliente-card cliente-card--large">
+          <div class="cliente-photo" style="background-image: url('assets/images/clientes/cliente1.webp');"></div>
+          <div class="cliente-info">
+            <span class="cliente-nombre">Martín R.</span>
+            <span class="cliente-detalle">Cliente desde 2019</span>
+          </div>
         </div>
+
+        <div class="cliente-card">
+          <div class="cliente-photo" style="background-image: url('assets/images/clientes/cliente2.webp');"></div>
+          <div class="cliente-info">
+            <span class="cliente-nombre">Sebastián L.</span>
+            <span class="cliente-detalle">Cliente desde 2021</span>
+          </div>
+        </div>
+
+        <div class="cliente-card">
+          <div class="cliente-photo" style="background-image: url('assets/images/clientes/cliente3.webp');"></div>
+          <div class="cliente-info">
+            <span class="cliente-nombre">Diego M.</span>
+            <span class="cliente-detalle">Cliente desde 2020</span>
+          </div>
+        </div>
+
+        <div class="cliente-card">
+          <div class="cliente-photo" style="background-image: url('assets/images/clientes/cliente4.webp');"></div>
+          <div class="cliente-info">
+            <span class="cliente-nombre">Andrés P.</span>
+            <span class="cliente-detalle">Cliente desde 2022</span>
+          </div>
+        </div>
+
+        <div class="cliente-card">
+          <div class="cliente-photo" style="background-image: url('assets/images/clientes/cliente5.webp');"></div>
+          <div class="cliente-info">
+            <span class="cliente-nombre">Lucas F.</span>
+            <span class="cliente-detalle">Cliente desde 2023</span>
+          </div>
+        </div>
+
+        <div class="cliente-card cliente-card--cta">
+          <div class="cliente-cta-content">
+            <span class="cliente-cta-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            <p class="cliente-cta-text">¿Querés ser parte?</p>
+            <a href="calendario.html" class="cliente-cta-btn">RESERVAR TURNO</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Dots carrusel móvil -->
+      <div class="clientes-carousel-dots" id="clientesDots"></div>
+
+      <!-- Testimonio destacado -->
+      <div class="clientes-testimonial">
+        <span class="testimonial-quote">"</span>
+        <p class="testimonial-text">El mejor lugar para cuidarte. Atención personalizada, ambiente increíble y resultados que superan las expectativas.</p>
+        <span class="testimonial-autor">— Federico G., cliente frecuente</span>
+      </div>
+
     </div>
+  </section>
 
-    <!-- Cart Icon -->
-    <div class="cart-icon" id="cartIcon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
-        </svg>
-        <div class="cart-count" id="cartCount">0</div>
-    </div>
+</div><!-- /.page-wrapper -->
 
-    <script>
-        // Hamburger menu toggle
-        const hamburger = document.getElementById('hamburger');
-        const mobileNav = document.getElementById('mobileNav');
+<script>
+  // ---- Video play/pause ----
+  const video = document.getElementById('hero-video');
+  const btn = document.getElementById('play-btn');
+  const svg = btn.querySelector('svg');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
 
-        hamburger.addEventListener('click', function() {
-            this.classList.toggle('active');
-            mobileNav.classList.toggle('active');
-            document.querySelector('.page-wrapper').style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+  function setIcon(playing) {
+    svg.innerHTML = playing
+      ? '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>'
+      : '<polygon points="5,3 19,12 5,21"/>';
+  }
+
+  video.play().then(() => setIcon(true)).catch(() => {});
+
+  btn.addEventListener('click', () => {
+    if (video.paused) { video.play(); setIcon(true); }
+    else { video.pause(); setIcon(false); }
+  });
+
+  // ---- Hamburger ----
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('open');
+    document.body.classList.toggle('menu-open');
+  });
+
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+      document.body.classList.remove('menu-open');
+    });
+  });
+
+  // ---- Scroll snap + dot navigation ----
+  const wrapper = document.querySelector('.page-wrapper');
+  const sections = document.querySelectorAll('[data-section]');
+  const allDotSets = document.querySelectorAll('.dot-nav');
+
+  function goToSection(index) {
+    sections[index].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Clicks en dots
+  document.querySelectorAll('.dot[data-target]').forEach(dot => {
+    dot.addEventListener('click', () => {
+      goToSection(parseInt(dot.dataset.target));
+    });
+  });
+
+  // Click en hero dots (sin data-target, índice por posición)
+  const heroDots = document.querySelectorAll('.hero .dot-nav .dot');
+  heroDots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goToSection(i));
+  });
+
+  // Actualizar dots activos al hacer scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = parseInt(entry.target.dataset.section);
+        // actualizar todos los dot sets
+        document.querySelectorAll('.dot-nav').forEach(nav => {
+          nav.querySelectorAll('.dot').forEach((d, i) => {
+            d.classList.toggle('active', i === idx);
+          });
         });
-
-        // Close mobile nav when clicking a link
-        mobileNav.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', function() {
-                hamburger.classList.remove('active');
-                mobileNav.classList.remove('active');
-                document.querySelector('.page-wrapper').style.overflow = '';
-            });
-        });
-
-        // Course section background carousel
-        let currentCourseImage = 0;
-        const courseImages = [
-            'assets/images/curso/masaje1.webp',
-            'assets/images/curso/masaje2.webp',
-        ];
-
-        function updateCourseBackground() {
-            const courseSection = document.getElementById('course');
-            courseSection.style.backgroundImage = `url('${courseImages[currentCourseImage]}')`;
-        }
-
-        function nextCourseImage() {
-            currentCourseImage = (currentCourseImage + 1) % courseImages.length;
-            updateCourseBackground();
-        }
-
-        // Initialize course background
-        updateCourseBackground();
-
-        // Auto-change course background every 5 seconds
-        setInterval(nextCourseImage, 5000);
-
-        // Shop section carousel
-        function initShopRow(rowEl) {
-            const grid = rowEl.querySelector('.shop-products-grid');
-            const prevBtn = rowEl.querySelector('.prev');
-            const nextBtn = rowEl.querySelector('.next');
-            const totalItems = grid.children.length;
-            let currentSlide = 0;
-
-            function getPerSlide() {
-                return window.innerWidth <= 768 ? 2 : 3;
-            }
-
-            function update() {
-                const perSlide = getPerSlide();
-                const maxSlide = Math.max(0, Math.ceil(totalItems / perSlide) - 1);
-                if (currentSlide > maxSlide) currentSlide = 0;
-                if (currentSlide < 0) currentSlide = maxSlide;
-                grid.style.transform = `translateX(-${currentSlide * 100}%)`;
-            }
-
-            prevBtn.addEventListener('click', () => { currentSlide--; update(); });
-            nextBtn.addEventListener('click', () => { currentSlide++; update(); });
-
-            let prevPerSlide = getPerSlide();
-            window.addEventListener('resize', () => {
-                const perSlide = getPerSlide();
-                if (perSlide !== prevPerSlide) {
-                    prevPerSlide = perSlide;
-                    currentSlide = 0;
-                    update();
-                }
-            });
-
-            update();
-        }
-
-        document.querySelectorAll('.shop-row').forEach(initShopRow);
-
-        // Client expand/collapse toggle for mobile
-        document.querySelectorAll('.clients-expand-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const category = btn.closest('.clients-category');
-                category.classList.toggle('expanded');
-                btn.classList.toggle('expanded');
-            });
-        });
-
-        // Header hide/show on scroll
-        const pageWrapper = document.querySelector('.page-wrapper');
-        const header = document.querySelector('header');
-
-        pageWrapper.addEventListener('scroll', () => {
-            header.classList.toggle('header-hidden', pageWrapper.scrollTop > 0);
-        });
-
-        // Product Modal functionality
-        const productModal = document.getElementById('productModal');
-        const productModalOverlay = document.getElementById('productModalOverlay');
-        const productModalClose = document.getElementById('productModalClose');
-
-        // Product data from productos.md
-        const productsData = {
-            1: {
-                id: 1,
-                brand: 'Fidelité',
-                name: 'Smooth & Repair Keratin (Shampoo y Acondicionador)',
-                description: 'Tratamiento reestructurante con keratina diseñado para reparar el cabello dañado, eliminar el frizz y aportar suavidad de nivel profesional.',
-                image: 'assets/images/productos/keratin.jpeg',
-                price: '$690 c/u'
-            },
-            2: {
-                id: 2,
-                brand: 'Inebrya',
-                name: 'Blondesse No-Yellow (Shampoo y Máscara)',
-                description: 'Tratamiento matizador profesional que neutraliza reflejos amarillos en cabellos rubios, decolorados o grises, devolviéndoles un tono frío y luminoso.',
-                image: 'assets/images/productos/blondesse.jpeg',
-                price: '$1900'
-            },
-            3: {
-                id: 3,
-                brand: 'Fidelité',
-                name: 'Colormaster Color Care System (Shampoo Extra Ácido y Acondicionador Cremoso)',
-                description: 'Productos de pH ácido diseñados para cerrar la cutícula capilar, sellar el color tras la tintura y aportar brillo intenso.',
-                image: 'assets/images/productos/colormaster.jpeg',
-                price: '$690 c/u'
-            },
-            4: {
-                id: 4,
-                brand: 'Fidelité',
-                name: 'Styling Gel Natural Fix (Efecto Húmedo)',
-                description: 'Gel modelador de fijación natural que permite peinar y dar forma al cabello manteniendo un aspecto brillante y húmedo.',
-                image: 'assets/images/productos/styling.jpeg',
-                price: '$590'
-            },
-            5: {
-                id: 5,
-                brand: 'Big Barber',
-                name: 'Pó Modelador y Cera Matte Creme',
-                description: 'Productos de estilismo masculino para dar textura, volumen y fijación fuerte con un acabado natural mate sin dejar residuos.',
-                image: 'assets/images/productos/bigbarber.jpeg',
-                price: '$650 c/u'
-            },
-            6: {
-                id: 6,
-                brand: 'Revlon Professional',
-                name: '45 Days Total Color Care (Shampoo y Acondicionador 2 en 1)',
-                description: 'Shampoo y acondicionador 2 en 1 sin sulfatos que protege y mantiene la intensidad del color según el tono.',
-                image: 'assets/images/productos/revlon.jpeg',
-                price: '$900 c/u'
-            },
-            7: {
-                id: 7,
-                brand: 'Revlon Professional',
-                name: 'UniqOne Duo Pack',
-                description: 'Tratamiento multibeneficio sin aclarado que ofrece 10 efectos reales: repara, aporta brillo, protege del calor y facilita el peinado.',
-                image: 'assets/images/productos/uniqone.jpeg',
-                price: '$1200'
-            },
-            8: {
-                id: 8,
-                brand: 'Revlon Professional',
-                name: 'Pro You The Moisturizer (Hydrating Mask)',
-                description: 'Mascarilla de hidratación profunda para todo tipo de cabello que aporta suavidad, manejabilidad y brillo intenso de forma inmediata.',
-                image: 'assets/images/productos/moisturizer.jpeg',
-                price: '$1150'
-            },
-            9: {
-                id: 9,
-                brand: 'Revlon Professional',
-                name: 'Pro You The Keeper (Color Care Mask)',
-                description: 'Mascarilla protectora para cabellos teñidos que sella el color, previene el desvanecimiento y realza el brillo de forma duradera.',
-                image: 'assets/images/productos/proyou.jpeg',
-                price: '$1150'
-            },
-            10: {
-                id: 10,
-                brand: 'Fidelité',
-                name: 'Argan Mythical Elixir Oil',
-                description: 'Aceite de argán multifunción que nutre profundamente, aporta brillo sedoso y protege el cabello sin dejar sensación grasosa.',
-                image: 'assets/images/productos/argan.jpeg',
-                price: '$890'
-            },
-            11: {
-                id: 11,
-                brand: 'Konect Cosmetics',
-                name: 'BR Progressive (Shampoo & Conditioner Anti Frizz)',
-                description: 'Línea profesional de cuidado capilar diseñada para ayudar a reducir el frizz, aportar suavidad y mejorar la apariencia del cabello.',
-                image: 'assets/images/productos/konect.jpeg',
-                price: '$650 c/u'
-            }
-        };
-
-        function openProductModal() {
-            productModal.classList.add('active');
-            document.querySelector('.page-wrapper').style.overflow = 'hidden'; // Prevent background scrolling
-        }
-
-        function closeProductModal() {
-            productModal.classList.remove('active');
-            document.querySelector('.page-wrapper').style.overflow = ''; // Restore scrolling
-        }
-
-        // Function to populate modal with product data
-        function showProductModal(productId) {
-            const product = productsData[productId];
-            if (!product) return;
-
-            // Update modal content
-            document.getElementById('modalProductImage').src = product.image;
-            document.getElementById('modalProductImage').alt = product.name;
-            document.getElementById('modalProductBrand').textContent = product.brand;
-            document.getElementById('modalProductName').textContent = product.name;
-            document.getElementById('modalProductPrice').textContent = product.price || '';
-            document.getElementById('modalProductDescription').textContent = product.description;
-
-            // Open modal
-            openProductModal();
-        }
-
-        // Add click event listeners to all product cards
-        document.querySelectorAll('.shop-product-card').forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', (e) => {
-                if (e.target.classList.contains('shop-product-add')) return;
-                const productId = parseInt(card.dataset.productId);
-                showProductModal(productId);
-            });
-        });
-
-        // Connect "Añadir al carrito" buttons in shop
-        document.querySelectorAll('.shop-product-add').forEach((button, index) => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const productId = index + 1;
-                addToCart(productId);
-            });
-        });
-
-        // Close modal when clicking overlay
-        productModalOverlay.addEventListener('click', closeProductModal);
-
-        // Close modal when clicking close button
-        productModalClose.addEventListener('click', closeProductModal);
-
-        // Close modal when pressing Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && productModal.classList.contains('active')) {
-                closeProductModal();
-            }
-        });
-
-        // Product Catalog functionality
-        const productCatalog = document.getElementById('productCatalog');
-        const viewAllProductsBtn = document.getElementById('viewAllProductsBtn');
-        const catalogClose = document.getElementById('catalogClose');
-        let previousScrollPosition = 0;
-
-        function openProductCatalog() {
-            // Save current scroll position
-            previousScrollPosition = document.querySelector('.page-wrapper').scrollTop;
-
-            // Open catalog
-            productCatalog.classList.add('active');
-            document.querySelector('.page-wrapper').style.overflow = 'hidden'; // Prevent background scrolling
-
-            // Scroll catalog to top
-            productCatalog.scrollTop = 0;
-        }
-
-        function closeProductCatalog() {
-            // Close catalog
-            productCatalog.classList.remove('active');
-            document.querySelector('.page-wrapper').style.overflow = ''; // Restore scrolling
-
-            // Scroll back to shop section
-            const wrapper = document.querySelector('.page-wrapper');
-            const shopSection = document.getElementById('shop');
-            if (shopSection && wrapper) {
-                wrapper.scrollTo({
-                    top: shopSection.offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        // Open catalog when clicking "Ver todos los productos"
-        viewAllProductsBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openProductCatalog();
-        });
-
-        // Open catalog when clicking "Tienda" button in hero
-        const heroShopBtn = document.getElementById('heroShopBtn');
-        if (heroShopBtn) {
-            heroShopBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openProductCatalog();
-            });
-        }
-
-        // Close catalog when clicking "Volver" button
-        catalogClose.addEventListener('click', closeProductCatalog);
-
-        // Close catalog when pressing Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && productCatalog.classList.contains('active')) {
-                closeProductCatalog();
-            }
-        });
-
-        // Add click event listeners to catalog product cards
-        document.querySelectorAll('.catalog-product-card').forEach(card => {
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', (e) => {
-                // Don't open modal if clicking the "Añadir al carrito" button
-                if (e.target.classList.contains('catalog-product-add')) {
-                    return;
-                }
-
-                const productId = parseInt(card.dataset.productId);
-                showProductModal(productId);
-            });
-        });
-
-        // ==================== SHOPPING CART FUNCTIONALITY ====================
-
-        // Cart data structure
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        // Save cart to localStorage
-        function saveCart() {
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-        }
-
-        // Update cart count
-        function updateCartCount() {
-            const count = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cartCount').textContent = count;
-
-            // Show/hide cart icon based on cart content
-            const cartIcon = document.getElementById('cartIcon');
-            if (count > 0) {
-                cartIcon.style.display = 'flex';
-            } else {
-                cartIcon.style.display = 'none';
-            }
-        }
-
-        // Add product to cart
-        function addToCart(productId) {
-            const product = productsData[productId];
-            if (!product) return;
-
-            const existingItem = cart.find(item => item.id === productId);
-
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    id: product.id,
-                    name: product.name,
-                    brand: product.brand,
-                    image: product.image,
-                    quantity: 1
-                });
-            }
-
-            saveCart();
-            showNotification('Producto añadido al carrito');
-        }
-
-        // Remove product from cart
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            saveCart();
-            renderCart();
-        }
-
-        // Update product quantity
-        function updateQuantity(productId, change) {
-            const item = cart.find(item => item.id === productId);
-            if (!item) return;
-
-            item.quantity += change;
-
-            if (item.quantity <= 0) {
-                removeFromCart(productId);
-            } else {
-                saveCart();
-                renderCart();
-            }
-        }
-
-        // Get cart total
-        function getCartTotal() {
-            return cart.reduce((total, item) => total + item.quantity, 0);
-        }
-
-        // Render cart
-        function renderCart() {
-            const cartBody = document.getElementById('cartBody');
-            const cartFooter = document.getElementById('cartFooter');
-
-            if (cart.length === 0) {
-                cartBody.innerHTML = `
-                    <div class="cart-empty">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
-                        </svg>
-                        <p>Tu carrito está vacío</p>
-                    </div>
-                `;
-                cartFooter.innerHTML = '';
-                return;
-            }
-
-            // Render cart items
-            cartBody.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div class="cart-item-image">
-                        <img src="${item.image}" alt="${item.name}">
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="cart-item-brand">${item.brand}</div>
-                        <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-controls">
-                            <div class="cart-item-quantity">
-                                <button class="cart-quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                                <span class="cart-quantity-value">${item.quantity}</span>
-                                <button class="cart-quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                            </div>
-                            <button class="cart-item-remove" onclick="removeFromCart(${item.id})">✕</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            // Render cart footer with checkout form
-            const totalItems = getCartTotal();
-            cartFooter.innerHTML = `
-                <div class="cart-total">
-                    <span class="cart-total-label">Total de productos:</span>
-                    <span class="cart-total-value">${totalItems} ${totalItems === 1 ? 'producto' : 'productos'}</span>
-                </div>
-                <div class="cart-checkout-form">
-                    <div class="cart-form-group">
-                        <label for="checkoutName">Nombre *</label>
-                        <input type="text" id="checkoutName" placeholder="Tu nombre completo" required>
-                        <div class="cart-form-error" id="nameError"></div>
-                    </div>
-                    <div class="cart-form-group">
-                        <label for="checkoutPhone">Teléfono (9 dígitos) *</label>
-                        <input type="tel" id="checkoutPhone" placeholder="091234567" maxlength="9" required>
-                        <div class="cart-form-error" id="phoneError"></div>
-                    </div>
-                    <button class="cart-checkout-btn" id="checkoutBtn" onclick="processCheckout()">
-                        Enviar pedido
-                    </button>
-                    <div class="cart-payment-divider">o paga online</div>
-                    <button class="cart-dlocal-btn" id="dlocalBtn" onclick="processDlocalGoPayment()">
-                        Pagar con Tarjeta
-                    </button>
-                </div>
-            `;
-        }
-
-        // Show notification
-        function showNotification(message) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                bottom: 100px;
-                right: 30px;
-                background: #27ae60;
-                color: white;
-                padding: 15px 25px;
-                border-radius: 4px;
-                z-index: 3000;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-                animation: slideIn 0.3s ease-out;
-            `;
-            notification.textContent = message;
-
-            // Add animation keyframes
-            if (!document.getElementById('notificationStyles')) {
-                const style = document.createElement('style');
-                style.id = 'notificationStyles';
-                style.textContent = `
-                    @keyframes slideIn {
-                        from {
-                            transform: translateX(100%);
-                            opacity: 0;
-                        }
-                        to {
-                            transform: translateX(0);
-                            opacity: 1;
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-
-            document.body.appendChild(notification);
-
-            // Remove notification after 3 seconds
-            setTimeout(() => {
-                notification.style.animation = 'slideIn 0.3s ease-out reverse';
-                setTimeout(() => notification.remove(), 300);
-            }, 3000);
-        }
-
-        // Cart modal functionality
-        const cartModal = document.getElementById('cartModal');
-        const cartModalOverlay = document.getElementById('cartModalOverlay');
-        const cartClose = document.getElementById('cartClose');
-        const cartIcon = document.getElementById('cartIcon');
-
-        function openCart() {
-            cartModal.classList.add('active');
-            document.querySelector('.page-wrapper').style.overflow = 'hidden';
-            renderCart();
-        }
-
-        function closeCart() {
-            cartModal.classList.remove('active');
-            document.querySelector('.page-wrapper').style.overflow = '';
-        }
-
-        cartIcon.addEventListener('click', openCart);
-        cartModalOverlay.addEventListener('click', closeCart);
-        cartClose.addEventListener('click', closeCart);
-
-        // Close cart when pressing Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && cartModal.classList.contains('active')) {
-                closeCart();
-            }
-        });
-
-        // Process checkout
-        async function processCheckout() {
-            const nameInput = document.getElementById('checkoutName');
-            const phoneInput = document.getElementById('checkoutPhone');
-            const nameError = document.getElementById('nameError');
-            const phoneError = document.getElementById('phoneError');
-            const checkoutBtn = document.getElementById('checkoutBtn');
-
-            // Reset errors
-            nameError.textContent = '';
-            phoneError.textContent = '';
-            nameInput.classList.remove('error');
-            phoneInput.classList.remove('error');
-
-            // Validate name
-            if (!nameInput.value.trim()) {
-                nameError.textContent = 'Por favor ingresa tu nombre';
-                nameInput.classList.add('error');
-                return;
-            }
-
-            // Validate phone (9 digits)
-            const phoneRegex = /^[0-9]{9}$/;
-            if (!phoneRegex.test(phoneInput.value.trim())) {
-                phoneError.textContent = 'Por favor ingresa un número de teléfono válido de 9 dígitos';
-                phoneInput.classList.add('error');
-                return;
-            }
-
-            // Disable button and show loading state
-            checkoutBtn.disabled = true;
-            checkoutBtn.textContent = 'Enviando...';
-
-            try {
-                // Generate WhatsApp message
-                const message = generateCartMessage(nameInput.value.trim(), phoneInput.value.trim());
-
-                console.log('Mensaje generado:', message);
-
-                // Send WhatsApp message using Ultramsg
-                const result = await sendWhatsAppMessage(phoneInput.value.trim(), message);
-
-                console.log('Resultado del envío:', result);
-
-                if (result.success) {
-                    console.log('✅ Checkout exitoso');
-                    // Show success message
-                    showCartSuccess();
-                    // Clear cart
-                    cart = [];
-                    saveCart();
-                } else {
-                    console.error('❌ Error en checkout:', result.error);
-                    throw new Error(result.error || 'Error al enviar el mensaje');
-                }
-            } catch (error) {
-                console.error('Error processing checkout:', error);
-                console.error('Error message:', error.message);
-                console.error('Error stack:', error.stack);
-                alert('Hubo un error al procesar tu pedido. Por favor intenta nuevamente.');
-            } finally {
-                checkoutBtn.disabled = false;
-                checkoutBtn.textContent = 'Enviar pedido';
-            }
-        }
-
-        // Generate cart message for WhatsApp
-        function generateCartMessage(name, phone) {
-            let message = `🛒 *NUEVO PEDIDO - MARTIN FERREIRA PELUQUERÍA*\n\n`;
-            message += `👤 *Cliente:* ${name}\n`;
-            message += `📦 *Productos:*\n\n`;
-
-            cart.forEach((item, index) => {
-                message += `${index + 1}. *${item.brand}*\n`;
-                message += `   ${item.name}\n`;
-                message += `   Cantidad: ${item.quantity}\n\n`;
-            });
-
-            message += `📍 *Dirección:* Constituyente 1787, 11200 Montevideo\n`;
-            message += `✅ *Pedido recibido. Te contactaremos pronto para coordinar la entrega.*`;
-
-            return message;
-        }
-
-        // Send WhatsApp message using Ultramsg
-        async function sendWhatsAppMessage(phone, message) {
-            try {
-                // Format phone number
-                let formattedPhone = phone.replace(/[\s\-\(\)]/g, '');
-                if (!formattedPhone.startsWith('598')) {
-                    formattedPhone = '598' + formattedPhone;
-                }
-
-                const url = 'https://api.ultramsg.com/instance175174/messages/chat';
-
-                console.log('Enviando mensaje a:', formattedPhone);
-                console.log('Mensaje:', message);
-
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        token: '22buqtstxo87neek',
-                        to: formattedPhone,
-                        body: message
-                    })
-                });
-
-                console.log('Response status:', response.status);
-                console.log('Response ok:', response.ok);
-
-                if (!response.ok) {
-                    console.error('Error HTTP:', response.status, response.statusText);
-                    return { success: false, error: `Error HTTP: ${response.status}` };
-                }
-
-                const result = await response.json();
-
-                console.log('Ultramsg response completo:', result);
-                console.log('Sent:', result.sent);
-                console.log('Message:', result.message);
-
-                // Ultramsg devuelve {sent: 'true', message: 'ok', id: 41}
-                if (result.sent === 'true' || result.sent === true) {
-                    console.log('✅ Mensaje enviado exitosamente');
-                    return { success: true };
-                } else {
-                    console.log('❌ Error en el envío:', result);
-                    return { success: false, error: result.message || 'Error al enviar mensaje' };
-                }
-            } catch (error) {
-                console.error('Error sending WhatsApp message:', error);
-                console.error('Error details:', error.message, error.stack);
-                return { success: false, error: error.message };
-            }
-        }
-
-        // Process dLocal Go payment
-        async function processDlocalGoPayment() {
-            const nameInput = document.getElementById('checkoutName');
-            const phoneInput = document.getElementById('checkoutPhone');
-            const nameError = document.getElementById('nameError');
-            const phoneError = document.getElementById('phoneError');
-            const dlocalBtn = document.getElementById('dlocalBtn');
-
-            nameError.textContent = '';
-            phoneError.textContent = '';
-            nameInput.classList.remove('error');
-            phoneInput.classList.remove('error');
-
-            if (!nameInput.value.trim()) {
-                nameError.textContent = 'Por favor ingresa tu nombre';
-                nameInput.classList.add('error');
-                return;
-            }
-
-            const phoneRegex = /^[0-9]{9}$/;
-            if (!phoneRegex.test(phoneInput.value.trim())) {
-                phoneError.textContent = 'Por favor ingresa un número de teléfono válido de 9 dígitos';
-                phoneInput.classList.add('error');
-                return;
-            }
-
-            dlocalBtn.disabled = true;
-            dlocalBtn.textContent = 'Conectando con pasarela de pago...';
-
-            try {
-                const items = cart.map(item => ({
-                    id: item.id,
-                    brand: item.brand,
-                    name: item.name,
-                    price: item.price,
-                    quantity: item.quantity,
-                }));
-
-                const response = await fetch('https://us-central1-peluqueriamartin-beefb.cloudfunctions.net/createPayment', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        data: {
-                            items,
-                            customer: {
-                                name: nameInput.value.trim(),
-                                phone: phoneInput.value.trim(),
-                            },
-                        },
-                    }),
-                });
-
-                const result = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(result.error?.message || 'Error al procesar el pago');
-                }
-
-                const payment = result.result;
-
-                if (payment.redirectUrl) {
-                    // Clear cart
-                    cart = [];
-                    saveCart();
-                    updateCartCount();
-
-                    // Redirect to dLocal Go checkout
-                    window.location.href = payment.redirectUrl;
-                } else {
-                    throw new Error('No se pudo obtener la URL de pago');
-                }
-            } catch (error) {
-                console.error('Error en pago dLocal Go:', error);
-                alert('Hubo un error al procesar el pago: ' + error.message + '\n\nPor favor intenta nuevamente.');
-                dlocalBtn.disabled = false;
-                dlocalBtn.textContent = 'Pagar con dLocal Go';
-            }
-        }
-
-        // Show cart success message
-        function showCartSuccess() {
-            const cartBody = document.getElementById('cartBody');
-            const cartFooter = document.getElementById('cartFooter');
-
-            cartBody.innerHTML = `
-                <div class="cart-success-message">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    <h3>¡Pedido enviado con éxito!</h3>
-                    <p>Hemos enviado tu pedido por WhatsApp. Te contactaremos pronto para coordinar la entrega.</p>
-                    <button onclick="closeCart()">Cerrar</button>
-                </div>
-            `;
-            cartFooter.innerHTML = '';
-        }
-
-        // Connect "Añadir al carrito" buttons in catalog
-        document.querySelectorAll('.catalog-product-add').forEach((button, index) => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const productId = index + 1;
-                addToCart(productId);
-            });
-        });
-
-        // Connect "Añadir al carrito" button in product modal
-        const modalProductAddBtn = document.getElementById('modalProductAddBtn');
-        if (modalProductAddBtn) {
-            modalProductAddBtn.addEventListener('click', () => {
-                // Get current product ID from modal
-                const modalProductName = document.getElementById('modalProductName').textContent;
-                const product = Object.values(productsData).find(p => p.name === modalProductName);
-                if (product) {
-                    addToCart(product.id);
-                    closeProductModal();
-                }
-            });
-        }
-
-        // Initialize cart count on page load
-        updateCartCount();
-
-        // Make cart functions available globally
-        window.addToCart = addToCart;
-        window.removeFromCart = removeFromCart;
-        window.updateQuantity = updateQuantity;
-        window.processCheckout = processCheckout;
-        window.processDlocalGoPayment = processDlocalGoPayment;
-
-        // Auto-open catalog if redirected from reservation
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('openCatalog')) {
-            openProductCatalog();
-        }
-
-    </script>
+      }
+    });
+  }, { threshold: 0.5 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ---- Scroll down buttons ----
+  document.getElementById('hero-scroll-down').addEventListener('click', () => goToSection(1));
+
+  document.querySelectorAll('.scroll-down--section').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = parseInt(btn.dataset.target);
+      if (!isNaN(target)) goToSection(target);
+    });
+  });
+
+  // Scroll con rueda hacia siguiente/anterior sección
+  let isScrolling = false;
+  wrapper.addEventListener('wheel', (e) => {
+    if (isScrolling) return;
+    const current = [...sections].findIndex(s => {
+      const r = s.getBoundingClientRect();
+      return r.top >= -50 && r.top < window.innerHeight / 2;
+    });
+    const target = e.deltaY > 0
+      ? Math.min(current + 1, sections.length - 1)
+      : Math.max(current - 1, 0);
+    if (target !== current) {
+      isScrolling = true;
+      goToSection(target);
+      setTimeout(() => isScrolling = false, 800);
+    }
+  }, { passive: true });
+
+  // Soporte táctil (swipe)
+  let touchStartY = 0;
+  wrapper.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+  wrapper.addEventListener('touchend', e => {
+    const delta = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(delta) < 50) return;
+    const current = [...sections].findIndex(s => {
+      const r = s.getBoundingClientRect();
+      return r.top >= -50 && r.top < window.innerHeight / 2;
+    });
+    const target = delta > 0
+      ? Math.min(current + 1, sections.length - 1)
+      : Math.max(current - 1, 0);
+    goToSection(target);
+  }, { passive: true });
+
+  // ---- Carrusel de clientes (solo móvil ≤600px) ----
+  (function () {
+    const clientesData = [
+      { img: 'assets/images/clientes/cliente1.webp', nombre: 'Martín R.',    detalle: 'Cliente desde 2019' },
+      { img: 'assets/images/clientes/cliente2.webp', nombre: 'Sebastián L.', detalle: 'Cliente desde 2021' },
+      { img: 'assets/images/clientes/cliente3.webp', nombre: 'Diego M.',     detalle: 'Cliente desde 2020' },
+      { img: 'assets/images/clientes/cliente4.webp', nombre: 'Andrés P.',    detalle: 'Cliente desde 2022' },
+      { img: 'assets/images/clientes/cliente5.webp', nombre: 'Lucas F.',     detalle: 'Cliente desde 2023' },
+    ];
+
+    const BREAKPOINT  = 600;   // px
+    const VISIBLE     = 3;     // cards visibles en móvil
+    const INTERVAL_MS = 3800;  // tiempo entre rotaciones
+    const FADE_MS     = 520;   // duración del fade (debe coincidir con CSS)
+
+    // Sólo las cards con foto (no la CTA)
+    const cards = Array.from(
+      document.querySelectorAll('.clientes-grid .cliente-card:not(.cliente-card--cta)')
+    );
+    const dotsContainer = document.getElementById('clientesDots');
+
+    // Cuántos "grupos" de VISIBLE hay (para los dots)
+    const totalGroups = Math.ceil(clientesData.length / VISIBLE);
+    let currentGroup = 0;
+    let interval = null;
+    let busy = false; // evita solapamiento de transiciones
+
+    // ---- Dots ----
+    function buildDots() {
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < totalGroups; i++) {
+        const dot = document.createElement('span');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => { if (!busy) goToGroup(i); });
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function updateDots(idx) {
+      Array.from(dotsContainer.children).forEach((d, i) =>
+        d.classList.toggle('active', i === idx)
+      );
+    }
+
+    // ---- Transición de una card ----
+    function transitionCard(card, cliente, delay) {
+      const photo  = card.querySelector('.cliente-photo');
+      const nombre = card.querySelector('.cliente-nombre');
+      const detalle = card.querySelector('.cliente-detalle');
+
+      setTimeout(() => {
+        // Fade-out + ligero zoom
+        photo.style.opacity   = '0';
+        photo.style.transform = 'scale(1.07)';
+
+        setTimeout(() => {
+          photo.style.backgroundImage = `url('${cliente.img}')`;
+          if (nombre)  nombre.textContent  = cliente.nombre;
+          if (detalle) detalle.textContent = cliente.detalle;
+
+          // Fade-in
+          photo.style.opacity   = '1';
+          photo.style.transform = 'scale(1)';
+        }, FADE_MS);
+      }, delay);
+    }
+
+    // ---- Ir a un grupo concreto ----
+    function goToGroup(targetGroup) {
+      busy = true;
+      currentGroup = targetGroup;
+      const startIdx = currentGroup * VISIBLE;
+
+      cards.forEach((card, i) => {
+        const dataIdx = (startIdx + i) % clientesData.length;
+        transitionCard(card, clientesData[dataIdx], i * 150);
+      });
+
+      updateDots(currentGroup);
+
+      // Desbloquear tras completar todas las transiciones
+      const totalDelay = (VISIBLE - 1) * 150 + FADE_MS * 2;
+      setTimeout(() => { busy = false; }, totalDelay);
+    }
+
+    function nextGroup() {
+      if (busy) return;
+      goToGroup((currentGroup + 1) % totalGroups);
+    }
+
+    // ---- Arranque / parada ----
+    function startCarousel() {
+      if (interval) return;
+      interval = setInterval(nextGroup, INTERVAL_MS);
+    }
+
+    function stopCarousel() {
+      clearInterval(interval);
+      interval = null;
+    }
+
+    function handleResize() {
+      if (window.innerWidth <= BREAKPOINT) {
+        buildDots();
+        startCarousel();
+      } else {
+        stopCarousel();
+        dotsContainer.innerHTML = '';
+      }
+    }
+
+    // Pausar cuando la sección sale del viewport
+    const section = document.querySelector('.clientes');
+    if (section) {
+      new IntersectionObserver((entries) => {
+        if (window.innerWidth > BREAKPOINT) return;
+        entries[0].isIntersecting ? startCarousel() : stopCarousel();
+      }, { threshold: 0.25 }).observe(section);
+    }
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+  })();
+</script>
 </body>
 </html>
