@@ -466,6 +466,12 @@ html, body {
 .scroll-down--section.--up {
   bottom: auto;
   top: 20px;
+  background: transparent;
+}
+
+.scroll-down--section.--up:hover {
+  background: transparent;
+  transform: translateX(-50%) scale(1.05);
 }
 
 .scroll-down--section.--up svg {
