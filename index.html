@@ -12,8 +12,10 @@
 </head>
 <body>
 
+<div class="page-wrapper">
+
   <!-- HERO SECTION -->
-  <section class="hero">
+  <section class="hero" data-section="0">
 
     <!-- NAV -->
     <nav class="navbar">
@@ -29,6 +31,7 @@
       <ul class="nav-links">
         <li><a href="#">INICIO</a></li>
         <li><a href="#">SERVICIOS</a></li>
+        <li><a href="calendario.html">RESERVAS</a></li>
         <li><a href="#">TIENDA</a></li>
         <li><a href="#">GALERÍA</a></li>
         <li><a href="#">CONTACTO</a></li>
@@ -61,6 +64,7 @@
       <ul class="mobile-nav-links">
         <li><a href="#">INICIO</a></li>
         <li><a href="#">SERVICIOS</a></li>
+        <li><a href="calendario.html">RESERVAS</a></li>
         <li><a href="#">TIENDA</a></li>
         <li><a href="#">GALERÍA</a></li>
         <li><a href="#">CONTACTO</a></li>
@@ -130,18 +134,120 @@
           <span>10:00 – 19:30|Martes a Sábado </span>
         </div>
       </div>  
-      <div class="agendar-btn">
+      <a href="calendario.html" class="agendar-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="#c8853a" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="16" y1="14" x2="16" y2="14"/></svg>
         <span>AGENDAR</span>
-      </div>
-      <div class="scroll-down">
+      </a>
+      <div class="scroll-down" id="hero-scroll-down">
         <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
       </div>
     </div>
 
   </section>
 
+  <!-- ========================
+       NOSOTROS SECTION
+       ======================== -->
+  <section class="nosotros" data-section="1">
+
+    <div class="scroll-down--section --up" data-target="0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+    </div>
+
+    <div class="dot-nav dot-nav--nosotros">
+      <span class="dot" data-target="0"></span>
+      <span class="dot active" data-target="1"></span>
+      <span class="dot" data-target="2"></span>
+    </div>
+
+    <div class="nosotros-inner">
+
+      <!-- Columna izquierda: galería -->
+      <div class="nosotros-gallery">
+        <div class="gallery-main">
+          <div class="gallery-main-placeholder">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="80" height="80" rx="2" fill="#1a1a1a"/>
+              <path d="M20 55 L32 38 L40 48 L50 34 L60 55 Z" fill="#2a2a2a"/>
+              <circle cx="28" cy="30" r="6" fill="#2a2a2a"/>
+            </svg>
+          </div>
+          <div class="gallery-main-img" style="background-image: url('assets/images/nosotros/local1.jpg')"></div>
+          <div class="gallery-main-label">NUESTRO ESPACIO</div>
+        </div>
+        <div class="gallery-side">
+          <div class="gallery-thumb">
+            <div class="gallery-thumb-img" style="background-image: url('assets/images/nosotros/local2.jpg')"></div>
+          </div>
+          <div class="gallery-thumb">
+            <div class="gallery-thumb-img" style="background-image: url('assets/images/nosotros/local3.jpg')"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha: texto -->
+      <div class="nosotros-content">
+        <div class="nosotros-tag">— QUIÉNES SOMOS</div>
+        <h2 class="nosotros-title">
+          Más que una<br/>
+          <em>peluquería.</em>
+        </h2>
+        <p class="nosotros-text">
+          Somos un espacio donde el estilo se encuentra con la tradición. Desde nuestros inicios, hemos combinado técnicas clásicas con las últimas tendencias para ofrecerte una experiencia única en cada visita.
+        </p>
+        <p class="nosotros-text">
+          Nuestro equipo de profesionales está comprometido con la excelencia, utilizando productos de primera calidad para garantizar resultados que superen tus expectativas.
+        </p>
+
+        <div class="nosotros-stats">
+          <div class="stat">
+            <span class="stat-number">+10</span>
+            <span class="stat-label">Años de<br/>experiencia</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-number">+500</span>
+            <span class="stat-label">Clientes<br/>satisfechos</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Profesionales<br/>certificados</span>
+          </div>
+        </div>
+
+        <a href="#" class="nosotros-cta">VER SERVICIOS</a>
+      </div>
+
+    </div>
+
+    <div class="scroll-down scroll-down--section" data-target="2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+    </div>
+  </section>
+
+  <!-- ========================
+       TERCERA SECCIÓN (próximamente)
+       ======================== -->
+  <section class="section-placeholder" data-section="2">
+
+    <div class="scroll-down--section --up" data-target="1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+    </div>
+
+    <div class="dot-nav dot-nav--nosotros">
+      <span class="dot" data-target="0"></span>
+      <span class="dot" data-target="1"></span>
+      <span class="dot active" data-target="2"></span>
+    </div>
+    <p class="placeholder-tag">— EN CONSTRUCCIÓN</p>
+    <h2 class="placeholder-text">Próximamente</h2>
+  </section>
+
+</div><!-- /.page-wrapper -->
+
 <script>
+  // ---- Video play/pause ----
   const video = document.getElementById('hero-video');
   const btn = document.getElementById('play-btn');
   const svg = btn.querySelector('svg');
@@ -156,15 +262,11 @@
   }
 
   btn.addEventListener('click', () => {
-    if (video.paused) {
-      video.play();
-      setIcon(true);
-    } else {
-      video.pause();
-      setIcon(false);
-    }
+    if (video.paused) { video.play(); setIcon(true); }
+    else { video.pause(); setIcon(false); }
   });
 
+  // ---- Hamburger ----
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     mobileMenu.classList.toggle('open');
@@ -178,6 +280,89 @@
       document.body.classList.remove('menu-open');
     });
   });
+
+  // ---- Scroll snap + dot navigation ----
+  const wrapper = document.querySelector('.page-wrapper');
+  const sections = document.querySelectorAll('[data-section]');
+  const allDotSets = document.querySelectorAll('.dot-nav');
+
+  function goToSection(index) {
+    sections[index].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Clicks en dots
+  document.querySelectorAll('.dot[data-target]').forEach(dot => {
+    dot.addEventListener('click', () => {
+      goToSection(parseInt(dot.dataset.target));
+    });
+  });
+
+  // Click en hero dots (sin data-target, índice por posición)
+  const heroDots = document.querySelectorAll('.hero .dot-nav .dot');
+  heroDots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goToSection(i));
+  });
+
+  // Actualizar dots activos al hacer scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = parseInt(entry.target.dataset.section);
+        // actualizar todos los dot sets
+        document.querySelectorAll('.dot-nav').forEach(nav => {
+          nav.querySelectorAll('.dot').forEach((d, i) => {
+            d.classList.toggle('active', i === idx);
+          });
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // ---- Scroll down buttons ----
+  document.getElementById('hero-scroll-down').addEventListener('click', () => goToSection(1));
+
+  document.querySelectorAll('.scroll-down--section').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = parseInt(btn.dataset.target);
+      if (!isNaN(target)) goToSection(target);
+    });
+  });
+
+  // Scroll con rueda hacia siguiente/anterior sección
+  let isScrolling = false;
+  wrapper.addEventListener('wheel', (e) => {
+    if (isScrolling) return;
+    const current = [...sections].findIndex(s => {
+      const r = s.getBoundingClientRect();
+      return r.top >= -50 && r.top < window.innerHeight / 2;
+    });
+    const target = e.deltaY > 0
+      ? Math.min(current + 1, sections.length - 1)
+      : Math.max(current - 1, 0);
+    if (target !== current) {
+      isScrolling = true;
+      goToSection(target);
+      setTimeout(() => isScrolling = false, 800);
+    }
+  }, { passive: true });
+
+  // Soporte táctil (swipe)
+  let touchStartY = 0;
+  wrapper.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+  wrapper.addEventListener('touchend', e => {
+    const delta = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(delta) < 50) return;
+    const current = [...sections].findIndex(s => {
+      const r = s.getBoundingClientRect();
+      return r.top >= -50 && r.top < window.innerHeight / 2;
+    });
+    const target = delta > 0
+      ? Math.min(current + 1, sections.length - 1)
+      : Math.max(current - 1, 0);
+    goToSection(target);
+  }, { passive: true });
 </script>
 </body>
 </html>

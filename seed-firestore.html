@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Seed Firestore — Camilo Rey</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .container { max-width: 560px; width: 100%; }
+    h1 { font-size: 24px; color: #c8853a; margin-bottom: 4px; }
+    p { color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 24px; }
+    .card {
+      background: #1a1a1a;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card h2 { font-size: 16px; color: #c8853a; margin-bottom: 12px; }
+    .card pre {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      background: #222;
+      padding: 12px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 12px;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      padding: 6px 0;
+    }
+    .status .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #555; flex-shrink: 0;
+    }
+    .status .dot.ok { background: #34c759; }
+    .status .dot.err { background: #ff3b30; }
+    .status .dot.loading { background: #c8853a; animation: pulse 0.8s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: #c8853a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #d4934a; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn.danger { background: #ff3b30; margin-top: 8px; }
+    .btn.danger:hover { background: #ff2d20; }
+    .log {
+      background: #0a0a0a;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 12px;
+      font-family: monospace;
+      color: rgba(255,255,255,0.7);
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 16px;
+    }
+    .log .line { padding: 2px 0; }
+    .log .line.ok { color: #34c759; }
+    .log .line.err { color: #ff3b30; }
+    .log .line.info { color: #c8853a; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔥 Seed Firestore</h1>
+    <p>Inicializa las colecciones del sistema de reservas de Camilo Rey.</p>
+
+    <div class="card">
+      <h2>Configuración a crear</h2>
+      <pre>
+1. config/reservasPorTurno  → { cantidad: 1 }
+2. config/horarios          → horarios semanales
+3. config/turnosConfig      → duración, anticipación, etc.
+4. config/turnosData        → objeto vacío
+5. config/servicios         → objeto vacío
+6. config/diasCerrados      → array vacío
+7. config/whatsapp          → credenciales Ultramsg
+      </pre>
+    </div>
+
+    <div id="statusContainer">
+      <div class="status" id="s-firebase"><span class="dot" id="d-firebase"></span> Conectando a Firebase...</div>
+      <div class="status" id="s-reservasPorTurno"><span class="dot" id="d-reservasPorTurno"></span> config/reservasPorTurno</div>
+      <div class="status" id="s-horarios"><span class="dot" id="d-horarios"></span> config/horarios</div>
+      <div class="status" id="s-turnosConfig"><span class="dot" id="d-turnosConfig"></span> config/turnosConfig</div>
+      <div class="status" id="s-turnosData"><span class="dot" id="d-turnosData"></span> config/turnosData</div>
+      <div class="status" id="s-servicios"><span class="dot" id="d-servicios"></span> config/servicios</div>
+      <div class="status" id="s-diasCerrados"><span class="dot" id="d-diasCerrados"></span> config/diasCerrados</div>
+      <div class="status" id="s-whatsapp"><span class="dot" id="d-whatsapp"></span> config/whatsapp</div>
+    </div>
+
+    <button class="btn" id="seedBtn" onclick="seedAll()">🚀 Inicializar Firestore</button>
+    <button class="btn danger" id="resetBtn" onclick="resetAll()" disabled style="display:none;">⚠️ Resetear todas las colecciones</button>
+
+    <div class="log" id="log"></div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const log = $('log');
+
+    function addLog(msg, type = '') {
+      const div = document.createElement('div');
+      div.className = `line ${type}`;
+      div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function setStatus(id, state) {
+      const dot = $(`d-${id}`);
+      if (!dot) return;
+      dot.className = 'dot';
+      if (state === 'ok') dot.classList.add('ok');
+      else if (state === 'err') dot.classList.add('err');
+      else if (state === 'loading') dot.classList.add('loading');
+    }
+
+    async function seedAll() {
+      const btn = $('seedBtn');
+      btn.disabled = true;
+      btn.textContent = 'Inicializando...';
+      $('resetBtn').style.display = 'none';
+
+      if (typeof firebase === 'undefined' || !firebase.firestore) {
+        setStatus('firebase', 'err');
+        addLog('❌ Firebase no está inicializado. Revisa firebase-config.js', 'err');
+        btn.disabled = false;
+        btn.textContent = '🚀 Inicializar Firestore';
+        return;
+      }
+
+      setStatus('firebase', 'ok');
+      addLog('✅ Firebase conectado correctamente', 'ok');
+
+      const db = firebase.firestore();
+
+      // ── 1. reservasPorTurno ──
+      try {
+        setStatus('reservasPorTurno', 'loading');
+        await db.collection('config').doc('reservasPorTurno').set({
+          cantidad: 1,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setStatus('reservasPorTurno', 'ok');
+        addLog('✅ config/reservasPorTurno → { cantidad: 1 }', 'ok');
+      } catch (e) {
+        setStatus('reservasPorTurno', 'err');
+        addLog(`❌ reservasPorTurno: ${e.message}`, 'err');
+      }
+
+      // ── 2. horarios ──
+      try {
+        setStatus('horarios', 'loading');
+        await db.collection('config').doc('horarios').set({
+          data: {
+            lunes:    { enabled: true,  inicio: '10:00', fin: '20:00' },
+            martes:   { enabled: true,  inicio: '10:00', fin: '20:00' },
+            miercoles:{ enabled: true,  inicio: '10:00', fin: '20:00' },
+            jueves:   { enabled: true,  inicio: '10:00', fin: '20:00' },
+            viernes:  { enabled: true,  inicio: '10:00', fin: '20:00' },
+            sabado:   { enabled: true,  inicio: '10:00', fin: '17:00' },
+            domingo:  { enabled: false, inicio: '',      fin: '' }
+          },
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setStatus('horarios', 'ok');
+        addLog('✅ config/horarios → Lun-Vie 10-20, Sáb 10-17, Dom cerrado', 'ok');
+      } catch (e) {
+        setStatus('horarios', 'err');
+        addLog(`❌ horarios: ${e.message}`, 'err');
+      }
+
+      // ── 3. turnosConfig ──
+      try {
+        setStatus('turnosConfig', 'loading');
+        await db.collection('config').doc('turnosConfig').set({
+          data: {
+            duracionTurno: 30,
+            anticipacionReserva: 24,
+            maxDiasAdelanto: 15,
+            horaInicio: '09:00'
+          },
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setStatus('turnosConfig', 'ok');
+        addLog('✅ config/turnosConfig → duración 30min, 15 días adelanto', 'ok');
+      } catch (e) {
+        setStatus('turnosConfig', 'err');
+        addLog(`❌ turnosConfig: ${e.message}`, 'err');
+      }
+
+      // ── 4. turnosData ──
+      try {
+        setStatus('turnosData', 'loading');
+        await db.collection('config').doc('turnosData').set({
+          data: {},
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setStatus('turnosData', 'ok');
+        addLog('✅ config/turnosData → { data: {} } (vacío)', 'ok');
+      } catch (e) {
+        setStatus('turnosData', 'err');
+        addLog(`❌ turnosData: ${e.message}`, 'err');
+      }
+
+      // ── 5. servicios ──
+      try {
+        setStatus('servicios', 'loading');
+        await db.collection('config').doc('servicios').set({
+          data: {},
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setStatus('servicios', 'ok');
+        addLog('✅ config/servicios → { data: {} } (vacío)', 'ok');
+      } catch (e) {
+        setStatus('servicios', 'err');
+        addLog(`❌ servicios: ${e.message}`, 'err');
+      }
+
+      // ── 6. diasCerrados ──
+      try {
+        setStatus('diasCerrados', 'loading');
+        await db.collection('config').doc('diasCerrados').set({
+          data: [],
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setStatus('diasCerrados', 'ok');
+        addLog('✅ config/diasCerrados → [] (sin días cerrados)', 'ok');
+      } catch (e) {
+        setStatus('diasCerrados', 'err');
+        addLog(`❌ diasCerrados: ${e.message}`, 'err');
+      }
+
+      // ── 7. whatsapp ──
+      try {
+        setStatus('whatsapp', 'loading');
+        await db.collection('config').doc('whatsapp').set({
+          instanceId: 'instance175174',
+          token: 'b20m4e2zyalbi4r2',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        setStatus('whatsapp', 'ok');
+        addLog('✅ config/whatsapp → credenciales Ultramsg', 'ok');
+      } catch (e) {
+        setStatus('whatsapp', 'err');
+        addLog(`❌ whatsapp: ${e.message}`, 'err');
+      }
+
+      const allOk = [
+        'reservasPorTurno', 'horarios', 'turnosConfig',
+        'turnosData', 'servicios', 'diasCerrados', 'whatsapp'
+      ].every(id => {
+        const dot = $(`d-${id}`);
+        return dot && dot.classList.contains('ok');
+      });
+
+      if (allOk) {
+        addLog('🎉 ¡Todas las colecciones fueron creadas exitosamente!', 'ok');
+        $('resetBtn').style.display = 'block';
+      } else {
+        addLog('⚠️ Algunas colecciones fallaron. Revisa los errores.', 'err');
+      }
+
+      btn.disabled = false;
+      btn.textContent = '🚀 Inicializar Firestore';
+    }
+
+    async function resetAll() {
+      if (!confirm('⚠️ ¿Estás seguro? Esto ELIMINARÁ todos los documentos de config/* y colecciones reservas/ingresos.')) return;
+      if (!confirm('⚠️ ÚLTIMA CONFIRMACIÓN: Esta acción no se puede deshacer.')) return;
+
+      const db = firebase.firestore();
+      addLog('🗑️ Iniciando reseteo...', 'info');
+
+      const configDocs = [
+        'reservasPorTurno', 'horarios', 'turnosConfig',
+        'turnosData', 'servicios', 'diasCerrados', 'whatsapp'
+      ];
+
+      for (const doc of configDocs) {
+        try {
+          await db.collection('config').doc(doc).delete();
+          addLog(`🗑️ config/${doc} eliminado`, 'info');
+        } catch (e) {
+          addLog(`⚠️ config/${doc}: ${e.message}`, 'err');
+        }
+      }
+
+      const collections = ['reservas', 'ingresos'];
+      for (const col of collections) {
+        try {
+          const snap = await db.collection(col).get();
+          const batch = db.batch();
+          snap.forEach(d => batch.delete(d.ref));
+          await batch.commit();
+          addLog(`🗑️ ${col}: ${snap.size} documentos eliminados`, 'info');
+        } catch (e) {
+          addLog(`⚠️ ${col}: ${e.message}`, 'err');
+        }
+      }
+
+      addLog('✅ Reseteo completado. Usa "Inicializar Firestore" para recrear los documentos.', 'ok');
+    }
+  </script>
+</body>
+</html>

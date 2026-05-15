@@ -1,0 +1,3596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva tu Turno - Camilo Rey</title>
+    <style>
+        @font-face {
+            font-family: 'Montserrat';
+            src: url('assets/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+            font-weight: 100 900;
+        }
+
+        @font-face {
+            font-family: 'Oswald';
+            src: url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap');
+        }
+
+        /* Dark Theme CSS Variables */
+        :root {
+            --gold: #c8853a;
+            --gold-light: #d4934a;
+            --dark: #111111;
+            --dark-mid: #1a1a1a;
+            --dark-light: #222222;
+            --white: #ffffff;
+            --white-dim: rgba(255,255,255,0.75);
+            --white-faint: rgba(255,255,255,0.15);
+            --bg-color: var(--dark);
+            --surface-color: var(--dark-mid);
+            --text-primary: var(--white);
+            --text-secondary: var(--white-dim);
+            --accent-gold: var(--gold);
+            --accent-gold-hover: var(--gold-light);
+            --danger-red: #FF3B30;
+            --success-green: #34C759;
+            --warning-orange: #FF9500;
+            --border-color: var(--white-faint);
+            --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --border-radius-lg: 18px;
+            --border-radius-md: 12px;
+            --border-radius-sm: 8px;
+            --transition-speed: 0.25s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-color);
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0,0,0,0.9);
+            padding: 14px 24px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .header-logo img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .header-logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .header-logo-main {
+            font-family: 'Oswald', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: 3px;
+        }
+
+        .header-logo-sub {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            color: var(--accent-gold);
+            letter-spacing: 4px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            transition: all var(--transition-speed);
+        }
+
+        .back-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Main Content */
+        .turnos-container {
+            max-width: 1000px;
+            margin: 80px auto 40px;
+            padding: 0 20px 100px 20px;
+        }
+
+        .turnos-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .turnos-header h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .turnos-header p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 48px;
+            gap: 32px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.3;
+            transition: opacity 0.2s;
+        }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        .step.completed {
+            opacity: 0.6;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .step.active .step-number {
+            background: var(--accent-gold);
+        }
+
+        .step.completed .step-number {
+            background: var(--accent-gold);
+        }
+
+        .step-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Category Selection */
+        .category-selection {
+            background: var(--surface-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .category-selection h2 {
+            font-size: 20px;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .category-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .category-card {
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 0;
+            padding: 30px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--surface-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-card:last-child {
+            border-bottom: none;
+        }
+
+        .category-card:hover {
+            background: var(--dark-light);
+        }
+
+        .category-card.selected {
+            background: var(--dark-light);
+        }
+
+        .category-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .category-icon {
+            font-size: 40px;
+        }
+
+        .category-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .category-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        /* Service Selection */
+        .service-selection {
+            background: var(--surface-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+            display: none;
+        }
+
+        .service-selection h2 {
+            font-size: 28px;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        /* Service Navigation */
+        .service-nav {
+            position: sticky;
+            top: 50px;
+            z-index: 100;
+            background: var(--surface-color);
+            padding: 16px 0;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .service-nav-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .service-nav-arrow {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .service-nav-arrow:hover {
+            background: #f5f5f5;
+            border-color: var(--text-primary);
+        }
+
+        .service-nav-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .service-nav-menu {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            flex: 1;
+        }
+
+        .service-nav-menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        .service-nav-item {
+            padding: 10px 20px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .service-nav-item:hover {
+            background: #f5f5f5;
+        }
+
+        .service-nav-item.active {
+            background: var(--accent-gold);
+            color: #fff;
+        }
+
+        /* Service Sections */
+        .service-section {
+            margin-bottom: 48px;
+            scroll-margin-top: 110px;
+        }
+
+        .service-section h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        .service-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 24px;
+        }
+
+        .service-card {
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 0;
+            padding: 20px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--surface-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: auto;
+        }
+
+        .service-card:last-child {
+            border-bottom: none;
+        }
+
+        .service-card:hover {
+            background: var(--dark-light);
+        }
+
+        .service-card.selected {
+            background: var(--dark-light);
+        }
+
+        .service-card.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .service-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-right: 20px;
+        }
+
+        .service-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .service-duration {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .service-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .service-price {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 4px;
+        }
+
+        .service-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .service-add-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 24px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .service-add-btn:hover {
+            background: #f5f5f5;
+            border-color: var(--text-primary);
+        }
+
+        .service-card.selected .service-add-btn {
+            background: var(--accent-gold);
+            color: #fff;
+            border-color: var(--text-primary);
+        }
+
+        .service-card.selected .service-add-btn:hover {
+            background: var(--accent-gold-hover);
+        }
+
+        /* Service Cart */
+        .service-cart {
+            background: var(--surface-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .service-cart h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--dark-light);
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        .cart-item-details {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .cart-item-price {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-right: 16px;
+            font-size: 15px;
+        }
+
+        .cart-item-remove {
+            background: var(--surface-color);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .cart-item-remove:hover {
+            background: #f5f5f5;
+            border-color: var(--text-primary);
+        }
+
+        .cart-summary {
+            background: var(--dark-light);
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .cart-summary-row.total {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-primary);
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--accent-gold);
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .cart-empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        /* Fixed Action Bar */
+        .fixed-action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface-color);
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color);
+            z-index: 1000;
+            display: none;
+        }
+
+        .fixed-action-bar.show {
+            display: block;
+        }
+
+        .fixed-action-bar-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .fixed-action-bar-info {
+            flex: 1;
+        }
+
+        .fixed-action-bar-info h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .fixed-action-bar-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .fixed-action-bar-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .fixed-action-bar-buttons .btn {
+            padding: 12px 24px;
+            font-size: 14px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: var(--accent-gold);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-gold-hover);
+            transform: scale(1.02);
+        }
+
+        .btn-primary:disabled {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: var(--bg-color);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: #E5E5EA;
+            border-color: var(--text-secondary);
+        }
+
+        /* Days Grid */
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .day-card {
+            background: var(--surface-color);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .day-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border-color: var(--accent-gold);
+        }
+
+        .day-card.selected {
+            border-color: var(--accent-gold);
+            background: rgba(200, 133, 58, 0.1);
+            box-shadow: 0 0 0 3px rgba(200, 133, 58, 0.2);
+        }
+
+        .day-card.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: var(--bg-color);
+        }
+
+        .day-card.full {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: var(--bg-color);
+        }
+
+        .day-date {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+        }
+
+        .day-name {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .day-availability {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .availability-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .availability-high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .availability-medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .availability-low {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .availability-full {
+            background: #f5f5f5;
+            color: var(--text-secondary);
+        }
+
+        /* iOS-style Loading Spinner */
+        .loading-spinner {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .loading-spinner.show {
+            display: flex;
+        }
+
+        .spinner {
+            position: relative;
+            width: 40px;
+            height: 40px;
+        }
+
+        .spinner-blade {
+            position: absolute;
+            left: 44.5%;
+            top: 37%;
+            width: 10%;
+            height: 25%;
+            border-radius: 50%/20%;
+            animation: spinner-fade 1s linear infinite;
+            background: #999;
+        }
+
+        .spinner-blade:nth-child(1) { transform: rotate(0deg) translate(0, -140%); animation-delay: -1s; }
+        .spinner-blade:nth-child(2) { transform: rotate(30deg) translate(0, -140%); animation-delay: -0.9167s; }
+        .spinner-blade:nth-child(3) { transform: rotate(60deg) translate(0, -140%); animation-delay: -0.8333s; }
+        .spinner-blade:nth-child(4) { transform: rotate(90deg) translate(0, -140%); animation-delay: -0.75s; }
+        .spinner-blade:nth-child(5) { transform: rotate(120deg) translate(0, -140%); animation-delay: -0.6667s; }
+        .spinner-blade:nth-child(6) { transform: rotate(150deg) translate(0, -140%); animation-delay: -0.5833s; }
+        .spinner-blade:nth-child(7) { transform: rotate(180deg) translate(0, -140%); animation-delay: -0.5s; }
+        .spinner-blade:nth-child(8) { transform: rotate(210deg) translate(0, -140%); animation-delay: -0.4167s; }
+        .spinner-blade:nth-child(9) { transform: rotate(240deg) translate(0, -140%); animation-delay: -0.3333s; }
+        .spinner-blade:nth-child(10) { transform: rotate(270deg) translate(0, -140%); animation-delay: -0.25s; }
+        .spinner-blade:nth-child(11) { transform: rotate(300deg) translate(0, -140%); animation-delay: -0.1667s; }
+        .spinner-blade:nth-child(12) { transform: rotate(330deg) translate(0, -140%); animation-delay: -0.0833s; }
+
+        @keyframes spinner-fade {
+            0% { opacity: 1; }
+            100% { opacity: 0.25; }
+        }
+
+        .loading-text {
+            margin-left: 16px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Time Slots */
+        .time-slots-container {
+            background: var(--surface-color);
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            display: none;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .time-slots-container.show {
+            display: block;
+        }
+
+        .time-slots-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .time-slots-header h2 {
+            font-size: 20px;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .time-slots-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .time-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .time-slot {
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            background: var(--surface-color);
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        .time-slot:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            border-color: var(--accent-gold);
+        }
+
+        .time-slot.selected {
+            border-color: var(--accent-gold);
+            background: var(--accent-gold);
+            color: white;
+            box-shadow: 0 0 0 3px rgba(200, 133, 58, 0.2);
+        }
+
+        .time-slot.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: var(--bg-color);
+        }
+
+        .time-slot-period {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
+
+        .time-slot.selected .time-slot-period {
+            color: white;
+        }
+
+        .time-slot-time {
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .time-slot.selected .time-slot-time {
+            color: white;
+        }
+
+        .time-slot-availability {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .time-slot.selected .time-slot-availability {
+            color: white;
+        }
+
+        .time-slot-availability.available {
+            color: var(--success-green);
+            font-weight: 600;
+        }
+
+        .time-slot-availability.occupied {
+            color: var(--danger-red);
+            font-weight: 600;
+        }
+
+        .time-slot-availability.warning {
+            color: var(--warning-orange);
+            font-weight: 600;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: var(--surface-color);
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            margin-top: 32px;
+            display: none;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .booking-form.show {
+            display: block;
+        }
+
+        .booking-form h2 {
+            font-size: 20px;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            font-size: 15px;
+            font-family: inherit;
+            background: var(--bg-color);
+            transition: all var(--transition-speed);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: var(--surface-color);
+            box-shadow: 0 0 0 4px rgba(200, 133, 58, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .booking-summary {
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: var(--border-radius-md);
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .booking-summary h3 {
+            font-size: 16px;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .turnos-info {
+            background: rgba(200, 133, 58, 0.1);
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: var(--accent-gold);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-gold);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-gold-hover);
+        }
+
+        .submit-btn:disabled {
+            background: var(--dark-mid);
+            cursor: not-allowed;
+        }
+
+        /* Error */
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Success */
+        .success {
+            background: #efe;
+            color: #3c3;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Info Banner */
+        .info-banner {
+            background: var(--dark-mid);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .info-banner h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .info-banner p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .service-selection h2 {
+                font-size: 24px;
+            }
+
+            .service-nav {
+                top: 50px;
+                padding: 12px 0;
+            }
+
+            .service-nav-arrow {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+
+            .service-nav-item {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .service-section h3 {
+                font-size: 18px;
+            }
+
+            .category-grid {
+                gap: 0;
+            }
+
+            .category-card {
+                padding: 24px 0;
+            }
+
+            .category-content {
+                gap: 8px;
+            }
+
+            .category-icon {
+                font-size: 36px;
+            }
+
+            .category-name {
+                font-size: 17px;
+            }
+
+            .category-description {
+                font-size: 14px;
+            }
+
+            .progress-steps {
+                gap: 8px;
+            }
+
+            .step {
+                gap: 4px;
+            }
+
+            .step-label {
+                font-size: 9px;
+            }
+
+            .step-number {
+                width: 20px;
+                height: 20px;
+                font-size: 10px;
+            }
+
+            .service-grid {
+                gap: 0;
+            }
+
+            .service-card {
+                padding: 16px 0;
+            }
+
+            .service-content {
+                padding-right: 12px;
+                gap: 2px;
+            }
+
+            .service-name {
+                font-size: 15px;
+            }
+
+            .service-duration {
+                font-size: 13px;
+            }
+
+            .service-description {
+                font-size: 13px;
+                -webkit-line-clamp: 2;
+            }
+
+            .service-price {
+                font-size: 14px;
+            }
+
+            .service-add-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+            }
+
+            .days-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .time-slots-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .turnos-header h1 {
+                font-size: 24px;
+            }
+
+            .fixed-action-bar-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .fixed-action-bar-buttons {
+                width: 100%;
+            }
+
+            .fixed-action-bar-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="header-logo">
+                <img src="assets/images/logo.jpg" alt="Camilo Rey"/>
+                <div class="header-logo-text">
+                    <span class="header-logo-main">CAMILO</span>
+                    <span class="header-logo-sub">REY</span>
+                </div>
+            </a>
+            <a href="index.html" class="back-btn">
+                ← Volver
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="turnos-container">
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="step active" id="step0">
+                <div class="step-number">1</div>
+                <div class="step-label">Categoría</div>
+            </div>
+            <div class="step" id="step1">
+                <div class="step-number">2</div>
+                <div class="step-label">Servicios</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-number">3</div>
+                <div class="step-label">Día</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-number">4</div>
+                <div class="step-label">Horario</div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-number">5</div>
+                <div class="step-label">Confirmar</div>
+            </div>
+        </div>
+
+        <!-- Fixed Action Bar -->
+        <div class="fixed-action-bar" id="fixedActionBar">
+            <div class="fixed-action-bar-content">
+                <div class="fixed-action-bar-info">
+                    <h4 id="fixedActionBarTitle">Servicios seleccionados</h4>
+                    <p id="fixedActionBarInfo">0 servicios • 0 turnos • $U 0</p>
+                </div>
+                <div class="fixed-action-bar-buttons">
+                    <button class="btn btn-primary" onclick="goToDays()">
+                        Continuar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 1: Category Selection -->
+        <div class="category-selection" id="categorySelection">
+            <h2>¿Para quién es el servicio?</h2>
+            <div class="category-grid" id="categoryGrid">
+                <!-- Categories will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Step 1: Service Selection -->
+        <div class="service-selection" id="serviceSelection">
+            <h2 id="servicesTitle" style="display: none;">Servicios</h2>
+            <div class="service-nav" id="serviceNav" style="display: none;">
+                <div class="service-nav-container">
+                    <button class="service-nav-arrow" id="navLeftArrow" onclick="scrollNav('left')">‹</button>
+                    <nav class="service-nav-menu" id="serviceNavMenu">
+                        <!-- Navigation items will be loaded here -->
+                    </nav>
+                    <button class="service-nav-arrow" id="navRightArrow" onclick="scrollNav('right')">›</button>
+                </div>
+            </div>
+            <div id="serviceSections">
+                <!-- Service sections will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Service Cart -->
+        <div class="service-cart" id="serviceCart" style="display: none;">
+            <h2>Tus servicios</h2>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="cart-summary" id="cartSummary">
+                <!-- Cart summary will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div class="loading-spinner" id="loadingSpinner">
+            <div class="spinner">
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+                <div class="spinner-blade"></div>
+            </div>
+            <span class="loading-text">Cargando...</span>
+        </div>
+
+        <!-- Step 2: Days Grid -->
+        <div class="days-grid" id="daysGrid" style="display: none;">
+            <!-- Days will be loaded here -->
+        </div>
+
+        <!-- Step 3: Time Slots -->
+        <div class="time-slots-container" id="timeSlotsContainer">
+            <div class="time-slots-header">
+                <h2 id="selectedDateTitle">Horarios disponibles</h2>
+                <p id="selectedDateSubtitle">Selecciona un horario</p>
+            </div>
+            <div class="time-slots-grid" id="timeSlotsGrid">
+                <!-- Time slots will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Step 4: Booking Form -->
+        <div class="booking-form" id="bookingForm">
+            <h2>Confirma tu reserva</h2>
+
+            <div class="booking-summary">
+                <h3>Resumen</h3>
+                <div id="servicesSummary">
+                    <!-- Services summary will be loaded here -->
+                </div>
+                <div class="summary-item">
+                    <span>Fecha:</span>
+                    <span id="summaryDate"></span>
+                </div>
+                <div class="summary-item">
+                    <span>Horario:</span>
+                    <span id="summaryTime"></span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span id="summaryTotal"></span>
+                </div>
+            </div>
+
+            <div class="turnos-info" id="turnosInfo">
+                <!-- Turnos consumption info will be shown here -->
+            </div>
+
+            <form id="reservationForm">
+                <div class="form-group">
+                    <label for="name">Nombre completo *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Teléfono *</label>
+                    <input type="tel" id="phone" name="phone" required pattern="[0-9]{9}" title="El teléfono debe tener 9 dígitos">
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notas adicionales</label>
+                    <textarea id="notes" name="notes" placeholder="Algún detalle especial sobre tu reserva"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Confirmar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Turnos configuration - will be loaded from Firebase
+        let configTurnos = {
+            duracionTurno: 30, // Default: 30 minutes per slot
+            anticipacionReserva: 24,
+            maxDiasAdelanto: 15, // Default: 15 days for booking
+            horaInicio: '09:00'
+        };
+
+        // Calculate total turnos per day based on duration
+        function getTotalTurnosPerDay() {
+            const hours = businessHours[1]; // Use Monday as reference
+            if (!hours) return 20;
+
+            const [startHour, startMin] = hours.start.split(':').map(Number);
+            const [endHour, endMin] = hours.end.split(':').map(Number);
+            const totalMinutes = (endHour * 60 + endMin) - (startHour * 60 + startMin);
+            const totalTurnos = Math.floor(totalMinutes / configTurnos.duracionTurno);
+
+            return Math.max(1, totalTurnos);
+        }
+
+        // Business hours configuration
+        let businessHours = {
+            0: null,    // Sunday - closed
+            1: { start: '10:00', end: '20:00' },  // Monday
+            2: { start: '10:00', end: '20:00' },  // Tuesday
+            3: { start: '10:00', end: '20:00' },  // Wednesday
+            4: { start: '10:00', end: '20:00' },  // Thursday
+            5: { start: '10:00', end: '20:00' },  // Friday
+            6: { start: '10:00', end: '17:00' }   // Saturday
+        };
+
+        // Generate individual time slots for a specific day
+        function generateTimeSlotsForDay(dayOfWeek) {
+            const hours = businessHours[dayOfWeek];
+            console.log('generateTimeSlotsForDay - dayOfWeek:', dayOfWeek, 'hours:', hours);
+
+            if (!hours) return [];
+
+            const [startHour, startMin] = hours.start.split(':').map(Number);
+            const [endHour, endMin] = hours.end.split(':').map(Number);
+
+            const startMinutes = startHour * 60 + startMin;
+            const endMinutes = endHour * 60 + endMin;
+            const totalMinutes = endMinutes - startMinutes;
+            const slotDuration = configTurnos.duracionTurno; // Use configured duration
+            const totalTurnos = Math.floor(totalMinutes / slotDuration);
+
+            const slots = [];
+            for (let i = 0; i < totalTurnos; i++) {
+                const slotStartMinutes = startMinutes + (i * slotDuration);
+                const slotEndMinutes = slotStartMinutes + slotDuration;
+
+                const slotStartHour = Math.floor(slotStartMinutes / 60);
+                const slotStartMin = Math.round(slotStartMinutes % 60);
+                const slotEndHour = Math.floor(slotEndMinutes / 60);
+                const slotEndMin = Math.round(slotEndMinutes % 60);
+
+                const startTime = `${String(slotStartHour).padStart(2, '0')}:${String(slotStartMin).padStart(2, '0')}`;
+                const endTime = `${String(slotEndHour).padStart(2, '0')}:${String(slotEndMin).padStart(2, '0')}`;
+
+                slots.push({
+                    id: i,
+                    name: `Turno ${i + 1}`,
+                    time: startTime,
+                    arrivalTime: startTime
+                });
+            }
+
+            return slots;
+        }
+
+        // Services configuration with categories and subcategories
+        const services = [
+            // Caballero - Cortes
+            { id: 'corte-caballero', name: 'Corte Caballero', description: 'Corte profesional', price: 550, turnos: 1, duration: '25-35 minutos', category: 'caballero', subcategory: 'cortes-peinados' },
+
+            // Caballero - Lavado y Tratamientos
+            { id: 'lavado-caballero', name: 'Lavado', description: 'Lavado profesional', price: 200, turnos: 1, duration: '15-20 minutos', category: 'caballero', subcategory: 'lavado-estilizado' },
+
+            // Caballero - Color
+            { id: 'color-corto-caballero', name: 'Color Corto', description: 'Coloración cabello corto', price: 850, turnos: 2, duration: '60-70 minutos', category: 'caballero', subcategory: 'tinte' },
+            { id: 'color-largo-caballero', name: 'Color Largo', description: 'Coloración cabello largo', price: 950, turnos: 2, duration: '70-80 minutos', category: 'caballero', subcategory: 'tinte' },
+            { id: 'mechas-gorra-cortas-caballero', name: 'Mechas con gorra Cortas', description: 'Mechas con gorra cabello corto', price: 2000, turnos: 3, duration: '90-100 minutos', category: 'caballero', subcategory: 'tinte' },
+            { id: 'mechas-gorra-largo-caballero', name: 'Mechas con gorra Largo', description: 'Mechas con gorra cabello largo', price: 2500, turnos: 3, duration: '100-110 minutos', category: 'caballero', subcategory: 'tinte' },
+
+            // Caballero - Otros servicios
+            { id: 'podologa-caballero', name: 'Podóloga', description: 'Servicio de podología', price: 1200, turnos: 1, duration: '30-40 minutos', category: 'caballero', subcategory: 'otros' },
+            { id: 'masaje-descontracturante-caballero', name: 'Masaje descontracturante', description: 'Masaje descontracturante', price: 1300, turnos: 1, duration: '45-55 minutos', category: 'caballero', subcategory: 'masajes' },
+
+            // Dama - Cortes
+            { id: 'corte-dama', name: 'Corte Dama', description: 'Corte profesional', price: 600, turnos: 1, duration: '30-40 minutos', category: 'dama', subcategory: 'cortes-peinados' },
+
+            // Dama - Lavado y Tratamientos
+            { id: 'lavado', name: 'Lavado', description: 'Lavado profesional', price: 200, turnos: 1, duration: '15-20 minutos', category: 'dama', subcategory: 'lavado-estilizado' },
+            { id: 'bano-crema', name: 'Baño de crema', description: 'Tratamiento hidratante', price: 500, turnos: 1, duration: '30-40 minutos', category: 'dama', subcategory: 'lavado-estilizado' },
+            { id: 'brushing', name: 'Brushing', description: 'Secado y estilizado profesional', price: 500, turnos: 1, duration: '25-35 minutos', category: 'dama', subcategory: 'lavado-estilizado' },
+
+            // Dama - Color
+            { id: 'color-corto', name: 'Color Corto', description: 'Coloración cabello corto', price: 850, turnos: 2, duration: '60-70 minutos', category: 'dama', subcategory: 'tinte' },
+            { id: 'color-largo', name: 'Color Largo', description: 'Coloración cabello largo', price: 950, turnos: 2, duration: '70-80 minutos', category: 'dama', subcategory: 'tinte' },
+            { id: 'mechas-gorra-cortas', name: 'Mechas con gorra Cortas', description: 'Mechas con gorra cabello corto', price: 2000, turnos: 3, duration: '90-100 minutos', category: 'dama', subcategory: 'tinte' },
+            { id: 'mechas-gorra-largo', name: 'Mechas con gorra Largo', description: 'Mechas con gorra cabello largo', price: 2500, turnos: 3, duration: '100-110 minutos', category: 'dama', subcategory: 'tinte' },
+            { id: 'bootox', name: 'Bootox', description: 'Tratamiento bootox', price: 1000, turnos: 2, duration: '70-80 minutos', category: 'dama', subcategory: 'tinte' },
+            { id: 'balayage-largo', name: 'Balayague Largo', description: 'Balayage cabello largo', price: 2900, turnos: 3, duration: '110-120 minutos', category: 'dama', subcategory: 'tinte' },
+            { id: 'mechas-localizadas', name: 'Mechas localizadas', description: 'Mechas localizadas', price: 3000, turnos: 3, duration: '100-110 minutos', category: 'dama', subcategory: 'tinte' },
+            { id: 'alisado-progresivo-corto', name: 'Alisado progresivo Corto', description: 'Alisado progresivo cabello corto', price: 2300, turnos: 3, duration: '90-100 minutos', category: 'dama', subcategory: 'tinte' },
+            { id: 'alisado-progresivo-largo', name: 'Alisado progresivo Largo', description: 'Alisado progresivo cabello largo', price: 3000, turnos: 3, duration: '110-120 minutos', category: 'dama', subcategory: 'tinte' },
+
+            // Dama - Depilación
+            { id: 'depilacion-cejas', name: 'Depilación cejas', description: 'Depilación de cejas', price: 250, turnos: 1, duration: '10-15 minutos', category: 'dama', subcategory: 'depilacion' },
+            { id: 'depilacion-bozo', name: 'Depilación bozo', description: 'Depilación de bozo', price: 250, turnos: 1, duration: '10-15 minutos', category: 'dama', subcategory: 'depilacion' },
+            { id: 'depilacion-axilas', name: 'Depilación axilas', description: 'Depilación de axilas', price: 300, turnos: 1, duration: '15-20 minutos', category: 'dama', subcategory: 'depilacion' },
+            { id: 'depilacion-piernas', name: 'Depilación piernas', description: 'Depilación de piernas', price: 900, turnos: 1, duration: '30-40 minutos', category: 'dama', subcategory: 'depilacion' },
+            { id: 'depilacion-cavado', name: 'Depilación cavado', description: 'Depilación de cavado', price: 450, turnos: 1, duration: '20-25 minutos', category: 'dama', subcategory: 'depilacion' },
+
+            // Dama - Uñas
+            { id: 'manos-esmalte-comun', name: 'Manos con esmalte común', description: 'Manicura con esmalte común', price: 300, turnos: 1, duration: '20-30 minutos', category: 'dama', subcategory: 'uñas' },
+            { id: 'manos-esmalte-semipermanente', name: 'Manos con esmalte semipermanente', description: 'Manicura con esmalte semipermanente', price: 800, turnos: 1, duration: '30-40 minutos', category: 'dama', subcategory: 'uñas' },
+            { id: 'manos-kapping-semipermanente', name: 'Manos con kapping y semipermanente', description: 'Manicura con kapping y esmalte semipermanente', price: 1000, turnos: 1, duration: '40-50 minutos', category: 'dama', subcategory: 'uñas' },
+            { id: 'manos-polygel', name: 'Manos con uñas polygel', description: 'Manicura con uñas polygel', price: 1400, turnos: 1, duration: '50-60 minutos', category: 'dama', subcategory: 'uñas' },
+
+            // Dama - Otros servicios
+            { id: 'podologa-dama', name: 'Podóloga', description: 'Servicio de podología', price: 1200, turnos: 1, duration: '30-40 minutos', category: 'dama', subcategory: 'otros' },
+            { id: 'masaje-descontracturante-dama', name: 'Masaje descontracturante', description: 'Masaje descontracturante', price: 1300, turnos: 1, duration: '45-55 minutos', category: 'dama', subcategory: 'masajes' },
+            { id: 'maquillaje-fiesta', name: 'Maquillaje para fiesta', description: 'Maquillaje para fiestas', price: 0, turnos: 1, duration: '30-40 minutos', category: 'dama', subcategory: 'maquillaje' },
+            { id: 'maquillaje-eventos', name: 'Maquillaje 15 años y Novias', description: 'Maquillaje para 15 años y novias', price: 0, turnos: 1, duration: '40-50 minutos', category: 'dama', subcategory: 'maquillaje' },
+
+            // Niños - Cortes
+            { id: 'corte-nino', name: 'Corte Niño/a', description: 'Corte especial para niños', price: 550, turnos: 1, duration: '20-30 minutos', category: 'ninos', subcategory: 'cortes-peinados' }
+        ];
+
+        // Subcategories configuration
+        const subcategories = {
+            'cortes-peinados': { name: 'Cortes y Peinados', icon: '✂️' },
+            'tinte': { name: 'Tintes', icon: '🎨' },
+            'lavado-estilizado': { name: 'Lavado y Estilizado', icon: '🧴' },
+            'uñas': { name: 'Uñas', icon: '💅' },
+            'depilacion': { name: 'Depilación', icon: '🪒' },
+            'masajes': { name: 'Masajes', icon: '💆‍♀️' },
+            'maquillaje': { name: 'Maquillaje', icon: '💄' },
+            'otros': { name: 'Otros', icon: '🌟' }
+        };
+
+        // Categories configuration
+        const categories = [
+            { id: 'caballero', name: 'Caballero', icon: '👨', description: 'Servicios para hombres' },
+            { id: 'dama', name: 'Dama', icon: '👩', description: 'Servicios para mujeres' },
+            { id: 'ninos', name: 'Niños', icon: '👶', description: 'Servicios para niños' }
+        ];
+
+        // State
+        let selectedCategory = null;
+        let selectedServices = [];
+        let selectedDate = null;
+        let selectedTimeSlot = null;
+        let turnosData = {};
+        let activeSubcategory = null;
+        let reservasPorTurno = 1; // Configuración de reservas por turno (por defecto 1)
+        let reservasFechaUnsubscribe = null; // Variable global para el unsubscribe del listener por fecha
+
+        // Initialize turnos data from Firebase
+        async function initTurnosData() {
+            try {
+                console.log('🔄 Cargando turnosData de Firebase...');
+
+                // Verificar si Firebase está inicializado
+                if (typeof firebase === 'undefined' || !firebase.firestore) {
+                    console.log('❌ Firebase no está inicializado');
+                    throw new Error('Firebase no inicializado');
+                }
+
+                turnosData = await obtenerTurnosDataFirebase();
+                console.log('✅ turnosData cargado de Firebase:', JSON.stringify(turnosData, null, 2));
+
+                // Check if turnosData is valid
+                if (typeof turnosData !== 'object' || turnosData === null) {
+                    console.log('⚠️ turnosData corrupto, reiniciando');
+                    turnosData = {};
+                    await saveTurnosData();
+                }
+
+                // Cargar configuración de reservas por turno
+                reservasPorTurno = await obtenerConfigReservasPorTurno();
+                console.log('✅ Configuración de reservas por turno cargada:', reservasPorTurno);
+            } catch (e) {
+                console.log('❌ Error al cargar turnosData de Firebase:', e);
+                turnosData = {};
+                reservasPorTurno = 1;
+            }
+        }
+
+        // Recargar turnosData (para actualizaciones en tiempo real)
+        function recargarTurnosData() {
+            console.log('Recargando turnosData...');
+            initTurnosData();
+        }
+
+        // Escuchar cambios en tiempo real en turnosData
+        function iniciarEscuchaTurnosData() {
+            try {
+                console.log('Iniciando escucha de turnosData en tiempo real...');
+                console.log('Verificando Firebase inicializado:', typeof firebase !== 'undefined');
+                console.log('Verificando Firestore inicializado:', typeof db !== 'undefined');
+                console.log('db object:', db);
+
+                if (typeof firebase === 'undefined') {
+                    console.error('❌ Firebase no está definido');
+                    return;
+                }
+
+                if (!db) {
+                    console.error('❌ Firestore (db) no está inicializado');
+                    return;
+                }
+
+                console.log('✅ Firebase y Firestore están inicializados correctamente');
+
+                const unsubscribe = escucharTurnosDataFirebase(async (data) => {
+                    console.log('=== ACTUALIZACIÓN DE TURNOSDATA ===');
+                    console.log('Datos recibidos de Firebase:', JSON.stringify(data, null, 2));
+                    console.log('turnosData actual:', JSON.stringify(turnosData, null, 2));
+
+                    // Solo actualizar turnosData localmente sin efectos secundarios
+                    turnosData = data;
+                    console.log('✅ turnosData actualizado desde Firebase');
+
+                    // Recargar solo cuando es necesario según el estado de la UI
+                    const daysGrid = document.getElementById('daysGrid');
+                    const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+
+                    console.log('Estado de la UI:');
+                    console.log('daysGrid existe:', !!daysGrid);
+                    console.log('daysGrid display:', daysGrid ? daysGrid.style.display : 'N/A');
+                    console.log('timeSlotsContainer existe:', !!timeSlotsContainer);
+                    console.log('timeSlotsContainer display:', timeSlotsContainer ? timeSlotsContainer.style.display : 'N/A');
+                    console.log('selectedDate:', selectedDate);
+
+                    // Solo recargar si hay elementos visibles en la UI
+                    if (timeSlotsContainer && timeSlotsContainer.classList.contains('show') && selectedDate) {
+                        console.log('🔄 Recargando turnos debido a cambio en turnosData');
+                        // Usar renderTimeSlots en lugar de showTimeSlots para evitar loop
+                        await renderTimeSlots(selectedDate);
+                    } else if (daysGrid && daysGrid.style.display === 'grid' && daysGrid.children.length > 0) {
+                        console.log('🔄 Recargando días debido a cambio en turnosData');
+                        await renderDays();
+                    } else {
+                        console.log('ℹ️ No es necesario recargar - UI no está visible');
+                    }
+                });
+
+                // Guardar la función de limpieza para cuando se necesite
+                window.turnosDataUnsubscribe = unsubscribe;
+                console.log('✅ Escucha de turnosData iniciada correctamente');
+                console.log('Función unsubscribe guardada en window.turnosDataUnsubscribe');
+            } catch (error) {
+                console.error('❌ Error al iniciar escucha de turnosData:', error);
+                console.error('Error stack:', error.stack);
+            }
+        }
+
+        // Listener de eventos de storage (ya no se usa, pero se mantiene por compatibilidad)
+        window.addEventListener('storage', async function(event) {
+            // Ya no necesitamos escuchar cambios en localStorage
+            // Los cambios se manejan a través de listeners en tiempo real de Firebase
+        });
+
+        // Escuchar cambios en la configuración de reservas por turno
+        function iniciarEscuchaConfigReservasPorTurno() {
+            try {
+                if (typeof firebase === 'undefined' || !firebase.firestore) {
+                    console.log('Firebase no está inicializado, no se puede escuchar configuración');
+                    return;
+                }
+
+                const unsubscribe = escucharConfigReservasPorTurnoFirebase(async (config) => {
+                    const nuevaCantidad = config.cantidad || 1;
+                    console.log('Configuración de reservas por turno actualizada:', nuevaCantidad);
+
+                    if (reservasPorTurno !== nuevaCantidad) {
+                        reservasPorTurno = nuevaCantidad;
+                        console.log('Actualizando reservasPorTurno a:', reservasPorTurno);
+
+                        // Recargar la vista si estamos mostrando días o turnos
+                        const daysGrid = document.getElementById('daysGrid');
+                        const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+
+                        if (daysGrid && daysGrid.style.display === 'grid') {
+                            await renderDays();
+                        } else if (selectedDate && timeSlotsContainer && timeSlotsContainer.style.display === 'block') {
+                            await showTimeSlots(selectedDate);
+                        }
+                    }
+                });
+
+                // Guardar la función de limpieza para cuando se necesite
+                window.configReservasPorTurnoUnsubscribe = unsubscribe;
+            } catch (error) {
+                console.error('Error al escuchar configuración de reservas por turno:', error);
+            }
+        }
+
+        // Services configuration
+        let configServicios = {};
+
+        // Días cerrados configuration
+        let diasCerrados = [];
+
+        // Cargar configuración de servicios
+        async function cargarConfigServicios() {
+            try {
+                if (typeof firebase === 'undefined' || !firebase.firestore) {
+                    console.log('Firebase no está inicializado, usando configuración por defecto');
+                    configServicios = {};
+                    return;
+                }
+                configServicios = await obtenerConfigServicios();
+                console.log('Configuración de servicios cargada:', configServicios);
+                console.log('Configuración de anticipación:', Object.keys(configServicios).map(id => ({
+                    id,
+                    anticipacion: configServicios[id]?.anticipacion
+                })));
+            } catch (error) {
+                console.error('Error al cargar configuración de servicios:', error);
+                configServicios = {};
+            }
+        }
+
+        // Verificar si un servicio está habilitado
+        function isServiceEnabled(serviceId) {
+            const config = configServicios[serviceId];
+            if (!config) return true; // Habilitado por defecto
+            return config.enabled !== false;
+        }
+
+        // Verificar si un servicio está disponible en una fecha y hora específicas
+        function isServiceAvailableInTimeRange(serviceId, dateKey, timeSlot) {
+            const config = configServicios[serviceId];
+            if (!config || !config.timeRestriction || !config.timeRestriction.enabled) {
+                return true; // Sin restricción de tiempo
+            }
+
+            const restriction = config.timeRestriction;
+            if (!restriction.startTime || !restriction.endTime) {
+                return true; // Restricción incompleta, permitir
+            }
+
+            // Verificar si el horario está dentro del rango
+            const [slotHour, slotMin] = timeSlot.split(':').map(Number);
+            const [startHour, startMin] = restriction.startTime.split(':').map(Number);
+            const [endHour, endMin] = restriction.endTime.split(':').map(Number);
+
+            const slotTime = slotHour * 60 + slotMin;
+            const startTime = startHour * 60 + startMin;
+            const endTime = endHour * 60 + endMin;
+
+            // Verificar restricción según el tipo
+            if (restriction.type === 'daily') {
+                // Restricción diaria: aplicar a todos los días
+                return slotTime >= startTime && slotTime <= endTime;
+            } else if (restriction.type === 'specific') {
+                // Restricción específica: verificar fecha
+                if (!restriction.date) {
+                    return true; // Sin fecha especificada, permitir
+                }
+
+                // Parsear la fecha de la restricción
+                const [day, month, year] = restriction.date.split('/').map(Number);
+                const restrictionDate = new Date(year, month - 1, day);
+                const restrictionDateKey = formatDateKey(restrictionDate);
+
+                // Verificar si es la fecha correcta
+                if (restrictionDateKey !== dateKey) {
+                    return false;
+                }
+
+                return slotTime >= startTime && slotTime <= endTime;
+            }
+
+            return true; // Tipo desconocido, permitir
+        }
+
+        // Obtener las fechas específicas permitidas para los servicios seleccionados
+        function getSpecificDatesForSelectedServices() {
+            const specificDates = new Set();
+
+            for (const service of selectedServices) {
+                const config = configServicios[service.id];
+                if (config && config.timeRestriction && config.timeRestriction.enabled && config.timeRestriction.type === 'specific' && config.timeRestriction.date) {
+                    // Parsear la fecha de la restricción
+                    const [day, month, year] = config.timeRestriction.date.split('/').map(Number);
+                    const restrictionDate = new Date(year, month - 1, day);
+                    const restrictionDateKey = formatDateKey(restrictionDate);
+                    specificDates.add(restrictionDateKey);
+                }
+            }
+
+            return Array.from(specificDates);
+        }
+
+        // Verificar si un día está permitido para los servicios seleccionados
+        function isDayAllowedForServices(dateKey) {
+            const specificDates = getSpecificDatesForSelectedServices();
+
+            // Si no hay fechas específicas, todos los días están permitidos
+            if (specificDates.length === 0) {
+                return true;
+            }
+
+            // Si hay fechas específicas, solo permitir esos días
+            return specificDates.includes(dateKey);
+        }
+
+        // Validar anticipación de servicios
+        function validarAnticipacionServicios() {
+            console.log('Validando anticipación de servicios...');
+            console.log('selectedDate:', selectedDate);
+            console.log('selectedTimeSlot:', selectedTimeSlot);
+            console.log('selectedServices:', selectedServices);
+            console.log('configServicios:', configServicios);
+
+            const now = new Date();
+            const [year, month, day] = selectedDate.split('-').map(Number);
+            const reservationDate = new Date(year, month - 1, day);
+
+            // Obtener el horario de la reserva
+            const dayOfWeek = reservationDate.getDay();
+            const slots = generateTimeSlotsForDay(dayOfWeek);
+            const slot = slots.find(s => s.id === selectedTimeSlot);
+
+            if (!slot) {
+                console.log('No se encontró el slot');
+                return { valid: true, message: '' };
+            }
+
+            // Crear fecha completa de la reserva con hora
+            const [slotHour, slotMin] = slot.arrivalTime.split(':').map(Number);
+            reservationDate.setHours(slotHour, slotMin, 0, 0);
+
+            // Calcular diferencia en horas
+            const diffHours = (reservationDate - now) / (1000 * 60 * 60);
+            console.log('Fecha de reserva:', reservationDate);
+            console.log('Fecha actual:', now);
+            console.log('Diferencia en horas:', diffHours);
+
+            // Verificar anticipación para cada servicio
+            for (const service of selectedServices) {
+                const config = configServicios[service.id];
+                const anticipacion = config?.anticipacion || 0;
+                console.log(`Servicio: ${service.name}, Anticipación requerida: ${anticipacion} horas`);
+
+                if (anticipacion > 0 && diffHours < anticipacion) {
+                    console.log('Validación de anticipación fallida');
+                    return {
+                        valid: false,
+                        message: `El servicio "${service.name}" requiere ${anticipacion} horas de anticipación. La reserva debe hacerse al menos ${anticipacion} horas antes del horario seleccionado.`
+                    };
+                }
+            }
+
+            console.log('Validación de anticipación exitosa');
+            return { valid: true, message: '' };
+        }
+
+        // Escuchar cambios en la configuración de servicios
+        function iniciarEscuchaConfigServicios() {
+            try {
+                if (typeof firebase === 'undefined' || !firebase.firestore) {
+                    console.log('Firebase no está inicializado, no se puede escuchar configuración de servicios');
+                    return;
+                }
+
+                const unsubscribe = escucharConfigServiciosFirebase(async (config) => {
+                    console.log('Configuración de servicios actualizada:', config);
+                    const oldConfig = JSON.stringify(configServicios);
+                    const newConfig = JSON.stringify(config);
+
+                    if (oldConfig !== newConfig) {
+                        configServicios = config;
+                        console.log('Actualizando configuración de servicios');
+
+                        // Recargar la vista si estamos mostrando servicios
+                        const servicesGrid = document.getElementById('servicesGrid');
+                        const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+
+                        if (servicesGrid && servicesGrid.style.display === 'grid') {
+                            renderServices();
+                        } else if (selectedDate && timeSlotsContainer && timeSlotsContainer.style.display === 'block') {
+                            await showTimeSlots(selectedDate);
+                        }
+                    }
+                });
+
+                // Guardar la función de limpieza para cuando se necesite
+                window.configServiciosUnsubscribe = unsubscribe;
+            } catch (error) {
+                console.error('Error al escuchar configuración de servicios:', error);
+            }
+        }
+
+        // Escuchar cambios en la configuración de turnos
+        function iniciarEscuchaConfigTurnos() {
+            try {
+                if (typeof firebase === 'undefined' || !firebase.firestore) {
+                    console.log('Firebase no está inicializado, no se puede escuchar configuración de turnos');
+                    return;
+                }
+
+                const unsubscribe = escucharConfigTurnosFirebase(async (config) => {
+                    console.log('Configuración de turnos actualizada:', config);
+                    const oldConfig = JSON.stringify(configTurnos);
+                    const newConfig = JSON.stringify(config);
+
+                    if (oldConfig !== newConfig) {
+                        configTurnos = config;
+                        console.log('Actualizando configuración de turnos:', configTurnos);
+                        console.log('Nuevo total de turnos por día:', getTotalTurnosPerDay());
+                        console.log('Nuevo plazo de días para reservar:', configTurnos.maxDiasAdelanto || 15);
+
+                        // Recargar la vista si estamos mostrando días o turnos
+                        const daysGrid = document.getElementById('daysGrid');
+                        const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+
+                        if (daysGrid && daysGrid.style.display === 'grid') {
+                            await renderDays();
+                        } else if (selectedDate && timeSlotsContainer && timeSlotsContainer.style.display === 'block') {
+                            await showTimeSlots(selectedDate);
+                        }
+                    }
+                });
+
+                // Guardar la función de limpieza para cuando se necesite
+                window.configTurnosUnsubscribe = unsubscribe;
+            } catch (error) {
+                console.error('Error al escuchar configuración de turnos:', error);
+            }
+        }
+
+        // Escuchar cambios en la configuración de horarios
+        function iniciarEscuchaConfigHorarios() {
+            try {
+                if (typeof firebase === 'undefined' || !firebase.firestore) {
+                    console.log('Firebase no está inicializado, no se puede escuchar configuración de horarios');
+                    return;
+                }
+
+                const unsubscribe = escucharConfigHorariosFirebase(async (horarios) => {
+                    console.log('Configuración de horarios actualizada:', horarios);
+                    const oldConfig = JSON.stringify(businessHours);
+
+                    // Mapear nombres de días en español a números (0 = domingo, 1 = lunes, etc.)
+                    const dayMapping = {
+                        'domingo': 0,
+                        'lunes': 1,
+                        'martes': 2,
+                        'miercoles': 3,
+                        'jueves': 4,
+                        'viernes': 5,
+                        'sabado': 6
+                    };
+
+                    // Actualizar businessHours con los horarios de Firebase
+                    for (const [diaNombre, config] of Object.entries(horarios)) {
+                        const dayNumber = dayMapping[diaNombre.toLowerCase()];
+                        if (dayNumber !== undefined) {
+                            if (config.enabled && config.inicio && config.fin) {
+                                businessHours[dayNumber] = {
+                                    start: config.inicio,
+                                    end: config.fin
+                                };
+                            } else {
+                                businessHours[dayNumber] = null; // Día cerrado
+                            }
+                        }
+                    }
+
+                    const newConfig = JSON.stringify(businessHours);
+
+                    if (oldConfig !== newConfig) {
+                        console.log('Actualizando horarios de atención:', businessHours);
+
+                        // Recargar la vista si estamos mostrando días o turnos
+                        const daysGrid = document.getElementById('daysGrid');
+                        const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+
+                        if (daysGrid && daysGrid.style.display === 'grid') {
+                            await renderDays();
+                        } else if (selectedDate && timeSlotsContainer && timeSlotsContainer.style.display === 'block') {
+                            await showTimeSlots(selectedDate);
+                        }
+                    }
+                });
+
+                // Guardar la función de limpieza para cuando se necesite
+                window.configHorariosUnsubscribe = unsubscribe;
+            } catch (error) {
+                console.error('Error al escuchar configuración de horarios:', error);
+            }
+        }
+
+        // Cargar días cerrados
+        async function cargarDiasCerrados() {
+            try {
+                if (typeof firebase === 'undefined' || !firebase.firestore) {
+                    console.log('Firebase no está inicializado, usando configuración por defecto');
+                    diasCerrados = [];
+                    return;
+                }
+                diasCerrados = await obtenerDiasCerradosFirebase();
+                console.log('Días cerrados cargados:', diasCerrados);
+            } catch (error) {
+                console.error('Error al cargar días cerrados:', error);
+                diasCerrados = [];
+            }
+        }
+
+        // Escuchar cambios en los días cerrados
+        function iniciarEscuchaDiasCerrados() {
+            try {
+                if (typeof firebase === 'undefined' || !firebase.firestore) {
+                    console.log('Firebase no está inicializado, no se pueden escuchar días cerrados');
+                    return;
+                }
+
+                const unsubscribe = escucharDiasCerradosFirebase(async (dias) => {
+                    console.log('Días cerrados actualizados:', dias);
+                    const oldDias = JSON.stringify(diasCerrados);
+                    const newDias = JSON.stringify(dias);
+
+                    if (oldDias !== newDias) {
+                        diasCerrados = dias;
+                        console.log('Actualizando días cerrados');
+
+                        // Recargar la vista si estamos mostrando días
+                        const daysGrid = document.getElementById('daysGrid');
+                        if (daysGrid && daysGrid.style.display === 'grid') {
+                            await renderDays();
+                        }
+                    }
+                });
+
+                // Guardar la función de limpieza para cuando se necesite
+                window.diasCerradosUnsubscribe = unsubscribe;
+            } catch (error) {
+                console.error('Error al escuchar días cerrados:', error);
+            }
+        }
+
+        // Verificar si un día está cerrado
+        function isDayClosed(dateKey) {
+            return diasCerrados.some(dia => dia.fecha === dateKey);
+        }
+
+        // Save turnos data to Firebase
+        async function saveTurnosData() {
+            try {
+                await guardarTurnosDataFirebase(turnosData);
+            } catch (e) {
+                console.log('Error al guardar en Firebase:', e);
+                throw e;
+            }
+        }
+
+        // Clear turnos data (for debugging)
+        function clearTurnosData() {
+            turnosData = {};
+            location.reload();
+        }
+
+        // Get turnos availability for a specific date and time slot
+        async function getTurnosDisponibles(dateKey, slotId) {
+            console.log('getTurnosDisponibles - dateKey:', dateKey, 'slotId:', slotId, 'reservasPorTurno:', reservasPorTurno);
+            console.log('getTurnosDisponibles - turnosData completo:', JSON.stringify(turnosData, null, 2));
+
+            // Usar turnosData local (actualizado por el listener en tiempo real)
+            console.log('turnosData[dateKey]:', turnosData[dateKey]);
+
+            if (!turnosData[dateKey] || !turnosData[dateKey][slotId]) {
+                console.log('No hay datos para este slot, devolviendo', reservasPorTurno);
+                return reservasPorTurno; // Each slot has reservasPorTurno turnos available
+            }
+
+            const slotData = turnosData[dateKey][slotId];
+            console.log('getTurnosDisponibles - slotData:', JSON.stringify(slotData, null, 2));
+
+            // Handle both old format (with 'available') and new format (with 'used')
+            if (slotData.available !== undefined && slotData.used === undefined) {
+                // Old format: migrate to new format
+                const used = reservasPorTurno - slotData.available;
+                slotData.used = used;
+                delete slotData.available;
+                console.log('Migrando formato antiguo a nuevo - used:', used);
+                return Math.max(0, reservasPorTurno - used);
+            }
+
+            // New format: use both available and used (like old admin panel)
+            if (slotData.available !== undefined && slotData.used !== undefined) {
+                // Use available directly (like old admin panel does)
+                const result = Math.max(0, slotData.available);
+                console.log('Slot data - available:', slotData.available, 'used:', slotData.used, 'calculated available:', result);
+                return result;
+            }
+
+            // Fallback: use only used field
+            const used = slotData.used || 0;
+            const result = Math.max(0, reservasPorTurno - used);
+            console.log('Slot data - used:', used, 'calculated available:', result);
+            return result;
+        }
+
+        // Check if there are enough consecutive turnos available starting from a specific slot
+        async function hasEnoughConsecutiveTurnos(dateKey, startSlotId, turnosNeeded) {
+            console.log('🔍 hasEnoughConsecutiveTurnos - dateKey:', dateKey, 'startSlotId:', startSlotId, 'turnosNeeded:', turnosNeeded, 'reservasPorTurno:', reservasPorTurno);
+
+            // If no turnos needed, always return true
+            if (turnosNeeded === 0) {
+                console.log('✅ No se necesitan turnos, devolviendo true');
+                return true;
+            }
+
+            // Parse date correctly to avoid timezone issues
+            const [year, month, day] = dateKey.split('-').map(Number);
+            const date = new Date(year, month - 1, day);
+            const dayOfWeek = date.getDay();
+            const slots = generateTimeSlotsForDay(dayOfWeek);
+
+            console.log('hasEnoughConsecutiveTurnos - dateKey:', dateKey, 'parsed date:', date, 'dayOfWeek:', dayOfWeek, 'slots.length:', slots.length);
+
+            // Check if we have enough slots remaining
+            if (startSlotId + turnosNeeded > slots.length) {
+                console.log('❌ No hay suficientes slots restantes');
+                return false;
+            }
+
+            // Check if all consecutive slots are available
+            for (let i = 0; i < turnosNeeded; i++) {
+                const slotId = startSlotId + i;
+                const slot = slots[slotId];
+
+                // Check if slot is in the past
+                const isInPast = isTimeSlotInPast(dateKey, slot.time);
+                if (isInPast) {
+                    console.log('❌ Slot', slotId, 'is in past');
+                    return false;
+                }
+
+                const available = await getTurnosDisponibles(dateKey, slotId);
+                console.log(`hasEnoughConsecutiveTurnos - checking slot ${slotId} (${slot.time}): available=${available}, reservasPorTurno=${reservasPorTurno}`);
+                if (available < 1) {
+                    console.log('❌ Slot', slotId, 'no disponible (available < 1)');
+                    return false;
+                }
+            }
+
+            console.log('✅ Todos los slots consecutivos están disponibles');
+            return true;
+        }
+
+        // Get the range of slots that would be occupied by a booking
+        function getOccupiedSlotRange(startSlotId, turnosNeeded) {
+            const slots = [];
+            for (let i = 0; i < turnosNeeded; i++) {
+                slots.push(startSlotId + i);
+            }
+            return slots;
+        }
+
+        // Use turnos for a booking
+        async function useTurnos(dateKey, startSlotId, cantidad) {
+            if (!turnosData[dateKey]) {
+                turnosData[dateKey] = {};
+            }
+
+            // Mark all consecutive slots as occupied
+            for (let i = 0; i < cantidad; i++) {
+                const slotId = startSlotId + i;
+
+                if (!turnosData[dateKey][slotId]) {
+                    turnosData[dateKey][slotId] = { available: reservasPorTurno, used: 0 };
+                }
+
+                // Increment used and decrement available (like old admin panel)
+                turnosData[dateKey][slotId].used += 1;
+                turnosData[dateKey][slotId].available = Math.max(0, (turnosData[dateKey][slotId].available || reservasPorTurno) - 1);
+            }
+
+            await saveTurnosData();
+        }
+
+        // Release turnos (liberar turnos cuando se cancela una reserva)
+        async function liberarTurnos(dateKey, startSlotId, cantidad) {
+            if (!turnosData[dateKey]) {
+                turnosData[dateKey] = {};
+            }
+
+            // Release all consecutive slots
+            for (let i = 0; i < cantidad; i++) {
+                const slotId = startSlotId + i;
+
+                if (!turnosData[dateKey][slotId]) {
+                    turnosData[dateKey][slotId] = { available: reservasPorTurno, used: 0 };
+                }
+
+                // Decrement used and increment available (like old admin panel)
+                turnosData[dateKey][slotId].used = Math.max(0, (turnosData[dateKey][slotId].used || 0) - 1);
+                turnosData[dateKey][slotId].available = Math.max(0, (turnosData[dateKey][slotId].available || 0) + 1);
+            }
+
+            await saveTurnosData();
+        }
+
+        // Make liberarTurnos available globally for admin panel
+        window.liberarTurnos = liberarTurnos;
+
+        // Get total available turnos for a day
+        async function getTotalTurnosDisponibles(dateKey) {
+            console.log('📊 Calculando turnos disponibles para', dateKey);
+            let total = 0;
+
+            // Parse date correctly to avoid timezone issues
+            const [year, month, day] = dateKey.split('-').map(Number);
+            const date = new Date(year, month - 1, day);
+            const dayOfWeek = date.getDay();
+            const slots = generateTimeSlotsForDay(dayOfWeek);
+
+            console.log('getTotalTurnosDisponibles - dateKey:', dateKey, 'parsed date:', date, 'dayOfWeek:', dayOfWeek, 'slots.length:', slots.length);
+
+            for (const slot of slots) {
+                // Check if slot is in the past
+                const isInPast = isTimeSlotInPast(dateKey, slot.time);
+
+                // Only count slots that are not in the past
+                if (!isInPast) {
+                    const available = await getTurnosDisponibles(dateKey, slot.id);
+                    total += available;
+                    console.log(`Slot ${slot.id} (${slot.time}): ${available} turnos disponibles`);
+                } else {
+                    console.log(`Slot ${slot.id} (${slot.time}): en el pasado, no se cuenta`);
+                }
+            }
+
+            console.log(`Total turnos disponibles para ${dateKey}: ${total}`);
+            return total;
+        }
+
+        // Get total turnos needed for selected services
+        function getTotalTurnosNeeded() {
+            return selectedServices.reduce((total, service) => total + service.turnos, 0);
+        }
+
+        // Get total price for selected services
+        function getTotalPrice() {
+            return selectedServices.reduce((total, service) => total + service.price, 0);
+        }
+
+        // Get total duration for selected services
+        function getTotalDuration() {
+            if (selectedServices.length === 0) return '0 minutos';
+
+            let totalMin = 0;
+            let totalMax = 0;
+
+            selectedServices.forEach(service => {
+                if (service.duration) {
+                    // Parse duration format "25-35 minutos"
+                    const match = service.duration.match(/(\d+)-(\d+)\s*minutos/);
+                    if (match) {
+                        totalMin += parseInt(match[1]);
+                        totalMax += parseInt(match[2]);
+                    }
+                }
+            });
+
+            return `${totalMin}-${totalMax} minutos`;
+        }
+
+        // Check if a day has enough turnos for selected services
+        async function hasEnoughTurnosForServices(dateKey) {
+            const turnosNeeded = getTotalTurnosNeeded();
+
+            console.log('🔍 hasEnoughTurnosForServices - dateKey:', dateKey, 'turnosNeeded:', turnosNeeded);
+
+            // If no turnos needed, always return true
+            if (turnosNeeded === 0) {
+                console.log('✅ No se necesitan turnos, devolviendo true');
+                return true;
+            }
+
+            // Parse date correctly to avoid timezone issues
+            const [year, month, day] = dateKey.split('-').map(Number);
+            const date = new Date(year, month - 1, day);
+            const dayOfWeek = date.getDay();
+            const slots = generateTimeSlotsForDay(dayOfWeek);
+
+            console.log('hasEnoughTurnosForServices - dateKey:', dateKey, 'parsed date:', date, 'dayOfWeek:', dayOfWeek, 'slots.length:', slots.length);
+
+            // Check if there are enough consecutive turnos available
+            for (let i = 0; i <= slots.length - turnosNeeded; i++) {
+                // Check if the starting slot is in the past
+                const isInPast = isTimeSlotInPast(dateKey, slots[i].time);
+
+                // Skip slots that are in the past
+                if (isInPast) {
+                    console.log(`hasEnoughTurnosForServices - slot ${i} (${slots[i].time}) is in past, skipping`);
+                    continue;
+                }
+
+                const hasEnough = await hasEnoughConsecutiveTurnos(dateKey, i, turnosNeeded);
+                console.log(`hasEnoughTurnosForServices - checking slot ${i} (${slots[i].time}): hasEnough=${hasEnough}`);
+                if (hasEnough) {
+                    console.log(`✅ Slot ${i} (${slots[i].time}) tiene suficientes turnos consecutivos`);
+                    return true;
+                }
+            }
+
+            console.log('❌ hasEnoughTurnosForServices - no hay suficientes turnos consecutivos');
+            return false;
+        }
+
+        // Generate days for the next configured days
+        async function generateDays() {
+            console.log('🔄 Generando días...');
+            const days = [];
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const turnosNeeded = getTotalTurnosNeeded();
+            const maxDays = configTurnos.maxDiasAdelanto || 15; // Use configured days, default to 15
+
+            // Obtener fechas específicas para los servicios seleccionados
+            const specificDates = getSpecificDatesForSelectedServices();
+            const hasSpecificDates = specificDates.length > 0;
+
+            console.log('generateDays - turnosNeeded:', turnosNeeded, 'maxDays:', maxDays);
+            console.log('generateDays - specificDates:', specificDates, 'hasSpecificDates:', hasSpecificDates);
+            console.log('generateDays - turnosData actual:', JSON.stringify(turnosData, null, 2));
+
+            // Si hay fechas específicas, generar días solo para esas fechas
+            if (hasSpecificDates) {
+                console.log('Generando días solo para fechas específicas:', specificDates);
+
+                for (const dateKey of specificDates) {
+                    const [year, month, day] = dateKey.split('-').map(Number);
+                    const date = new Date(year, month - 1, day);
+                    const dayOfWeek = date.getDay();
+
+                    console.log('Procesando día específico:', dateKey, 'dayOfWeek:', dayOfWeek);
+
+                    // Skip Sundays (0)
+                    if (dayOfWeek === 0) {
+                        console.log('Saltando domingo');
+                        continue;
+                    }
+
+                    // Check if day is open (has business hours)
+                    const hours = businessHours[dayOfWeek];
+                    console.log('Horarios para día', dayOfWeek, ':', hours);
+                    if (!hours) {
+                        console.log('Saltando día sin horarios');
+                        continue;
+                    }
+
+                    // Check if day is closed
+                    if (isDayClosed(dateKey)) {
+                        console.log('Saltando día cerrado:', dateKey);
+                        continue;
+                    }
+
+                    // Check if there are enough turnos for selected services
+                    const hasEnoughTurnos = await hasEnoughTurnosForServices(dateKey);
+
+                    console.log('Agregando día específico:', dateKey, 'hasEnoughTurnos:', hasEnoughTurnos);
+
+                    days.push({
+                        date: date,
+                        dateKey: dateKey,
+                        dayName: getDayName(dayOfWeek),
+                        dayNumber: date.getDate(),
+                        month: date.getMonth() + 1,
+                        year: date.getFullYear(),
+                        hasEnoughTurnos: hasEnoughTurnos
+                    });
+                }
+            } else {
+                // Si no hay fechas específicas, generar días normalmente
+                console.log('Generando días normalmente (sin restricciones de fecha específica)');
+
+                for (let i = 0; i < maxDays; i++) {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() + i);
+
+                    const dayOfWeek = date.getDay();
+                    const dateKey = formatDateKey(date);
+
+                    console.log('Procesando día:', dateKey, 'dayOfWeek:', dayOfWeek);
+
+                    // Skip Sundays (0)
+                    if (dayOfWeek === 0) {
+                        console.log('Saltando domingo');
+                        continue;
+                    }
+
+                    // Check if day is open (has business hours)
+                    const hours = businessHours[dayOfWeek];
+                    console.log('Horarios para día', dayOfWeek, ':', hours);
+                    if (!hours) {
+                        console.log('Saltando día sin horarios');
+                        continue;
+                    }
+
+                    // Check if day is closed
+                    if (isDayClosed(dateKey)) {
+                        console.log('Saltando día cerrado:', dateKey);
+                        continue;
+                    }
+
+                    // Check if there are enough turnos for selected services
+                    const hasEnoughTurnos = await hasEnoughTurnosForServices(dateKey);
+
+                    console.log('Agregando día:', dateKey, 'hasEnoughTurnos:', hasEnoughTurnos);
+
+                    days.push({
+                        date: date,
+                        dateKey: dateKey,
+                        dayName: getDayName(dayOfWeek),
+                        dayNumber: date.getDate(),
+                        month: date.getMonth() + 1,
+                        year: date.getFullYear(),
+                        hasEnoughTurnos: hasEnoughTurnos
+                    });
+                }
+            }
+
+            console.log('Días generados:', days.length);
+            return days;
+        }
+
+        // Format date as YYYY-MM-DD
+        function formatDateKey(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Get day name in Spanish
+        function getDayName(dayOfWeek) {
+            const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            return days[dayOfWeek];
+        }
+
+        // Load turnos configuration from Firebase
+        async function cargarConfigTurnos() {
+            try {
+                console.log('Cargando configuración de turnos de Firebase...');
+                const config = await obtenerConfigTurnosFirebase();
+                if (config) {
+                    configTurnos = config;
+                    console.log('Configuración de turnos cargada:', configTurnos);
+                    console.log('Total turnos por día calculado:', getTotalTurnosPerDay());
+                    console.log('Plazo de días para reservar:', configTurnos.maxDiasAdelanto || 15);
+                } else {
+                    console.log('No hay configuración de turnos, usando valores por defecto');
+                    console.log('Plazo de días para reservar (default):', configTurnos.maxDiasAdelanto || 15);
+                }
+            } catch (error) {
+                console.error('Error al cargar configuración de turnos:', error);
+            }
+        }
+
+        // Load horarios configuration from Firebase
+        async function cargarConfigHorarios() {
+            try {
+                console.log('Cargando configuración de horarios de Firebase...');
+                const horarios = await obtenerConfigHorariosFirebase();
+                if (horarios && Object.keys(horarios).length > 0) {
+                    console.log('Horarios cargados de Firebase:', horarios);
+
+                    // Mapear nombres de días en español a números (0 = domingo, 1 = lunes, etc.)
+                    const dayMapping = {
+                        'domingo': 0,
+                        'lunes': 1,
+                        'martes': 2,
+                        'miercoles': 3,
+                        'jueves': 4,
+                        'viernes': 5,
+                        'sabado': 6
+                    };
+
+                    // Actualizar businessHours con los horarios de Firebase
+                    for (const [diaNombre, config] of Object.entries(horarios)) {
+                        const dayNumber = dayMapping[diaNombre.toLowerCase()];
+                        if (dayNumber !== undefined) {
+                            if (config.enabled && config.inicio && config.fin) {
+                                businessHours[dayNumber] = {
+                                    start: config.inicio,
+                                    end: config.fin
+                                };
+                            } else {
+                                businessHours[dayNumber] = null; // Día cerrado
+                            }
+                        }
+                    }
+
+                    console.log('businessHours actualizado:', businessHours);
+                } else {
+                    console.log('No hay configuración de horarios, usando valores por defecto');
+                    console.log('Horarios por defecto:', businessHours);
+                }
+            } catch (error) {
+                console.error('Error al cargar configuración de horarios:', error);
+                console.log('Usando horarios por defecto debido a error:', businessHours);
+            }
+        }
+
+        // Initialize on load
+        window.onload = async function() {
+            console.log('🚀 Inicializando calendario...');
+
+            try {
+                await initTurnosData();
+                console.log('✅ turnosData inicializado');
+            } catch (error) {
+                console.error('❌ Error al inicializar turnosData:', error);
+                // Continuar aunque falle la inicialización de turnosData
+                turnosData = {};
+            }
+
+            // Cargar configuración de turnos
+            await cargarConfigTurnos();
+            console.log('✅ Configuración de turnos cargada');
+
+            // Cargar configuración de horarios
+            await cargarConfigHorarios();
+            console.log('✅ Configuración de horarios cargada');
+
+            // Cargar configuración de servicios
+            await cargarConfigServicios();
+            console.log('✅ Configuración de servicios cargada');
+
+            // Cargar días cerrados
+            await cargarDiasCerrados();
+            console.log('✅ Días cerrados cargados');
+
+            // Iniciar escuchas en tiempo real
+            console.log('🔧 Iniciando listeners en tiempo real...');
+            iniciarEscuchaConfigReservasPorTurno();
+            iniciarEscuchaConfigServicios();
+            iniciarEscuchaConfigTurnos();
+            iniciarEscuchaConfigHorarios();
+            iniciarEscuchaDiasCerrados();
+            iniciarEscuchaTurnosData(); // Escuchar cambios en turnosData
+            console.log('✅ Listeners en tiempo real iniciados');
+
+            // Renderizar categorías
+            renderCategories();
+            console.log('✅ Categorías renderizadas');
+        };
+
+        // Render categories
+        function renderCategories() {
+            const grid = document.getElementById('categoryGrid');
+            const spinner = document.getElementById('loadingSpinner');
+
+            // Mostrar spinner
+            spinner.classList.add('show');
+            grid.style.display = 'none';
+
+            grid.innerHTML = categories.map(category => {
+                return `
+                    <div class="category-card" onclick="selectCategory('${category.id}')">
+                        <div class="category-content">
+                            <div class="category-icon">${category.icon}</div>
+                            <div>
+                                <div class="category-name">${category.name}</div>
+                                <div class="category-description">${category.description}</div>
+                            </div>
+                        </div>
+                        <div class="service-action">
+                            <div class="service-add-btn">→</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Ocultar spinner y mostrar grid
+            spinner.classList.remove('show');
+            grid.style.display = 'flex';
+        }
+
+        // Select category
+        function selectCategory(categoryId) {
+            selectedCategory = categories.find(c => c.id === categoryId);
+
+            // Update selected state
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+
+            // Show services for this category
+            showServicesForCategory(categoryId);
+        }
+
+        // Show services for selected category
+        function showServicesForCategory(categoryId) {
+            // Update progress steps
+            updateProgressSteps(1);
+
+            // Reset active subcategory when switching categories
+            activeSubcategory = null;
+
+            // Hide category selection and show service selection
+            document.getElementById('categorySelection').style.display = 'none';
+            document.getElementById('serviceSelection').style.display = 'block';
+
+            // Show services title
+            document.getElementById('servicesTitle').style.display = 'block';
+
+            // Render services filtered by category
+            renderServices(categoryId);
+        }
+
+        // Render services grouped by subcategory with navigation
+        function renderServices(categoryId) {
+            const navMenu = document.getElementById('serviceNavMenu');
+            const serviceSections = document.getElementById('serviceSections');
+
+            // Filter services by category
+            const filteredServices = services.filter(service => service.category === categoryId);
+
+            // Filter services by configuration (enabled/disabled)
+            const enabledServices = filteredServices.filter(service => isServiceEnabled(service.id));
+
+            // Group services by subcategory
+            const groupedServices = {};
+            enabledServices.forEach(service => {
+                const subcategory = service.subcategory || 'otros';
+                if (!groupedServices[subcategory]) {
+                    groupedServices[subcategory] = [];
+                }
+                groupedServices[subcategory].push(service);
+            });
+
+            // Generate navigation menu
+            let navHtml = '';
+            const subcategoryIds = Object.keys(groupedServices);
+
+            subcategoryIds.forEach((subcategoryId, index) => {
+                const subcategory = subcategories[subcategoryId];
+                if (subcategory) {
+                    // Use activeSubcategory if set, otherwise default to first one
+                    const isActive = activeSubcategory === subcategoryId ? 'active' : (index === 0 && !activeSubcategory ? 'active' : '');
+                    const sectionId = subcategoryId.replace(/-/g, '-');
+                    navHtml += `
+                        <a href="#${sectionId}" class="service-nav-item ${isActive}" data-section="${sectionId}">
+                            ${subcategory.name}
+                        </a>
+                    `;
+                }
+            });
+
+            navMenu.innerHTML = navHtml;
+
+            // Generate service sections
+            let sectionsHtml = '';
+            for (const [subcategoryId, servicesList] of Object.entries(groupedServices)) {
+                const subcategory = subcategories[subcategoryId];
+                if (subcategory) {
+                    const sectionId = subcategoryId.replace(/-/g, '-');
+                    sectionsHtml += `
+                        <div class="service-section" id="${sectionId}">
+                            <h3>${subcategory.name}</h3>
+                            <div class="service-grid">
+                                ${servicesList.map(service => {
+                                    const isSelected = selectedServices.some(s => s.id === service.id);
+                                    const turnosText = service.turnos === 1 ? '1 turno' : `${service.turnos} turnos`;
+
+                                    return `
+                                        <div class="service-card ${isSelected ? 'selected' : ''}" onclick="toggleService('${service.id}')">
+                                            <div class="service-content">
+                                                <div class="service-name">${service.name}</div>
+                                                <div class="service-duration">${service.duration}</div>
+                                                <div class="service-description">${service.description}</div>
+                                                <div class="service-price">$U ${service.price.toLocaleString()}</div>
+                                            </div>
+                                            <div class="service-action">
+                                                <div class="service-add-btn">${isSelected ? '✓' : '+'}</div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            serviceSections.innerHTML = sectionsHtml;
+
+            // Show navigation menu
+            document.getElementById('serviceNav').style.display = 'block';
+
+            // Setup navigation click handlers
+            setupServiceNavigation();
+
+            // Update navigation arrows state
+            setTimeout(updateNavArrows, 100);
+
+            // Update fixed action bar
+            updateFixedActionBar();
+        }
+
+        // Setup service navigation
+        function setupServiceNavigation() {
+            const navItems = document.querySelectorAll('.service-nav-item');
+            const navMenu = document.getElementById('serviceNavMenu');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Remove active class from all items
+                    navItems.forEach(nav => nav.classList.remove('active'));
+
+                    // Add active class to clicked item
+                    this.classList.add('active');
+
+                    // Scroll to section
+                    const sectionId = this.getAttribute('data-section');
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Update active nav item on scroll
+            window.addEventListener('scroll', updateActiveNavItem);
+
+            // Update arrow buttons state
+            navMenu.addEventListener('scroll', updateNavArrows);
+            updateNavArrows();
+        }
+
+        // Scroll navigation menu
+        function scrollNav(direction) {
+            const navMenu = document.getElementById('serviceNavMenu');
+            const scrollAmount = 200;
+
+            if (direction === 'left') {
+                navMenu.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                navMenu.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
+        // Update navigation arrow buttons state
+        function updateNavArrows() {
+            const navMenu = document.getElementById('serviceNavMenu');
+            const leftArrow = document.getElementById('navLeftArrow');
+            const rightArrow = document.getElementById('navRightArrow');
+
+            // Check if can scroll left
+            leftArrow.disabled = navMenu.scrollLeft <= 0;
+
+            // Check if can scroll right
+            rightArrow.disabled = navMenu.scrollLeft >= navMenu.scrollWidth - navMenu.clientWidth;
+        }
+
+        // Update active navigation item on scroll
+        function updateActiveNavItem() {
+            const sections = document.querySelectorAll('.service-section');
+            const navItems = document.querySelectorAll('.service-nav-item');
+
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= sectionTop - 150) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-section') === currentSection) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Toggle service selection
+        function toggleService(serviceId) {
+            const service = services.find(s => s.id === serviceId);
+            const index = selectedServices.findIndex(s => s.id === serviceId);
+
+            if (index > -1) {
+                selectedServices.splice(index, 1);
+            } else {
+                selectedServices.push(service);
+            }
+
+            // Update active subcategory based on selected services
+            if (selectedServices.length > 0) {
+                // Set active subcategory to the last selected service's subcategory
+                activeSubcategory = service.subcategory;
+            } else {
+                // If no services selected, reset active subcategory
+                activeSubcategory = null;
+            }
+
+            // Re-render services with the current category
+            if (selectedCategory) {
+                renderServices(selectedCategory.id);
+            }
+        }
+
+        // Update fixed action bar
+        function updateFixedActionBar() {
+            const actionBar = document.getElementById('fixedActionBar');
+            const title = document.getElementById('fixedActionBarTitle');
+            const info = document.getElementById('fixedActionBarInfo');
+
+            if (selectedServices.length > 0) {
+                actionBar.classList.add('show');
+
+                const serviceNames = selectedServices.map(s => s.name).join(', ');
+                const totalTurnos = getTotalTurnosNeeded();
+                const totalPrice = getTotalPrice();
+
+                title.textContent = selectedServices.length === 1
+                    ? selectedServices[0].name
+                    : `${selectedServices.length} servicios seleccionados`;
+
+                info.textContent = `${totalTurnos} turno(s) • $U ${totalPrice.toLocaleString()}`;
+            } else {
+                actionBar.classList.remove('show');
+            }
+        }
+
+        // Go to days selection
+        async function goToDays() {
+            if (selectedServices.length === 0) {
+                alert('Por favor selecciona al menos un servicio.');
+                return;
+            }
+
+            // Update progress steps
+            updateProgressSteps(2);
+
+            // Hide fixed action bar
+            document.getElementById('fixedActionBar').classList.remove('show');
+
+            // Show days grid directly (skip cart view)
+            document.getElementById('serviceSelection').style.display = 'none';
+            document.getElementById('serviceCart').style.display = 'none';
+            document.getElementById('daysGrid').style.display = 'grid';
+
+            // Render days
+            await renderDays();
+
+            // Scroll to top of days section
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Back to services
+        function backToServices() {
+            // Update progress steps
+            updateProgressSteps(1);
+
+            // Show fixed action bar
+            updateFixedActionBar();
+
+            // Show service selection
+            document.getElementById('serviceSelection').style.display = 'block';
+            document.getElementById('serviceCart').style.display = 'none';
+            document.getElementById('daysGrid').style.display = 'none';
+            document.getElementById('timeSlotsContainer').style.display = 'none';
+            document.getElementById('timeSlotsContainer').classList.remove('show');
+        }
+
+        // Back to categories
+        function backToCategories() {
+            // Reset progress steps
+            updateProgressSteps(0);
+
+            // Reset active subcategory
+            activeSubcategory = null;
+
+            // Hide fixed action bar
+            document.getElementById('fixedActionBar').classList.remove('show');
+
+            // Show category selection
+            document.getElementById('categorySelection').style.display = 'block';
+            document.getElementById('serviceSelection').style.display = 'none';
+            document.getElementById('servicesTitle').style.display = 'none';
+            document.getElementById('serviceNav').style.display = 'none';
+            document.getElementById('serviceCart').style.display = 'none';
+            document.getElementById('daysGrid').style.display = 'none';
+            document.getElementById('timeSlotsContainer').style.display = 'none';
+            document.getElementById('timeSlotsContainer').classList.remove('show');
+
+            // Reset selected services
+            selectedServices = [];
+        }
+
+        // Back to days
+        function backToDays() {
+            // Update progress steps
+            updateProgressSteps(2);
+
+            // Show days grid
+            document.getElementById('daysGrid').style.display = 'grid';
+            document.getElementById('timeSlotsContainer').style.display = 'none';
+            document.getElementById('timeSlotsContainer').classList.remove('show');
+            document.getElementById('bookingForm').classList.remove('show');
+
+            // Reset selected date
+            selectedDate = null;
+            selectedTimeSlot = null;
+        }
+
+        // Go back based on current step
+        function goBack() {
+            // Determine current step based on visible elements
+            const isBookingFormVisible = document.getElementById('bookingForm').classList.contains('show');
+            const isTimeSlotsVisible = document.getElementById('timeSlotsContainer').classList.contains('show');
+            const isDaysVisible = document.getElementById('daysGrid').style.display === 'grid';
+            const isServiceSelectionVisible = document.getElementById('serviceSelection').style.display === 'block';
+            const categoryDisplay = document.getElementById('categorySelection').style.display;
+            const isCategorySelectionVisible = categoryDisplay === 'block' || categoryDisplay === '';
+
+            if (isBookingFormVisible) {
+                backToDays();
+            } else if (isTimeSlotsVisible) {
+                backToDays();
+            } else if (isDaysVisible) {
+                backToServices();
+            } else if (isServiceSelectionVisible) {
+                backToCategories();
+            } else if (isCategorySelectionVisible) {
+                // If at first step, go to index.html
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Render cart
+        function renderCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartSummary = document.getElementById('cartSummary');
+
+            if (selectedServices.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-empty">
+                        <div class="cart-empty-icon">🛒</div>
+                        <p>No has seleccionado servicios</p>
+                    </div>
+                `;
+                cartSummary.innerHTML = '';
+                return;
+            }
+
+            cartItems.innerHTML = selectedServices.map((service, index) => {
+                return `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${service.name}</div>
+                            <div class="cart-item-details">${service.duration}</div>
+                        </div>
+                        <div class="cart-item-price">$U ${service.price.toLocaleString()}</div>
+                        <button class="cart-item-remove" onclick="removeService(${index})">✕</button>
+                    </div>
+                `;
+            }).join('');
+
+            const totalTurnos = getTotalTurnosNeeded();
+            const totalPrice = getTotalPrice();
+
+            cartSummary.innerHTML = `
+                <div class="cart-summary-row">
+                    <span>Servicios:</span>
+                    <span>${selectedServices.length}</span>
+                </div>
+                <div class="cart-summary-row">
+                    <span>Turnos:</span>
+                    <span>${totalTurnos}</span>
+                </div>
+                <div class="cart-summary-row total">
+                    <span>Total:</span>
+                    <span>$U ${totalPrice.toLocaleString()}</span>
+                </div>
+            `;
+        }
+
+        // Remove service from cart
+        async function removeService(index) {
+            selectedServices.splice(index, 1);
+            renderCart();
+            renderServices();
+            await renderDays();
+            updateFixedActionBar();
+        }
+
+        // Render days grid
+        async function renderDays() {
+            console.log('🔄 Renderizando días...');
+            const grid = document.getElementById('daysGrid');
+            const spinner = document.getElementById('loadingSpinner');
+
+            // Mostrar spinner
+            spinner.classList.add('show');
+            grid.style.display = 'none';
+
+            console.log('turnosData actual antes de generar días:', JSON.stringify(turnosData, null, 2));
+
+            const days = await generateDays();
+
+            console.log('Días generados:', days.length);
+
+            // Obtener fechas específicas para mostrar mensaje informativo
+            const specificDates = getSpecificDatesForSelectedServices();
+            const hasSpecificDates = specificDates.length > 0;
+
+            if (days.length === 0) {
+                let errorMessage = 'No hay días disponibles con suficientes turnos para tus servicios seleccionados.<br><br>';
+                errorMessage += `Necesitas ${getTotalTurnosNeeded()} turno(s) en total.`;
+
+                if (hasSpecificDates) {
+                    errorMessage += '<br><br><strong>⚠️ Restricciones de fecha:</strong><br>';
+                    errorMessage += 'Los servicios seleccionados solo están disponibles en las siguientes fechas específicas:<br>';
+                    specificDates.forEach(dateKey => {
+                        const [year, month, day] = dateKey.split('-').map(Number);
+                        const date = new Date(year, month - 1, day);
+                        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                        errorMessage += `• ${date.toLocaleDateString('es-ES', options)}<br>`;
+                    });
+                }
+
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <div class="error">
+                            ${errorMessage}
+                        </div>
+                    </div>
+                `;
+                // Ocultar spinner y mostrar grid
+                spinner.classList.remove('show');
+                grid.style.display = 'grid';
+                console.log('⚠️ No hay días disponibles');
+                return;
+            }
+
+            // Calculate availability for all days
+            console.log('Calculando disponibilidad para', days.length, 'días...');
+            const daysAvailability = await Promise.all(days.map(async day => {
+                const totalDisponibles = await getTotalTurnosDisponibles(day.dateKey);
+                const maxTurnos = getTotalTurnosPerDay() * reservasPorTurno;
+                const percentage = (totalDisponibles / maxTurnos) * 100;
+
+                console.log(`Día ${day.dateKey}: ${totalDisponibles}/${maxTurnos} turnos disponibles (${percentage.toFixed(1)}%)`);
+
+                let badgeClass = 'availability-high';
+                let badgeText = 'Mucha disponibilidad';
+
+                if (percentage < 25) {
+                    badgeClass = 'availability-low';
+                    badgeText = 'Poca disponibilidad';
+                } else if (percentage < 50) {
+                    badgeClass = 'availability-medium';
+                    badgeText = 'Disponibilidad media';
+                }
+
+                // Check if day has enough consecutive turnos
+                const isDisabled = !day.hasEnoughTurnos;
+                const clickHandler = isDisabled ? '' : `onclick="selectDate('${day.dateKey}')"`;
+                const disabledClass = isDisabled ? 'disabled' : '';
+
+                return `
+                    <div class="day-card ${disabledClass}" ${clickHandler}>
+                        <div class="day-date">${day.dayNumber}/${day.month}</div>
+                        <div class="day-name">${day.dayName}</div>
+                        <div class="day-availability">
+                            <span class="availability-badge ${badgeClass}">${badgeText}</span>
+                        </div>
+                    </div>
+                `;
+            }));
+
+            grid.innerHTML = daysAvailability.join('');
+
+            // Ocultar spinner y mostrar grid
+            spinner.classList.remove('show');
+            grid.style.display = 'grid';
+        }
+
+        // Select date
+        async function selectDate(dateKey) {
+            selectedDate = dateKey;
+            selectedTimeSlot = null;
+
+            // Update selected state
+            document.querySelectorAll('.day-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+
+            // Update progress steps
+            updateProgressSteps(3);
+
+            // Hide days grid and back button, show time slots directly
+            document.getElementById('daysGrid').style.display = 'none';
+
+            // Show time slots
+            await showTimeSlots(dateKey);
+
+            // Scroll to top of time slots section
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Check if a time slot is in the past or within minimum anticipation period
+        function isTimeSlotInPast(dateKey, slotTime) {
+            const now = new Date();
+            const [year, month, day] = dateKey.split('-').map(Number);
+            const slotDate = new Date(year, month - 1, day);
+
+            // Parse the slot time
+            const [slotHour, slotMin] = slotTime.split(':').map(Number);
+            const slotDateTime = new Date(year, month - 1, day, slotHour, slotMin, 0);
+
+            console.log('isTimeSlotInPast - dateKey:', dateKey, 'slotTime:', slotTime, 'slotDateTime:', slotDateTime, 'now:', now);
+            console.log('isTimeSlotInPast - configTurnos:', configTurnos, 'anticipacionReserva:', configTurnos.anticipacionReserva);
+
+            // Check if slot time is in the past
+            if (slotDateTime < now) {
+                console.log('Slot está en el pasado');
+                return true;
+            }
+
+            // Check minimum anticipation period for general config
+            const anticipacionGeneral = configTurnos.anticipacionReserva || 0;
+            console.log('isTimeSlotInPast - anticipacionGeneral:', anticipacionGeneral);
+
+            // Check minimum anticipation period for selected services
+            let maxAnticipacionServicios = 0;
+            if (selectedServices && selectedServices.length > 0) {
+                for (const service of selectedServices) {
+                    const config = configServicios[service.id];
+                    const anticipacion = config?.anticipacion || 0;
+                    if (anticipacion > maxAnticipacionServicios) {
+                        maxAnticipacionServicios = anticipacion;
+                    }
+                }
+            }
+            console.log('isTimeSlotInPast - maxAnticipacionServicios:', maxAnticipacionServicios);
+
+            // Use the maximum anticipation between general and services
+            const anticipacionHoras = Math.max(anticipacionGeneral, maxAnticipacionServicios);
+            console.log('isTimeSlotInPast - anticipacionHoras (max):', anticipacionHoras);
+
+            if (anticipacionHoras > 0) {
+                const minAllowedTime = new Date(now.getTime() + (anticipacionHoras * 60 * 60 * 1000));
+                console.log('isTimeSlotInPast - minAllowedTime:', minAllowedTime, 'slotDateTime:', slotDateTime);
+
+                if (slotDateTime < minAllowedTime) {
+                    console.log(`Slot ${slotTime} no cumple con anticipación mínima de ${anticipacionHoras} horas`);
+                    return true;
+                }
+            }
+
+            console.log('Slot está disponible');
+            return false;
+        }
+
+        // Render time slots (función pura - sin efectos secundarios)
+        async function renderTimeSlots(dateKey) {
+            console.log('🎨 Renderizando slots para', dateKey);
+            console.log('🎨 renderTimeSlots - turnosData actual:', JSON.stringify(turnosData, null, 2));
+            console.log('🎨 renderTimeSlots - reservasPorTurno:', reservasPorTurno);
+
+            const container = document.getElementById('timeSlotsContainer');
+            const grid = document.getElementById('timeSlotsGrid');
+            const title = document.getElementById('selectedDateTitle');
+            const subtitle = document.getElementById('selectedDateSubtitle');
+            const spinner = document.getElementById('loadingSpinner');
+
+            // Mostrar spinner
+            spinner.classList.add('show');
+            container.style.display = 'none';
+
+            const [year, month, day] = dateKey.split('-');
+            const date = new Date(year, month - 1, day);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            title.textContent = date.toLocaleDateString('es-ES', options);
+
+            container.classList.add('show');
+            document.getElementById('bookingForm').classList.remove('show');
+
+            console.log('turnosData actual antes de calcular disponibilidad:', JSON.stringify(turnosData, null, 2));
+
+            const totalDisponibles = await getTotalTurnosDisponibles(dateKey);
+            const turnosNeeded = getTotalTurnosNeeded();
+            const maxTurnos = getTotalTurnosPerDay() * reservasPorTurno;
+
+            // Generate time slots for this specific day
+            const dayOfWeek = date.getDay();
+            const slots = generateTimeSlotsForDay(dayOfWeek);
+
+            // Calculate the last available slot based on turnos needed
+            const lastAvailableSlot = slots.length - turnosNeeded;
+
+            console.log(`📊 Resumen para ${dateKey}:`);
+            console.log(`- Total disponibles: ${totalDisponibles}`);
+            console.log(`- Máximo turnos: ${maxTurnos}`);
+            console.log(`- Turnos necesarios: ${turnosNeeded}`);
+            console.log(`- Reservas por turno: ${reservasPorTurno}`);
+            console.log(`- Último slot disponible: ${lastAvailableSlot + 1}`);
+            console.log(`- Total slots: ${slots.length}`);
+
+            subtitle.textContent = `${totalDisponibles} de ${maxTurnos} turnos disponibles • ${reservasPorTurno} reserva(s) por turno • Necesitas ${turnosNeeded} turno(s) consecutivos • Último: ${lastAvailableSlot + 1}`;
+
+            // Check availability for all slots
+            console.log('🔍 Verificando disponibilidad de cada slot...');
+            const slotAvailability = await Promise.all(slots.map(async slot => {
+                const isAvailable = await hasEnoughConsecutiveTurnos(dateKey, slot.id, turnosNeeded);
+                const isPastLastAvailable = slot.id > lastAvailableSlot;
+                const isInPast = isTimeSlotInPast(dateKey, slot.time);
+                const availableTurnos = await getTurnosDisponibles(dateKey, slot.id);
+
+                console.log(`Slot ${slot.id} (${slot.time}): available=${availableTurnos}, isAvailable=${isAvailable}, isPastLastAvailable=${isPastLastAvailable}, isInPast=${isInPast}`);
+
+                // Check if any selected service has time restriction for this slot
+                let hasTimeRestriction = false;
+                for (const service of selectedServices) {
+                    if (!isServiceAvailableInTimeRange(service.id, dateKey, slot.time)) {
+                        hasTimeRestriction = true;
+                        break;
+                    }
+                }
+
+                let statusText = '';
+                let statusClass = '';
+
+                if (isInPast) {
+                    statusText = '⏰ Pasado';
+                    statusClass = 'warning';
+                } else if (hasTimeRestriction) {
+                    statusText = '⏰ Restringido';
+                    statusClass = 'warning';
+                } else if (isPastLastAvailable) {
+                    statusText = '⚠️ Insuficiente';
+                    statusClass = 'warning';
+                } else if (isAvailable) {
+                    statusText = '✓ Disponible';
+                    statusClass = 'available';
+                } else {
+                    statusText = '✗ Ocupado';
+                    statusClass = 'occupied';
+                }
+
+                return {
+                    slot,
+                    isAvailable: isAvailable && !hasTimeRestriction,
+                    isPastLastAvailable,
+                    isInPast,
+                    hasTimeRestriction,
+                    statusText,
+                    statusClass
+                };
+            }));
+
+            grid.innerHTML = slotAvailability.map(({ slot, isAvailable, isPastLastAvailable, isInPast, hasTimeRestriction, statusText, statusClass }) => {
+                return `
+                    <div class="time-slot ${!isAvailable || isPastLastAvailable || isInPast ? 'disabled' : ''}" onclick="${isAvailable && !isPastLastAvailable && !isInPast ? `selectTimeSlot(${slot.id})` : ''}">
+                        <div class="time-slot-time">${slot.time}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // Ocultar spinner y mostrar contenedor
+            spinner.classList.remove('show');
+            container.style.display = 'block';
+        }
+
+        // Show time slots (registra listener y renderiza inicialmente)
+        async function showTimeSlots(dateKey) {
+            console.log('🔄 Mostrando turnos para', dateKey);
+            console.log('🔄 showTimeSlots - turnosData actual:', JSON.stringify(turnosData, null, 2));
+            console.log('🔄 showTimeSlots - reservasPorTurno:', reservasPorTurno);
+
+            // Limpiar listener anterior si existe
+            if (reservasFechaUnsubscribe) {
+                reservasFechaUnsubscribe();
+                reservasFechaUnsubscribe = null;
+            }
+
+            // Escuchar reservas en tiempo real para esta fecha
+            // Si alguien más reserva, actualiza automáticamente los slots disponibles
+            reservasFechaUnsubscribe = escucharReservasPorFechaFirebase(dateKey, async (reservas) => {
+                console.log('📡 Actualización de reservas para fecha:', dateKey, 'Total:', reservas.length);
+
+                // Recalcular turnosData para esta fecha desde las reservas reales
+                const reservasPorTurnoActual = reservasPorTurno;
+                if (!turnosData[dateKey]) turnosData[dateKey] = {};
+
+                // Resetear slots de este día
+                const slotsDelDia = {};
+                reservas.forEach(r => {
+                    const timeSlot = r.timeSlot || 0;
+                    const totalTurnos = r.totalTurnos || 1;
+                    for (let i = 0; i < totalTurnos; i++) {
+                        const slotId = timeSlot + i;
+                        if (!slotsDelDia[slotId]) {
+                            slotsDelDia[slotId] = { available: reservasPorTurnoActual, used: 0 };
+                        }
+                        slotsDelDia[slotId].used++;
+                        slotsDelDia[slotId].available = Math.max(0, reservasPorTurnoActual - slotsDelDia[slotId].used);
+                    }
+                });
+
+                turnosData[dateKey] = slotsDelDia;
+
+                // Rerenderizar solo si el usuario sigue viendo esa fecha (usando función pura de render)
+                if (selectedDate === dateKey) {
+                    console.log('🔄 Recargando slots debido a cambio en reservas');
+                    await renderTimeSlots(dateKey);
+                }
+            });
+
+            // Renderizar inicialmente usando la función pura
+            await renderTimeSlots(dateKey);
+        }
+
+        // Select time slot
+        function selectTimeSlot(slotId) {
+            selectedTimeSlot = slotId;
+
+            const turnosNeeded = getTotalTurnosNeeded();
+            const occupiedSlots = getOccupiedSlotRange(slotId, turnosNeeded);
+
+            // Update selected state - mark all occupied slots
+            document.querySelectorAll('.time-slot').forEach((slotElement, index) => {
+                slotElement.classList.remove('selected');
+
+                // Mark all slots that will be occupied by this booking
+                if (occupiedSlots.includes(index)) {
+                    slotElement.classList.add('selected');
+                }
+            });
+
+            // Update progress steps
+            updateProgressSteps(4);
+
+            // Show booking form
+            showBookingForm();
+        }
+
+        // Show booking form
+        function showBookingForm() {
+            const form = document.getElementById('bookingForm');
+            const [year, month, day] = selectedDate.split('-');
+            const date = new Date(year, month - 1, day);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+            // Get the specific slot for this day
+            const dayOfWeek = date.getDay();
+            const slots = generateTimeSlotsForDay(dayOfWeek);
+            const slot = slots.find(s => s.id === selectedTimeSlot);
+
+            // Get the range of occupied slots
+            const turnosNeeded = getTotalTurnosNeeded();
+            const occupiedSlots = getOccupiedSlotRange(selectedTimeSlot, turnosNeeded);
+            const firstSlot = slots.find(s => s.id === occupiedSlots[0]);
+            const lastSlot = slots.find(s => s.id === occupiedSlots[occupiedSlots.length - 1]);
+
+            // Render services summary
+            const servicesSummary = document.getElementById('servicesSummary');
+            servicesSummary.innerHTML = selectedServices.map(service => `
+                <div class="summary-item">
+                    <div>
+                        <span>${service.name}</span>
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">${service.duration}</div>
+                    </div>
+                    <span>$U ${service.price.toLocaleString()}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('summaryDate').textContent = date.toLocaleDateString('es-ES', options);
+            document.getElementById('summaryTime').textContent = `Llegada: ${slot.arrivalTime} (${slot.time})`;
+            document.getElementById('summaryTotal').textContent = `$U ${getTotalPrice().toLocaleString()}`;
+
+            // Update turnos info with occupied range
+            const turnosInfo = document.getElementById('turnosInfo');
+            const totalDuration = getTotalDuration();
+            turnosInfo.innerHTML = `
+                <strong>✓ Horario</strong><br>
+                Llegada: ${slot.arrivalTime}<br>
+                Duración: ${totalDuration}
+            `;
+            turnosInfo.style.background = '#e8f5e9';
+            turnosInfo.style.color = '#2e7d32';
+
+            form.classList.add('show');
+
+            // Scroll to form (but not to top, as this is the final confirmation step)
+            form.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Update progress steps
+        function updateProgressSteps(currentStep) {
+            for (let i = 0; i <= 4; i++) {
+                const step = document.getElementById(`step${i}`);
+                step.classList.remove('active', 'completed');
+
+                if (i < currentStep) {
+                    step.classList.add('completed');
+                } else if (i === currentStep) {
+                    step.classList.add('active');
+                }
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('reservationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Validate phone number
+            const phone = document.getElementById('phone').value;
+            const cleanPhone = phone.replace(/\s/g, ''); // Eliminar espacios
+
+            if (cleanPhone.length !== 9 || !/^\d+$/.test(cleanPhone)) {
+                alert('El teléfono debe tener 9 dígitos numéricos.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Confirmar';
+                return;
+            }
+
+            // Validar anticipación de servicios
+            const anticipacionValidation = validarAnticipacionServicios();
+            if (!anticipacionValidation.valid) {
+                alert(anticipacionValidation.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Confirmar';
+                return;
+            }
+
+            document.getElementById('timeSlotsContainer').style.display = 'none';
+            document.getElementById('bookingForm').style.display = 'none';
+            document.getElementById('loadingSpinner').classList.add('show');
+
+            // Get the specific slot for arrival time
+            const [year, month, day] = selectedDate.split('-').map(Number);
+            const date = new Date(year, month - 1, day);
+            const dayOfWeek = date.getDay();
+            const slots = generateTimeSlotsForDay(dayOfWeek);
+            const slot = slots.find(s => s.id === selectedTimeSlot);
+
+            const formData = {
+                date: selectedDate,
+                timeSlot: selectedTimeSlot,
+                arrivalTime: slot ? slot.arrivalTime : null, // Agregar hora de llegada
+                name: document.getElementById('name').value,
+                phone: cleanPhone, // Usar el teléfono limpio
+                email: '', // Campo email eliminado del formulario
+                services: selectedServices.map(s => ({
+                    id: s.id,
+                    name: s.name,
+                    price: s.price,
+                    turnos: s.turnos
+                })),
+                totalTurnos: getTotalTurnosNeeded(),
+                totalPrice: getTotalPrice(),
+                notes: document.getElementById('notes').value,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                console.log('Iniciando proceso de reserva...');
+                console.log('selectedDate:', selectedDate);
+                console.log('selectedTimeSlot:', selectedTimeSlot);
+                console.log('selectedServices:', selectedServices);
+
+                // Validar que todos los datos necesarios estén presentes
+                if (!selectedDate || selectedTimeSlot === null || selectedServices.length === 0) {
+                    throw new Error('Faltan datos necesarios para la reserva');
+                }
+
+                // Save booking to Firebase (la transacción ya maneja la actualización de turnosData)
+                console.log('Guardando en Firebase...');
+                try {
+                    const reservaId = await guardarReservaFirebase(formData);
+                    console.log('Reserva guardada en Firebase con ID:', reservaId);
+                } catch (firebaseError) {
+                    console.error('Error al guardar en Firebase:', firebaseError);
+                    throw firebaseError;
+                }
+
+                // Generate services list for message
+                const servicesList = selectedServices.map(s => `• ${s.name} (${s.duration}) - $U ${s.price.toLocaleString()}`).join('\n');
+
+                // Get the specific slot for arrival time
+                const [year, month, day] = selectedDate.split('-').map(Number);
+                const date = new Date(year, month - 1, day);
+                const dayOfWeek = date.getDay();
+                const slots = generateTimeSlotsForDay(dayOfWeek);
+                const slot = slots.find(s => s.id === selectedTimeSlot);
+
+                // Get the range of occupied slots
+                const turnosNeeded = getTotalTurnosNeeded();
+                const occupiedSlots = getOccupiedSlotRange(selectedTimeSlot, turnosNeeded);
+                const firstSlot = slots.find(s => s.id === occupiedSlots[0]);
+                const lastSlot = slots.find(s => s.id === occupiedSlots[occupiedSlots.length - 1]);
+
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').classList.remove('show');
+
+                // Show success message
+                alert('¡Reserva confirmada!\n\n' +
+                      '📅 Fecha: ' + selectedDate + '\n' +
+                      '⏰ Hora de llegada: ' + slot.arrivalTime + '\n' +
+                      '⏱️ Turnos: ' + occupiedSlots.map(id => id + 1).join(', ') + '\n' +
+                      '📅 Horario: ' + firstSlot.arrivalTime + ' - ' + lastSlot.time.split(' - ')[1] + '\n' +
+                      '💇 Servicios:\n' + servicesList + '\n' +
+                      '💰 Total: $U ' + getTotalPrice().toLocaleString() + '\n' +
+                      '🎫 Turnos: ' + getTotalTurnosNeeded() + '\n\n' +
+                      'Te recomendamos llegar 10 minutos antes.');
+
+                // Reset form and redirect to course section
+                this.reset();
+                window.location.href = 'index.html?openCatalog=true';
+
+            } catch (error) {
+                console.error('Error detallado:', error);
+                document.getElementById('loadingSpinner').classList.remove('show');
+                document.getElementById('timeSlotsContainer').style.display = '';
+                document.getElementById('bookingForm').style.display = '';
+                alert('Hubo un error al procesar tu reserva: ' + error.message + '\n\nPor favor intenta nuevamente.');
+            }
+        });
+    </script>
+</body>
+</html>
