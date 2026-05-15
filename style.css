@@ -1570,18 +1570,17 @@ body.menu-open {
 
 @media (max-width: 860px) {
   .nosotros {
-    overflow-y: auto;
+    overflow: hidden;
     align-items: flex-start;
-    height: auto;
-    min-height: 100dvh;
+    height: 100dvh;
   }
 
   .nosotros-inner {
     grid-template-columns: 1fr;
-    padding: 56px 24px 80px;
+    padding: 56px 24px 60px;
     gap: 28px;
-    overflow-y: visible;
-    height: auto;
+    height: 100%;
+    overflow-y: auto;
   }
 
   .nosotros-gallery {
@@ -1605,8 +1604,9 @@ body.menu-open {
   .nosotros::before { display: none; }
 
   .nosotros-inner {
-    padding: 56px 16px 80px;
+    padding: 56px 16px 60px;
     gap: 24px;
+    height: 100%;
   }
 
   .nosotros-gallery {
