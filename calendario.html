@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserva tu Turno - Camilo Rey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet"/>
     <style>
         @font-face {
             font-family: 'Montserrat';
             src: url('assets/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
             font-weight: 100 900;
-        }
-
-        @font-face {
-            font-family: 'Oswald';
-            src: url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap');
         }
 
         /* Dark Theme CSS Variables */
@@ -972,123 +970,258 @@
             font-weight: 600;
         }
 
-        /* Booking Form */
+        /* Booking Form — Rediseño moderno */
         .booking-form {
-            background: var(--surface-color);
-            border-radius: var(--border-radius-lg);
-            padding: 24px;
             margin-top: 32px;
             display: none;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--border-color);
         }
 
         .booking-form.show {
             display: block;
         }
 
-        .booking-form h2 {
-            font-size: 20px;
+        .booking-form-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
             margin-bottom: 24px;
-            color: var(--text-primary);
-            font-weight: 600;
-            letter-spacing: -0.3px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-sm);
-            font-size: 15px;
-            font-family: inherit;
-            background: var(--bg-color);
-            transition: all var(--transition-speed);
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-            background: var(--surface-color);
-            box-shadow: 0 0 0 4px rgba(200, 133, 58, 0.2);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
+        /* Summary card */
         .booking-summary {
-            background: var(--bg-color);
-            padding: 20px;
-            border-radius: var(--border-radius-md);
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
+            background: #161616;
+            border: 1px solid rgba(200,133,58,0.2);
+            border-radius: 16px;
+            padding: 0;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .booking-summary-header {
+            padding: 18px 20px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .booking-summary-header-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(200,133,58,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .booking-summary-header-icon svg {
+            width: 16px;
+            height: 16px;
+            color: var(--accent-gold);
         }
 
         .booking-summary h3 {
-            font-size: 16px;
-            margin-bottom: 16px;
-            color: var(--text-primary);
+            font-family: 'Oswald', sans-serif;
+            font-size: 15px;
             font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .booking-summary-body {
+            padding: 4px 0;
         }
 
         .summary-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
+            align-items: flex-start;
+            padding: 13px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            gap: 12px;
         }
 
         .summary-item:last-child {
             border-bottom: none;
         }
 
-        .turnos-info {
-            background: rgba(200, 133, 58, 0.1);
-            padding: 16px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+        .summary-item-label {
             font-size: 13px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.45);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .summary-item-value {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--white-dim);
+            text-align: right;
+        }
+
+        .summary-item.total {
+            background: rgba(200,133,58,0.07);
+            border-top: 1px solid rgba(200,133,58,0.2);
+            margin-top: 2px;
+            border-bottom: none;
+        }
+
+        .summary-item.total .summary-item-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 14px;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .summary-item.total .summary-item-value {
+            font-family: 'Oswald', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
             color: var(--accent-gold);
         }
 
+        /* Turnos info pill */
+        .turnos-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: rgba(200,133,58,0.08);
+            border: 1px solid rgba(200,133,58,0.25);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: var(--accent-gold);
+            line-height: 1.5;
+        }
+
+        .turnos-info::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            flex-shrink: 0;
+            margin-top: 6px;
+        }
+
+        /* Form fields */
+        .form-fields-card {
+            background: #161616;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.5);
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            font-weight: 500;
+            background: rgba(255,255,255,0.04);
+            color: var(--white);
+            transition: all var(--transition-speed);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.2);
+            font-weight: 400;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(200,133,58,0.6);
+            background: rgba(200,133,58,0.04);
+            box-shadow: 0 0 0 3px rgba(200, 133, 58, 0.1);
+        }
+
+        .form-group textarea {
+            resize: none;
+            min-height: 90px;
+            line-height: 1.5;
+        }
+
+        /* Submit button */
         .submit-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: var(--accent-gold);
             color: #fff;
             border: none;
-            border-radius: 8px;
-            font-size: 15px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Oswald', sans-serif;
             font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::after {
+            content: '→';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            font-family: inherit;
+            transition: transform 0.2s;
         }
 
         .submit-btn:hover {
             background: var(--accent-gold-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(200,133,58,0.35);
+        }
+
+        .submit-btn:hover::after {
+            transform: translateY(-50%) translateX(4px);
         }
 
         .submit-btn:disabled {
-            background: var(--dark-mid);
+            background: #2a2a2a;
+            color: rgba(255,255,255,0.3);
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .submit-btn:disabled::after {
+            display: none;
         }
 
         /* Error */
@@ -1404,24 +1537,32 @@
 
         <!-- Step 4: Booking Form -->
         <div class="booking-form" id="bookingForm">
-            <h2>Confirma tu reserva</h2>
+
+            <p class="booking-form-title">— Confirma tu reserva</p>
 
             <div class="booking-summary">
-                <h3>Resumen</h3>
-                <div id="servicesSummary">
-                    <!-- Services summary will be loaded here -->
+                <div class="booking-summary-header">
+                    <div class="booking-summary-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <h3>Resumen</h3>
                 </div>
-                <div class="summary-item">
-                    <span>Fecha:</span>
-                    <span id="summaryDate"></span>
-                </div>
-                <div class="summary-item">
-                    <span>Horario:</span>
-                    <span id="summaryTime"></span>
-                </div>
-                <div class="summary-item total">
-                    <span>Total:</span>
-                    <span id="summaryTotal"></span>
+                <div class="booking-summary-body">
+                    <div id="servicesSummary">
+                        <!-- Services summary will be loaded here -->
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Fecha</span>
+                        <span class="summary-item-value" id="summaryDate"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-label">Horario</span>
+                        <span class="summary-item-value" id="summaryTime"></span>
+                    </div>
+                    <div class="summary-item total">
+                        <span class="summary-item-label">Total</span>
+                        <span class="summary-item-value" id="summaryTotal"></span>
+                    </div>
                 </div>
             </div>
 
@@ -1430,22 +1571,24 @@
             </div>
 
             <form id="reservationForm">
-                <div class="form-group">
-                    <label for="name">Nombre completo *</label>
-                    <input type="text" id="name" name="name" required>
+                <div class="form-fields-card">
+                    <div class="form-group">
+                        <label for="name">Nombre completo *</label>
+                        <input type="text" id="name" name="name" required placeholder="Tu nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Teléfono *</label>
+                        <input type="tel" id="phone" name="phone" required pattern="[0-9]{9}" title="El teléfono debe tener 9 dígitos" placeholder="09X XXX XXX">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notas adicionales</label>
+                        <textarea id="notes" name="notes" placeholder="Algún detalle especial sobre tu reserva..."></textarea>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="phone">Teléfono *</label>
-                    <input type="tel" id="phone" name="phone" required pattern="[0-9]{9}" title="El teléfono debe tener 9 dígitos">
-                </div>
-
-                <div class="form-group">
-                    <label for="notes">Notas adicionales</label>
-                    <textarea id="notes" name="notes" placeholder="Algún detalle especial sobre tu reserva"></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn" id="submitBtn">Confirmar</button>
+                <button type="submit" class="submit-btn" id="submitBtn">Confirmar reserva</button>
             </form>
         </div>
     </div>
@@ -3432,10 +3575,10 @@
             servicesSummary.innerHTML = selectedServices.map(service => `
                 <div class="summary-item">
                     <div>
-                        <span>${service.name}</span>
-                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">${service.duration}</div>
+                        <span class="summary-item-label" style="font-size:13px;color:rgba(255,255,255,0.75);font-weight:500;">${service.name}</span>
+                        <div style="font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 3px;">${service.duration}</div>
                     </div>
-                    <span>$U ${service.price.toLocaleString()}</span>
+                    <span class="summary-item-value" style="color:var(--accent-gold);font-weight:600;">$U ${service.price.toLocaleString()}</span>
                 </div>
             `).join('');
 
@@ -3451,8 +3594,8 @@
                 Llegada: ${slot.arrivalTime}<br>
                 Duración: ${totalDuration}
             `;
-            turnosInfo.style.background = '#e8f5e9';
-            turnosInfo.style.color = '#2e7d32';
+            turnosInfo.style.background = '';
+            turnosInfo.style.color = '';
 
             form.classList.add('show');
 
