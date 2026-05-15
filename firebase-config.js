@@ -1,13 +1,13 @@
 // Configuración de Firebase
-// Credenciales del proyecto peluqueriamartin-beefb
+// Credenciales del proyecto camilorey-ee59a
 const firebaseConfig = {
-    apiKey: "AIzaSyDuuqx99GlvurjAem7RxuRucyGLkM6fIG4",
-    authDomain: "peluqueriamartin-beefb.firebaseapp.com",
-    projectId: "peluqueriamartin-beefb",
-    storageBucket: "peluqueriamartin-beefb.firebasestorage.app",
-    messagingSenderId: "992167746012",
-    appId: "1:992167746012:web:fdcabb47a07421dc955719",
-    measurementId: "G-41676SSJVH"
+    apiKey: "AIzaSyD5vBtry9d8egX5RY3lvVUSmHdblWm3J5M",
+    authDomain: "camilorey-ee59a.firebaseapp.com",
+    projectId: "camilorey-ee59a",
+    storageBucket: "camilorey-ee59a.firebasestorage.app",
+    messagingSenderId: "916578013847",
+    appId: "1:916578013847:web:5e9fe74ba4902823d14fd2",
+    measurementId: "G-W3KDRLNRX4"
 };
 
 // Inicializar Firebase
