@@ -1214,7 +1214,7 @@ body.menu-open {
 .dot-nav--clientes {
   position: absolute;
   z-index: 10;
-  right: 20px;
+  right: 8px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -1589,7 +1589,7 @@ body.menu-open {
   }
 
   .dot-nav--nosotros {
-    right: 12px;
+    right: 8px;
   }
 }
 
