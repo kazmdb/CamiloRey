@@ -102,7 +102,7 @@
         <span>INNOVACIÓN Y</span>
         <span>TRADICIÓN</span>
       </h1>
-      <p class="hero-subtitle">Los mejores estilos a un solo clic</p>
+      <p class="hero-subtitle">Belleza, cosmética y cuidado personal</p>
     </div>
 
     <!-- Play Button -->
@@ -424,21 +424,7 @@
     }
   }, { passive: true });
 
-  // Soporte táctil (swipe)
-  let touchStartY = 0;
-  wrapper.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
-  wrapper.addEventListener('touchend', e => {
-    const delta = touchStartY - e.changedTouches[0].clientY;
-    if (Math.abs(delta) < 50) return;
-    const current = [...sections].findIndex(s => {
-      const r = s.getBoundingClientRect();
-      return r.top >= -50 && r.top < window.innerHeight / 2;
-    });
-    const target = delta > 0
-      ? Math.min(current + 1, sections.length - 1)
-      : Math.max(current - 1, 0);
-    goToSection(target);
-  }, { passive: true });
+
 
   // ---- Carrusel de clientes (solo móvil ≤600px) ----
   (function () {

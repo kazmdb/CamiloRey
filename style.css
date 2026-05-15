@@ -476,6 +476,7 @@ html, body {
 
 .scroll-down--section.--up svg {
   transform: rotate(180deg);
+  animation: bounceUp 1.5s infinite;
 }
 
 .scroll-down--section:hover {
@@ -633,6 +634,11 @@ body.menu-open {
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(5px); }
+}
+
+@keyframes bounceUp {
+  0%, 100% { transform: translateY(0) rotate(180deg); }
+  50%       { transform: translateY(-5px) rotate(180deg); }
 }
 
 /* ===========================
@@ -870,7 +876,6 @@ body.menu-open {
   height: 100dvh;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
 }
 
 .page-wrapper::-webkit-scrollbar {
